@@ -1,0 +1,134 @@
+@import _template.sass
+
+*
+	margin: 0
+	padding: 0
+body
+	background-image: url(../../public/media/fondo.jpg)
+	// background-size: 200px
+	//background-position: 0px -60px
+	background-size: 100% 100%
+	
+	
+	div.opacidad
+		height: 100vh
+		background-color: rgba(232,232,232,0.5)
+		main 
+			display: flex
+			width: 100%
+			height: 100vh
+			justify-content: center
+			align-items: center
+			flex-direction: row
+			
+			img 
+				margin-right: 100px
+				min-height: 200px
+				min-width: 200px
+				text-align: center
+				justify-content: center
+			section
+				text-align: center
+				justify-content: center
+				background: $bg-4
+				padding: 20px
+				width: 90% 
+				max-width: 500px
+				
+				border-radius: 8px
+				box-shadow: 0px 6px 30px rgba(0,0,0,0.2)
+				border-bottom: 10px  rgb(0,0,0)
+			
+
+				hgroup
+					text-align: center	
+					color: $fc-1
+
+
+					hr
+						
+						
+						height: 3px
+						background: rgba(222,222,222,0.6)
+						border-radius: 30px
+						border: none
+						margin-top: 15px
+						margin-bottom: 15px
+				form
+					display: flex
+					align-items: center
+					flex-direction: column
+					margin-top: 50px
+					div.group
+						width: 100%
+						margin-bottom: 50px
+						max-width: 350px
+						label
+							position: absolute
+							display: none
+						input[type=text],input[type=password]
+							display: inline-block
+							width: 95%
+							height: 30px
+							border-radius: 8px
+							border: none
+							padding-left: 5%
+							background: $bg-3
+					div.group_radio
+						text-align: center
+						div.radio
+							display: inline-block
+							
+							input[type=radio]
+								display: none
+								&:checked + label.label_radio:before
+									display: none
+								&:checked + label.label_radio
+									padding: 5px 15px
+									background: $bg-1
+									border-radius: 2px
+									color: #fff
+							label.label_radio
+								display: inline-block
+								cursor: pointer
+								position: relative
+								padding: 5px 15px 5px 35px						
+								border-radius: 5px
+								-webkit-transition:  all 0.3s ease
+								-o-transition: all 0.3s ease
+								transition: all 0.3s ease
+								&:hover
+									background: rgba(59,64,148,0.5)
+								&:before
+									content: ""
+									display: inline-block
+									width: 10px
+									height: 10px
+									position: absolute
+									left: 5px
+									border-radius: 50%
+									background: none
+									border: 3px solid rgba(0,0,0,0.4)
+					div.group_button
+						text-align: center
+						button
+							@include btn-t
+							&:hover
+								background-color: rgba(59,64,148,0.86)
+							
+
+
+@media (max-width: 900px)
+	body 
+		div.opacidad
+			main 
+				display: flex
+				flex-direction: column
+				justify-content: start
+				align-items: center
+				img 
+					margin: 30px 0
+
+									
+
+							

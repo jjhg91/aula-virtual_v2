@@ -1,0 +1,360 @@
+
+
+// $bg-1: rgb(59,64,148)
+// $bg-2: rgb(95,119,173)
+// $bg-3: rgb(232,232,232)
+// $bg-4: rgb(255,255,255)
+
+$bg-1: rgb(34, 153, 84)
+$bg-2: rgb(20, 90, 50)
+$bg-3: rgb(232,232,232)
+$bg-4: rgb(255,255,255)
+
+$fc-1: rgb(59,64,148)
+$fc-2: rgb(160,0,43)
+$fc-3: rgb(212,212,212)
+
+
+
+@font-face 
+	font-family: 'Roboto'
+	src: url('../../public/fuente/Roboto/Roboto-Regular.ttf') format("truetype")
+
+*
+	font-family: 'Roboto'
+
+button.btnTrue
+button.btnFalse
+button.btnInfo
+	padding: 10px
+	border: none
+	font-size: 1.2rem
+	cursor: pointer
+	background: rgb(222,222,222)
+	border-radius: 5px
+	&:hover
+		background: rgb(182,182,182)
+		
+
+div.enlaces
+	display: block
+	
+	a 
+		background: rgba(0,0,0,0.2)
+		padding: 10px
+		display: inline-block
+		border-radius: 3px
+		margin-right: 10px
+		margin-top: 10px
+		text-decoration: none
+		color: black
+		&:hover
+			background: rgba(0,0,0,0.4)
+
+@mixin formulario
+	display: flex
+	flex-direction: column
+	align-items: center
+	padding: 0px 20px
+
+@mixin grupoFormulario
+	width: 100%
+	padding-top: 20px
+
+@mixin input
+	width: 100%
+	border: none
+	background-color: $bg-3
+	border-radius: 5px
+	height: 30px
+	padding-left: 10px
+	margin-bottom: 10px
+	&.incorrecto
+		border: 3px solid rgb(236,112,99)
+		background: rgba(236, 112, 99,0.4)
+	&.correcto
+		border: 3px solid rgb(88,214,141)
+		background: rgba(88,214,141,0.4)
+
+@mixin textArea
+	width: 100%
+	border: none
+	background-color: $bg-3
+	border-radius: 5px
+	padding: 10px
+	&.incorrecto
+		border: 3px solid rgb(236,112,99)
+		background: rgba(236,112,99,0.4)
+	&.correcto
+		border: 3px solid rgb(88,214,141)
+		background: rgba(88,214,141,0.4)
+
+@mixin select
+	width: 100%
+	border: none
+	background-color: $bg-3
+	border-radius: 5px
+	padding: 10px
+	&.incorrecto
+		border: 3px solid rgb(236,112,99)
+		background: rgba(236,112,99,0.4)
+	&.correcto
+		border: 3px solid rgb(88,214,141)
+		background: rgba(88,214,141,0.4)
+
+@mixin archivo
+	padding-top: 10px
+	margin-bottom: 10px
+	&.incorrecto
+		border: 3px solid rgb(236,112,99)
+		background: rgba(236, 112, 99,0.4)
+	&.correcto
+		border: 3px solid rgb(88,214,141)
+		background: rgba(88,214,141,0.4)
+
+@mixin select
+	&.incorrecto
+		border: 3px solid rgb(236,112,99)
+		background: rgba(236,112,99,0.4)
+	&.correcto
+		border: 3px solid rgb(88,214,141)
+		background: rgba(88,214,141,0.4)
+
+@mixin mensaje__error
+	padding: 20px
+	border: 3px solid rgb(236,112,99)
+	background-color: rgba(236,112,99,0.4)
+	p
+		color: rgb(236,112,99)
+		font-size: 1.2rem
+
+@mixin mensaje__exito
+	padding: 20px
+	border: 3px solid rgb(88,214,141)
+	background-color: rgba(88,214,141,0.4)
+	p
+		color: rgb(88,214,141)
+		font-size: 1.2rem
+
+
+
+@mixin btn-t
+	padding: 10px 30px 10px 30px
+	border: none
+	border-radius: 5px
+	cursor: pointer
+	background: $bg-2
+	box-shadow: 2px 5px 10px rgba(0,0,0,0.3)
+
+@mixin btn-f
+	padding: 10px 30px 10px 30px
+	border: none
+	border-radius: 5px
+	cursor: pointer
+	background: rgb(274,74,74)
+	box-shadow: 2px 5px 10px rgba(0,0,0,0.3)
+
+@mixin btn-d
+	padding: 10px 30px 10px 30px
+	border: none
+	border-radius: 5px
+	cursor: pointer
+	background: $bg-3
+	box-shadow: 2px 5px 10px rgb(0,0,0,0.3)
+
+
+@mixin Tarjeta
+	width: 100%
+	margin-top: 20px
+	background: $bg-4
+	border-radius: 10px
+	box-shadow: 0px 6px 30px rgba(0,0,0,0.3)
+
+
+@mixin Loader
+	body 	
+		div.loader
+			position: fixed
+			left: 0
+			top: 0
+			width: 100%
+			height: 100%
+			z-index: 999
+			background-color: rgb(255,255,255)
+			display: flex
+			justify-content: center 
+			align-items: center
+			flex-direction: column
+			span
+				font-size: 1.5em
+
+
+@mixin Headerr
+	body
+		header
+			display: inline-block
+			position: fixed
+			width: 100%
+			background: $bg-1
+			z-index: 1
+
+			div.padre
+				display: flex
+				height: 50px
+				width: 100%
+				flex-direction: row
+				justify-content: space-between
+				align-items: center
+				button.menuPadre
+					background: rgba(0,0,0,0.2)
+					margin-left: 10px
+					padding: 10px 20px
+					border: none
+					border-radius: 5px
+					cursor: pointer
+					color: $fc-3
+					font-size: 1rem
+				div
+					h4
+						color: $fc-3
+						font-size: 1.4em
+						&.grande
+							display: inline-block
+						&.chico
+							display: none
+				a
+					color: $fc-3
+					text-decoration: none
+					margin-right: 10px
+					padding: 10px 20px
+					background: rgba(0,0,0,0.2)
+					border-radius: 5px
+					font-size: 0.9em
+
+
+@mixin Navbar
+	body 
+		div.contenido
+			nav
+				display: block
+				padding-top: 70px
+				position: fixed
+				background: $bg-2 
+				width: 250px
+				//max-width: 250px
+				//min-width: 250px
+				height: 89.5%
+				overflow-y: auto
+				div.datos_personales
+					display: flex
+					flex-direction: column
+					align-items: center
+					color: $fc-3
+					img 
+						border-radius: 50%
+						max-width: 100px
+						margin-bottom: 20px
+				hr
+					margin: 20px
+				div.menu	
+					margin-top: 20px
+					ul 	 
+						list-style: none
+						li 
+							display: block
+							position: relative
+							a 
+								color:#fff
+								display: block
+								text-decoration: none
+								padding: 10px 10px
+								cursor: pointer
+								span.carrera
+									color: rgb(160,160,160)
+								&:hover 
+									background: $bg-1
+									transition: all 0.5s ease
+								&.active
+									background: $bg-1
+							ul.children 
+								display: none
+								background: rgba(0,0,0,0.2)
+								width: 100%
+								z-index: 1000
+								transition: all 3.3s ease
+								li
+									transition: all 3.3s ease
+									a 
+										display: block
+										padding: 10px 5px 10px 30px
+										&:hover 
+											background: $bg-1
+											transition: all 0.5s ease
+							ul.open
+								display: block
+								transition: all 3.3s ease
+			nav.nav_oculto
+				left: -250px
+				display: none
+				transition: all 0.3s ease
+
+@mixin Main
+	body 
+		div.contenido
+			main
+				padding: 50px 10px 10px 20px
+				margin-left: 250px
+				min-height: 100vh
+				background: $bg-3
+			main.main_completo
+				margin-left: 0px
+				transition: all 0.3s ease
+			
+
+@mixin TarjetaInformativa
+	body 
+		div.contenido
+			main
+				section.tarjeta_informacion	
+					@include Tarjeta
+					display: flex
+					align-items: center
+					hgroup
+						display: inline-block
+						margin: 15px
+						width: 50%
+						&.hgroup_der
+							text-align: right
+@media (max-width: 700px)
+	body
+		div.contenido
+			main
+				section.tarjeta_informacion	
+					flex-direction: column
+					align-items: flex-start
+					hgroup
+						&.hgroup_der
+							text-align: center !important
+
+
+@media (max-width: 830px)
+	body
+		header
+			div.padre
+				div 
+					h4.grande
+						display: none !important
+					h4.chico
+						display: inline-block !important
+
+
+
+
+
+@media (max-width: 700px)
+	body 
+		div.contenido
+			main
+				margin-left: 0px !important
+			main.main_completo
+				margin-left: 0px !important

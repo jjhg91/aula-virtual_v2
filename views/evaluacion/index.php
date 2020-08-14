@@ -1,0 +1,335 @@
+<?php require_once('views/Template/template.php'); ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+
+
+	<!-- PROBANDO RESPOSNIVE DESIGN -->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- /PROBANDO RESPOSNIVE DESIGN -->
+
+
+
+	<link rel="Shortcut Icon" type="image/x-icon" href="<?= constant('URL') ?>public/media/logo.ico" />
+	<title>IUTJMC - Evaluaciones</title>
+
+
+	<!-- CUSTOM CSS -->
+	<link rel="stylesheet" href="<?= constant('URL') ?>public/icon/icomoon/style.css">
+	<link rel="stylesheet" href="<?= constant('URL') ?>public/css/evaluaciones.css">
+	<!-- /CUSTOM CSS -->
+	<script src="<?= constant('URL') ?>public/js/jquery/jquery-3.5.0.min.js"></script>
+	<script src="<?= constant('URL') ?>public/js/jquery/jquery.cookie.js"></script>
+	
+	<!-- Theme included stylesheets -->
+	<link href="<?= constant('URL') ?>public/quill/quill.snow.css" rel="stylesheet">
+	<link href="<?= constant('URL') ?>public/quill/quill.bubble.css" rel="stylesheet">
+
+</head>
+<body>
+
+	<?php Loader(); ?>
+	<?php Headerr(); ?>
+
+
+	<div class="contenido">
+
+		<?php Navbar($this->usuario, $this->navbarMaterias); ?>
+
+		<main class="main_completo">
+
+			<?php TarjetaInformativa('EVALUACIONES', $this->barMateria); ?>
+
+
+			<?php if ( empty($this->actividades) ): ?>
+			<section>
+				<div class="contenido">
+					<p>Aun no se ha cargado evaluaciónes para ser entregadas a esta materia. </p>
+
+					<?php if ($_SESSION['user'] == 'profesor'): ?>
+						<br>
+						<p>Por favor cree alguna evaluación que el alumnos</p>
+						<br>
+						<p>* Primero debe cargar el plan de evaluación para relacionar a este la evaluación que desee ser entregada.</p>
+						<p>* Asígnele una fecha limite la cual podrá ser entregada al finalizar ese día a las 11:59pm.</p>
+						<p>* Agregue una descripción de lo que desea ser evaluado. </p>
+
+
+					<?php endif ?>
+
+				</div>
+			</section>
+			<?php endif ?>
+
+			<div id="evaluaciones">
+			<?php
+			$i = 1;
+			foreach ($this->actividades as $actividad): ?>
+			<section class="evaluacion" evaluacion<?= $actividad[0] ?>" >
+				<div class="titulo">
+					<div class="titulo_izq">
+						<?php if ( $actividad[6] != 8 ): ?>
+							<h4><?= $actividad[2] ?></h4>
+						<?php else: ?>
+							<h4><?= ucfirst($actividad[7]) ?></h4>
+						<?php endif ?>
+					</div>
+
+					<?php if ($_SESSION['user'] == 'profesor'): ?>
+					<div class="titulo_der">
+						<div class="enlaces">
+							<!-- <button title="Editar" class="btnModalEditar item icon-pencil" type="button" data-evaluacion="<?= $actividad[0] ?>"></button>
+							<button title="Eliminar" class="btnEliminar icon-bin" data-materia="<?= $this->barMateria[2] ?>" data-evaluacion="<?= $actividad[0] ?>" type="button" ></button> -->
+						</div>
+					</div>
+					<?php endif ?>
+
+				</div>
+				<div class="contenido">
+					<p><strong>Fecha limite: </strong><?= $actividad[4] ?></p>
+					<p><strong>Valor: </strong><?= $actividad[1] ?>%</p>
+					<p><strong>Punto: </strong><?= $actividad[1] * 0.20 ?>pts</p>
+					<br>
+					<a href="<?= constant('URL') . 'evaluacion/detail/' . $this->barMateria[2] . '/' . $actividad[0]?>">Detalles</a>
+
+
+					<?php if ($this->usuario['user'] == 'profesor'): ?>
+					<br>
+					<br>
+					<a href="<?= constant('URL') . 'evaluacion/detail/' . $this->barMateria[2] . '/' . $actividad[0]?>#Entregadas">Actividades entregadas (<?= $actividad[8] .  " / " . $this->totalAlumnos[0] ?>)</a>
+					<?php $i = $i + 1  ?>
+					<?php endif ?>
+
+
+				</div>
+			</section>
+			<?php endforeach; ?>
+			</div>
+
+			
+			<?php if ($_SESSION['user'] === 'profesor'): ?>
+			<section class="section_agregar">
+				<div class="titulo">
+					<h3>Crear Evaluacion</h3>
+				</div>
+				<div class="contenido">
+					
+					<form id="add_evaluacion" method="post" enctype="multipart/form-data" >
+						
+						<div class="grupo">
+							<label for="plan">Evaluacion</label>
+							<select name="plan" id="plan_evaluacion" class="plan">
+								<?php foreach ($this->planes as $plan): ?>
+									<?php if ($plan[4] != 8): ?>
+										<option value="<?= $plan[0] ?>"><?= $plan[1].": ".$plan[2]."% - ".$plan[3] ?></option>
+									<?php else: ?>
+										<option value="<?= $plan[0] ?>"><?= ucfirst($plan[5]).": ".$plan[2]."% - ".$plan[3] ?></option>
+									<?php endif ?>
+								<?php endforeach; ?>
+							</select>
+							<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
+						</div>
+					
+						<div class="grupo">
+							<label for="fecha">Fecha</label>
+							<input type="date" id="fecha_evaluacion" name="fecha" class="fecha">
+							<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
+						</div>
+
+						<div class="grupo">
+							<div id="editor" style="height: 375px;"></div>
+							<textarea name="descripcion" id="descripcion_evaluacion" cols="20" rows="10" style="display:none;"></textarea>
+							<p id="editor_contador">caracteres (<span id="editor_caracteres">0</span>/50000)</p>
+						</div>
+
+
+
+
+
+					<!-- SECCION DE AGREGAR ARCHIVOS -->
+
+						<div class="grupo">
+							<div>
+								<br>
+								<br>
+								<h3>Agregar Archivos</h3>
+								<br>
+							</div>
+
+							<div id="grupo_archivos">
+								<input type="file" name="file[]" class="file1" id="file1">
+								<p class="formulario__input-error"></p>
+							</div>
+
+							<button type="button" id="add_input_archivo">Otro Archivo</button>
+						</div>
+
+					<!-- /SECCION DE AGREGAR ARCHIVOS -->
+
+
+
+						<div class="grupo_oculto">
+							<input type="text" name="materia" style="display: none;" value="<?= $this->barMateria[2] ?>">
+						</div>
+						
+						<div class="grupo">
+							<div class="mensaje__error">
+								<p>No se puedo guardar, por favor revise todo los campos y verifique que no tengan ningun error.</p>
+							</div>
+							<div class="mensaje__exito">
+							</div>
+						</div>
+
+						<div class="grupo">
+							<button id="btnSubmit" class="item" type="submit" >Guardar</button>
+							<button id="btnModalPreview" class="item" type="button" >Previsualizar</button>
+						</div>
+
+					</form>
+
+					<!-- SECCION DE PREVIEW MODAL -->
+
+					<div class="modal" id="modalPreview">
+							<div class="flex" id="flexPreview">
+								<div class="modal__contenido">
+									<div class="modal__header">
+										<h3>Previsualización</h3>
+										<a id="btnCerrarPreview">&times;</a>
+									</div>
+									<div class="modal__preview">
+										<div id="preview__plan"></div>
+										<div id="preview__valor"></div>
+										<div id="preview__fecha"></div>
+										<div id="previw__descripcion2">
+											<br/>
+											<p><b>Descripcion: </b><p>
+										</div>
+										<div id="preview__descripcion"></div>
+										<div id="preview__archivos"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					<!-- /SECCION DE PREVIEW MODAL -->
+
+
+					<!-- SECCION DE EDITAR MODAL -->
+
+					<div class="modal" id="modalEditar">
+							<div class="flex" id="flexEditar">
+								<div class="modal__contenido">
+									<div class="modal__header">
+										<h3>EDITAR</h3>
+										<a id="btnCerrarEditar">&times;</a>
+									</div>
+									<div class="modal__preview">
+										<!-- FORMULARIO EDITAR CONTENIDO -->
+<form id="edit_evaluacion" method="post" enctype="multipart/form-data" >
+	<div class="grupo">
+		<label for="plan">Evaluacion</label>
+		<select name="plan" class="plan">
+			<?php foreach ($this->planes as $plan): ?>
+				<?php if ($plan[4] != 8): ?>
+					<option value="<?= $plan[0] ?>"><?= $plan[1].": ".$plan[2]."% - ".$plan[3] ?></option>
+				<?php else: ?>
+					<option value="<?= $plan[0] ?>"><?= ucfirst($plan[5]).": ".$plan[2]."% - ".$plan[3] ?></option>
+				<?php endif ?>
+			<?php endforeach; ?>
+		</select>
+		<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
+	</div>
+
+	<div class="grupo">
+		<label for="fecha">Fecha</label>
+		<input type="date" name="fecha" class="fecha">
+		<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
+	</div>
+
+	<div class="grupo">
+		<div id="edit__qe" style="height: 375px;"></div>
+		<textarea name="descripcion" id="descripcion_evaluacion__edit" cols="20" rows="10" style="display:none;"></textarea>
+		<p class="editor_contador">caracteres (<span id="editor_caracteres__edit">0</span>/50000)</p>
+	</div>
+
+<!-- SECCION DE AGREGAR ARCHIVOS -->
+	<div class="grupo">
+		<div>
+			<br>
+			<br>
+			<h3>Agregar Archivos</h3>
+			<br>
+		</div>
+		<div id="grupo_archivos__edit">
+			<div id="link1"></div>
+			<input type="file" name="file[]" class="file1">
+			<p class="formulario__input-error"></p>
+			<div id="link2"></div>
+			<input type="file" name="file[]" class="file2">
+			<p class="formulario__input-error"></p>
+			<div id="link3"></div>
+			<input type="file" name="file[]" class="file3">
+			<p class="formulario__input-error"></p>
+			<div id="link4"></div>
+			<input type="file" name="file[]" class="file4">
+			<p class="formulario__input-error"></p>
+		</div>
+		<button type="button" id="add_input_archivo__edit">Otro Archivo</button>
+	</div>
+<!-- /SECCION DE AGREGAR ARCHIVOS -->
+
+	<div class="grupo_oculto">
+		<input type="text" name="mat" style="display: none;" value="<?= $this->barMateria[2] ?>">
+	</div>
+
+	<div class="grupo">
+		<div class="mensaje__error">
+			<p>No se puedo guardar, por favor revise todo los campos y verifique que no tengan ningun error.</p>
+		</div>
+		<div class="mensaje__exito">
+		</div>
+	</div>
+
+	<div class="grupo">
+		<button id="btnSubmit__edit" class="item" type="submit" >Guardar</button>
+	</div>
+
+</form>
+										<!-- /FORMULARIO EDITAR EVALUACION -->
+									</div>
+								</div>
+							</div>
+						</div>
+
+					<!-- /SECCION DE EDITAR MODAL -->
+
+				</div>
+			</section>
+			<?php endif; ?>
+
+		</main>
+
+	</div>
+
+
+	<footer>
+
+	</footer>
+
+
+
+	<!-- Main Quill library -->
+	<script src="<?= constant('URL') ?>public/quill/quill.min.js"></script>
+
+	<!-- JS -->
+	<script src="<?= constant('URL') ?>public/js/config.js"></script>
+	<script src="<?= constant('URL') ?>public/js/menu.js"></script>
+	<script src="<?= constant('URL') ?>public/js/evaluaciones.js"></script>
+	<!-- /JS -->
+
+</body>
+</html>

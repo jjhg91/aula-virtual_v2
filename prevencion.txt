@@ -1,0 +1,12 @@
+
+---- TIENE USUARIO DUPLICADO Y NO SE LE VE LA MATERIA DE DIPLOMADO
+
+SELECT * FROM `profesorcursogrupo` WHERE personal in (87,228,114)
+
+
+UPDATE profesorcursogrupo
+SET personal = 114
+WHERE  personal in (87,228,114)
+
+DELETE FROM `personal` WHERE `personal`.`id_personal` = 87;
+DELETE FROM `personal` WHERE `personal`.`id_personal` = 228;

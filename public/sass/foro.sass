@@ -1,0 +1,213 @@
+@import _template.sass
+
+*
+	margin: 0
+	padding: 0
+
+
+@include Loader
+@include Headerr
+@include Navbar
+@include Main
+@include TarjetaInformativa
+
+body 
+	main 
+		section
+			@include Tarjeta
+			padding: 20px 0px
+			div 
+				margin: 0px 20px
+			div.titulo
+				padding-bottom: 10px
+				border-bottom: 2px solid rgba(0,0,0,0.3)
+				display: flex
+				align-items: center
+				div
+					display: inline-block
+					width: 50%
+				div.titulo_der 
+					text-align: right
+			div.contenido
+				padding: 20px 0px
+				div.editar
+					margin-top: 40px
+					height: 0px
+					z-index: 9999
+					opacity: 0
+					pointer-events: none
+					display: none
+					form 
+						display: flex
+						flex-direction: column
+						align-items: center 
+						padding: 0px 20px 
+						div
+							width: 100%
+							margin-top: 20px
+						input 
+							height: 30px
+							padding-left: 10px  
+							background-color: $bg-3
+							border-radius: 5px
+							border: none
+							width: 100%
+						input[type=text]
+							margin-bottom: 10px
+						textarea, select
+							width: 100%
+							padding: 10px 
+							background-color: $bg-3
+							border-radius: 5px
+							border: none	
+						button, a.cerrar
+							margin-top: 20px 
+							@include btn-t
+						a.close
+							@include btn-f
+							text-decoration: none
+							color: black
+							&:active
+							color: black
+					&:target
+						height: auto
+						opacity: 1
+						pointer-events: auto
+						display: block
+
+
+
+
+
+
+				div.Modal
+					margin-top: 40px
+					height: 0px
+					z-index: 9999
+					opacity: 0
+					pointer-events: none
+					
+					form 
+						display: flex
+						flex-direction: column
+						align-items: center 
+						padding: 0px 20px 
+						div
+							width: 100%
+							margin-top: 20px
+						input 
+							height: 30px
+							padding-left: 10px  
+							background-color: $bg-3
+							border-radius: 5px
+							border: none
+							width: 100%
+						textarea, select
+							width: 100%
+							padding: 10px 
+							background-color: $bg-3
+							border-radius: 5px
+							border: none
+						input[type=file]
+							margin-top: 20px 
+						button, a.cerrar
+							margin-top: 20px 
+							@include btn-t
+						a.cerrar
+							text-decoration: none
+							color: black
+							&:active
+								color: black
+					&:target
+						height: auto
+						opacity: 1
+						pointer-events: auto
+
+
+
+		section.section_agregar
+			div.contenido
+				form 
+					display: flex
+					flex-direction: column
+					align-items: center 
+					padding: 0px 20px 
+					div
+						width: 100%
+						margin-top: 20px
+					input 
+						height: 30px
+						padding-left: 10px  
+						background-color: $bg-3
+						border-radius: 5px
+						border: none
+						width: 100%
+					
+					textarea, select
+						width: 100%
+						padding: 10px 
+						background-color: $bg-3
+						border-radius: 5px
+						border: none
+					
+					button 
+						@include btn-t
+
+					a.OpenModal
+						margin-top: 20px 
+						@include btn-t
+						text-decoration: none
+						color: black
+					div.PreviewModal
+						height: 0px
+						z-index: 9999
+						opacity: 0
+						pointer-events: none
+						display: flex
+						flex-direction: column
+						justify-content: center
+						align-items: center
+						&:target
+							position: fixed
+							margin: 0
+							left: 0
+							top: 0
+							opacity: 1
+							pointer-events: auto
+							background: rgba(255,255,255,0.9)
+							height: 100%
+							width: 100%
+						section.preview
+							width: 70%
+							overflow-y: auto
+							overflow-x: hidden
+							margin: 20px 0px
+							div.titulo
+
+								margin: 0
+								border-bottom: none
+
+							hr 
+								width: 95%
+								margin: auto
+							div.botones
+								display: flex
+								justify-content: center 
+								align-items: center
+								flex-direction: row
+								flex-wrap: strech
+								.item 
+									margin-left: 10px
+								button
+									@include btn-t
+								a.close
+									@include btn-f
+									text-decoration: none
+									color: black
+									&:active
+									color: black
+
+
+						
+
+

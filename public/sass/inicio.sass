@@ -1,0 +1,39 @@
+@import _template.sass
+
+*
+	margin: 0
+	padding: 0
+
+
+@include Loader
+@include Headerr
+@include Navbar
+@include Main
+@include TarjetaInformativa
+
+
+
+
+body 
+	main 
+		section
+			@include Tarjeta
+			padding: 20px 0px
+			div 
+				margin: 0px 20px
+			div.titulo
+				padding-bottom: 10px
+				border-bottom: 2px solid rgba(0,0,0,0.3)
+				display: flex
+				align-items: center
+				div
+					display: inline-block
+					width: 50%
+				div.titulo_der 
+					text-align: right
+			div.contenido
+				padding: 20px 0px
+
+
+
+

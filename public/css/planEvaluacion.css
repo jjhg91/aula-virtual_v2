@@ -1,0 +1,563 @@
+@font-face {
+  font-family: 'Roboto';
+  src: url("../../public/fuente/Roboto/Roboto-Regular.ttf") format("truetype");
+}
+
+* {
+  font-family: 'Roboto';
+}
+
+button.btnInfo {
+  padding: 10px;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  background: #dedede;
+  border-radius: 5px;
+}
+
+button.btnInfo:hover {
+  background: #b6b6b6;
+}
+
+div.enlaces {
+  display: block;
+}
+
+div.enlaces a {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  display: inline-block;
+  border-radius: 3px;
+  margin-right: 10px;
+  margin-top: 10px;
+  text-decoration: none;
+  color: black;
+}
+
+div.enlaces a:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width: 700px) {
+  body div.contenido main section.tarjeta_informacion {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  body div.contenido main section.tarjeta_informacion hgroup.hgroup_der {
+    text-align: center !important;
+  }
+}
+
+@media (max-width: 830px) {
+  body header div.padre div h4.grande {
+    display: none !important;
+  }
+  body header div.padre div h4.chico {
+    display: inline-block !important;
+  }
+}
+
+@media (max-width: 700px) {
+  body div.contenido main {
+    margin-left: 0px !important;
+  }
+  body div.contenido main.main_completo {
+    margin-left: 0px !important;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body div.loader {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+body div.loader span {
+  font-size: 1.5em;
+}
+
+body header {
+  display: inline-block;
+  position: fixed;
+  width: 100%;
+  background: #229954;
+  z-index: 1;
+}
+
+body header div.padre {
+  display: flex;
+  height: 50px;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+body header div.padre button.menuPadre {
+  background: rgba(0, 0, 0, 0.2);
+  margin-left: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #d4d4d4;
+  font-size: 1rem;
+}
+
+body header div.padre div h4 {
+  color: #d4d4d4;
+  font-size: 1.4em;
+}
+
+body header div.padre div h4.grande {
+  display: inline-block;
+}
+
+body header div.padre div h4.chico {
+  display: none;
+}
+
+body header div.padre a {
+  color: #d4d4d4;
+  text-decoration: none;
+  margin-right: 10px;
+  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  font-size: 0.9em;
+}
+
+body div.contenido nav {
+  display: block;
+  padding-top: 70px;
+  position: fixed;
+  background: #145a32;
+  width: 250px;
+  height: 89.5%;
+  overflow-y: auto;
+}
+
+body div.contenido nav div.datos_personales {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #d4d4d4;
+}
+
+body div.contenido nav div.datos_personales img {
+  border-radius: 50%;
+  max-width: 100px;
+  margin-bottom: 20px;
+}
+
+body div.contenido nav hr {
+  margin: 20px;
+}
+
+body div.contenido nav div.menu {
+  margin-top: 20px;
+}
+
+body div.contenido nav div.menu ul {
+  list-style: none;
+}
+
+body div.contenido nav div.menu ul li {
+  display: block;
+  position: relative;
+}
+
+body div.contenido nav div.menu ul li a {
+  color: #fff;
+  display: block;
+  text-decoration: none;
+  padding: 10px 10px;
+  cursor: pointer;
+}
+
+body div.contenido nav div.menu ul li a span.carrera {
+  color: #a0a0a0;
+}
+
+body div.contenido nav div.menu ul li a:hover {
+  background: #229954;
+  transition: all 0.5s ease;
+}
+
+body div.contenido nav div.menu ul li a.active {
+  background: #229954;
+}
+
+body div.contenido nav div.menu ul li ul.children {
+  display: none;
+  background: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  z-index: 1000;
+  transition: all 3.3s ease;
+}
+
+body div.contenido nav div.menu ul li ul.children li {
+  transition: all 3.3s ease;
+}
+
+body div.contenido nav div.menu ul li ul.children li a {
+  display: block;
+  padding: 10px 5px 10px 30px;
+}
+
+body div.contenido nav div.menu ul li ul.children li a:hover {
+  background: #229954;
+  transition: all 0.5s ease;
+}
+
+body div.contenido nav div.menu ul li ul.open {
+  display: block;
+  transition: all 3.3s ease;
+}
+
+body div.contenido nav.nav_oculto {
+  left: -250px;
+  display: none;
+  transition: all 0.3s ease;
+}
+
+body div.contenido main {
+  padding: 50px 10px 10px 20px;
+  margin-left: 250px;
+  min-height: 100vh;
+  background: #e8e8e8;
+}
+
+body div.contenido main.main_completo {
+  margin-left: 0px;
+  transition: all 0.3s ease;
+}
+
+body div.contenido main section.tarjeta_informacion {
+  width: 100%;
+  margin-top: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+}
+
+body div.contenido main section.tarjeta_informacion hgroup {
+  display: inline-block;
+  margin: 15px;
+  width: 50%;
+}
+
+body div.contenido main section.tarjeta_informacion hgroup.hgroup_der {
+  text-align: right;
+}
+
+body main section {
+  width: 100%;
+  margin-top: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.3);
+  padding: 20px 0px;
+}
+
+body main section div {
+  margin: 0px 20px;
+}
+
+body main section div.titulo {
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+}
+
+body main section div.titulo div {
+  display: inline-block;
+  width: 50%;
+}
+
+body main section div.titulo div.titulo_der {
+  text-align: right;
+}
+
+body main section div.contenido {
+  padding: 20px 0px;
+}
+
+body main section div.contenido div.editar {
+  margin-top: 40px;
+  height: 0px;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+}
+
+body main section div.contenido div.editar form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px 20px;
+}
+
+body main section div.contenido div.editar form div {
+  width: 100%;
+  margin-top: 20px;
+}
+
+body main section div.contenido div.editar form input {
+  height: 30px;
+  padding-left: 10px;
+  background-color: #e8e8e8;
+  border-radius: 5px;
+  border: none;
+  width: 100%;
+}
+
+body main section div.contenido div.editar form textarea, body main section div.contenido div.editar form select {
+  width: 100%;
+  padding: 10px;
+  background-color: #e8e8e8;
+  border-radius: 5px;
+  border: none;
+}
+
+body main section div.contenido div.editar form input[type=file] {
+  margin-top: 20px;
+}
+
+body main section div.contenido div.editar form button, body main section div.contenido div.editar form a.cerrar {
+  margin-top: 20px;
+  padding: 10px 30px 10px 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #145a32;
+  box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+body main section div.contenido div.editar form a.close {
+  padding: 10px 30px 10px 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #ff4a4a;
+  box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3);
+  text-decoration: none;
+  color: black;
+  color: black;
+}
+
+body main section div.contenido div.editar:target {
+  height: auto;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+body main section.section_agregar div.contenido form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px 20px;
+}
+
+body main section.section_agregar div.contenido form div.grupo, body main section.section_agregar div.contenido form textarea {
+  width: 100%;
+  padding-top: 20px;
+}
+
+body main section.section_agregar div.contenido form div.grupo div, body main section.section_agregar div.contenido form textarea div {
+  margin: 0px;
+}
+
+body main section.section_agregar div.contenido form div.grupo input, body main section.section_agregar div.contenido form textarea input {
+  width: 100%;
+  border: none;
+  background-color: #e8e8e8;
+  border-radius: 5px;
+  height: 30px;
+  padding-left: 10px;
+  margin-bottom: 10px;
+}
+
+body main section.section_agregar div.contenido form div.grupo input.incorrecto, body main section.section_agregar div.contenido form textarea input.incorrecto {
+  border: 3px solid #ec7063;
+  background: rgba(236, 112, 99, 0.4);
+}
+
+body main section.section_agregar div.contenido form div.grupo input.correcto, body main section.section_agregar div.contenido form textarea input.correcto {
+  border: 3px solid #58d68d;
+  background: rgba(88, 214, 141, 0.4);
+}
+
+body main section.section_agregar div.contenido form div.grupo textarea, body main section.section_agregar div.contenido form div.grupo select, body main section.section_agregar div.contenido form textarea textarea, body main section.section_agregar div.contenido form textarea select {
+  width: 100%;
+  border: none;
+  background-color: #e8e8e8;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+body main section.section_agregar div.contenido form div.grupo textarea.incorrecto, body main section.section_agregar div.contenido form div.grupo select.incorrecto, body main section.section_agregar div.contenido form textarea textarea.incorrecto, body main section.section_agregar div.contenido form textarea select.incorrecto {
+  border: 3px solid #ec7063;
+  background: rgba(236, 112, 99, 0.4);
+}
+
+body main section.section_agregar div.contenido form div.grupo textarea.correcto, body main section.section_agregar div.contenido form div.grupo select.correcto, body main section.section_agregar div.contenido form textarea textarea.correcto, body main section.section_agregar div.contenido form textarea select.correcto {
+  border: 3px solid #58d68d;
+  background: rgba(88, 214, 141, 0.4);
+}
+
+body main section.section_agregar div.contenido form div.grupo p.formulario__input-error, body main section.section_agregar div.contenido form textarea p.formulario__input-error {
+  display: none;
+  font-size: .8rem;
+  color: red;
+  padding-left: 20px;
+}
+
+body main section.section_agregar div.contenido form div.grupo p.formulario__input-error-activo, body main section.section_agregar div.contenido form textarea p.formulario__input-error-activo {
+  display: block;
+}
+
+body main section.section_agregar div.contenido form div.grupo p#editor_contador, body main section.section_agregar div.contenido form textarea p#editor_contador {
+  font-size: .8rem;
+  padding-left: 20px;
+}
+
+body main section.section_agregar div.contenido form div.grupo div.mensaje__error, body main section.section_agregar div.contenido form textarea div.mensaje__error {
+  display: none;
+  padding: 20px;
+  border: 3px solid #ec7063;
+  background-color: rgba(236, 112, 99, 0.4);
+}
+
+body main section.section_agregar div.contenido form div.grupo div.mensaje__error p, body main section.section_agregar div.contenido form textarea div.mensaje__error p {
+  color: #ec7063;
+  font-size: 1.2rem;
+}
+
+body main section.section_agregar div.contenido form div.grupo div.mensaje__error-activo, body main section.section_agregar div.contenido form textarea div.mensaje__error-activo {
+  display: block;
+}
+
+body main section.section_agregar div.contenido form div.grupo div.mensaje__exito, body main section.section_agregar div.contenido form textarea div.mensaje__exito {
+  display: none;
+  padding: 20px;
+  border: 3px solid #58d68d;
+  background-color: rgba(88, 214, 141, 0.4);
+}
+
+body main section.section_agregar div.contenido form div.grupo div.mensaje__exito p, body main section.section_agregar div.contenido form textarea div.mensaje__exito p {
+  color: #58d68d;
+  font-size: 1.2rem;
+}
+
+body main section.section_agregar div.contenido form div.grupo div.mensaje__exito-activo, body main section.section_agregar div.contenido form textarea div.mensaje__exito-activo {
+  display: block;
+}
+
+body main section.section_agregar div.contenido form div.grupo div#editor, body main section.section_agregar div.contenido form textarea div#editor {
+  height: 375px;
+}
+
+body main section.section_agregar div.contenido form div.oculto {
+  display: none;
+  height: 0;
+  width: 0;
+}
+
+body main section.section_agregar div.modal {
+  display: none;
+  position: fixed;
+  margin: 0;
+  overflow: none;
+  opacity: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 9;
+}
+
+body main section.section_agregar div.modal div.flex {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  justify-content: space-between;
+  align-items: center;
+}
+
+body main section.section_agregar div.modal div.flex div.modal__contenido {
+  z-index: 9;
+  position: relative;
+  margin: auto;
+  width: 70%;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.4);
+  animation-name: modal;
+  animation-duration: .5s;
+  padding: 0;
+}
+
+body main section.section_agregar div.modal div.flex div.modal__contenido div.modal__header {
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #229954;
+}
+
+body main section.section_agregar div.modal div.flex div.modal__contenido div.modal__header h3 {
+  color: #d4d4d4;
+}
+
+body main section.section_agregar div.modal div.flex div.modal__contenido div.modal__header a {
+  padding: 5px 10px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.7);
+  color: #d4d4d4;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+body main section.section_agregar div.modal div.flex div.modal__contenido div.modal__header a:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+body main section.section_agregar div.modal div.flex div.modal__contenido div.modal__preview {
+  padding: 10px;
+  margin: 0;
+  background-color: #e8e8e8;
+  min-height: 300px;
+  max-height: 60vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+@keyframes modal {
+  0% {
+    top: -200%;
+    opacity: 0;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+  }
+}

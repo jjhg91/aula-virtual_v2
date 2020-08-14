@@ -1,0 +1,79 @@
+<?php
+
+	require_once('views/Template/template.php');
+?>
+
+<?php if ($_SESSION['user'] == 'profesor'): ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+
+	<!-- PROBANDO RESPOSNIVE DESIGN -->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- /PROBANDO RESPOSNIVE DESIGN -->
+
+
+
+	<link rel="Shortcut Icon" type="image/x-icon" href="<?= constant('URL') ?>public/media/logo.ico" />
+	<title>IUTJMC - Alumnos</title>
+
+
+	<!-- CUSTOM CSS -->
+	<link rel="stylesheet" href="<?= constant('URL') ?>public/icon/icomoon/style.css">
+	<link rel="stylesheet" href="<?= constant('URL') ?>public/css/evaluaciones.css">
+	<!-- /CUSTOM CSS -->
+	<script src="<?= constant('URL') ?>public/js/jquery/jquery-3.5.0.min.js"></script>
+	<script src="<?= constant('URL') ?>public/js/jquery/jquery.cookie.js"></script>
+
+
+</head>
+<body>
+
+	<?php Loader(); ?>
+	<?php Headerr(); ?>
+
+
+	<div class="contenido">
+
+		<?php Navbar($this->usuario, $this->navbarMaterias); ?>
+
+		<main class="main_completo">
+
+			<?php TarjetaInformativa('ALUMNOS', $this->barMateria); ?>
+
+			<?php foreach ($this->alumnos as $alumno): ?>
+			<section class="plan_evaluacion">
+				<div class="contenido">
+					<h3><?= $alumno[1]." ".$alumno[2] ?></h3>
+					<span><small><strong>C.I: </strong><?= $alumno[3] ?></small></span>
+					<br>
+
+					<?php if ($alumno[6]): ?>
+					<span><small><strong>Fecha de ultimoi inicio: </strong><?= $alumno[6] ?></small></span>
+					<?php else: ?>
+					<span><small><strong>Fecha de ultimoi inicio: </strong>No se ah conectado</small></span>
+					<?php endif; ?>
+				</div>
+			</section>
+			<?php endforeach; ?>
+
+		</main>
+
+	</div>
+	
+
+
+	<footer>
+
+	</footer>
+
+	<!-- JS -->
+	<script src="<?= constant('URL') ?>public/js/menu.js"></script>
+	<!-- /JS -->
+
+</body>
+</html>
+<?php endif ?>

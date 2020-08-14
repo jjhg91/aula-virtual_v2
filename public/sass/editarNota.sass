@@ -1,0 +1,72 @@
+@import _template.sass
+
+*
+	margin: 0
+	padding: 0
+
+
+@include Loader
+@include Headerr
+@include Navbar
+@include Main
+@include TarjetaInformativa
+
+body 
+	main 
+		section
+			@include Tarjeta
+			padding: 20px 0px
+			div 
+				margin: 0px 20px
+			div.titulo
+				padding-bottom: 10px
+				border-bottom: 2px solid rgba(0,0,0,0.3)
+				display: flex
+				align-items: center
+				div
+					display: inline-block
+					width: 50%
+				div.titulo_der 
+					text-align: right
+			div.contenido
+				padding: 20px 0px
+
+			
+		form 
+
+			section.section_agregar
+				@include Tarjeta
+				padding: 20px 0px
+				div.contenido
+					display: flex
+					flex-direction: column
+					align-items: center 
+					padding: 0px 20px 
+					div
+						width: 100%
+						margin-top: 20px
+					input 
+						height: 30px
+						padding-left: 10px  
+						background-color: $bg-3
+						border-radius: 5px
+						border: none
+						width: 100%
+					textarea, select
+						width: 100%
+						padding: 10px 
+						background-color: $bg-3
+						border-radius: 5px
+						border: none
+					input[type=file]
+						margin-top: 20px 
+					
+			section
+				div.contenido
+					display: flex
+					justify-content: center
+					button 
+						margin-top: 20px 
+						@include btn-t
+						
+

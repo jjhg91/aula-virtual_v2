@@ -15,7 +15,7 @@
 
 
 	<link rel="Shortcut Icon" type="image/x-icon" href="<?= constant('URL') ?>public/media/logo.ico" />
-	<title>IUTJMC - Evaluaciones</title>
+	<title>UEPJMC</title>
 
 
 	<!-- CUSTOM CSS -->
@@ -69,11 +69,11 @@
 			<?php
 			$i = 1;
 			foreach ($this->actividades as $actividad): ?>
-			<section class="evaluacion" evaluacion<?= $actividad[0] ?>" >
+			<section class="evaluacion" data-evaluacion="<?= $actividad[0] ?>" data-plan="<?= $actividad[13] ?>">
 				<div class="titulo">
 					<div class="titulo_izq">
 						<?php if ( $actividad[6] != 8 ): ?>
-							<h4><?= $actividad[2] ?></h4>
+							<h4 class="tipo"><?= $actividad[2] ?></h4>
 						<?php else: ?>
 							<h4><?= ucfirst($actividad[7]) ?></h4>
 						<?php endif ?>
@@ -82,17 +82,55 @@
 					<?php if ($_SESSION['user'] == 'profesor'): ?>
 					<div class="titulo_der">
 						<div class="enlaces">
-							<!-- <button title="Editar" class="btnModalEditar item icon-pencil" type="button" data-evaluacion="<?= $actividad[0] ?>"></button>
-							<button title="Eliminar" class="btnEliminar icon-bin" data-materia="<?= $this->barMateria[2] ?>" data-evaluacion="<?= $actividad[0] ?>" type="button" ></button> -->
+							<button title="Editar" class="btnModalEditar item icon-pencil btnInfo" type="button" data-evaluacion="<?= $actividad[0] ?>"></button>
+							<button title="Eliminar" class="btnEliminar icon-bin btnInfo" data-materia="<?= $this->barMateria[2] ?>" data-evaluacion="<?= $actividad[0] ?>" type="button" ></button>
 						</div>
 					</div>
 					<?php endif ?>
 
 				</div>
 				<div class="contenido">
-					<p><strong>Fecha limite: </strong><?= $actividad[4] ?></p>
-					<p><strong>Valor: </strong><?= $actividad[1] ?>%</p>
+					<p><strong>Fecha limite: </strong><span class="fecha"><?= $actividad[4] ?></span></p>
+					<p><strong>Valor: </strong><span class="valor"><?= $actividad[1] ?>%</span></p>
 					<p><strong>Punto: </strong><?= $actividad[1] * 0.20 ?>pts</p>
+					<p><strong>Plan: </strong><p><div class="plan"><?= $actividad[14] ?></div>
+					<br>
+					<p><strong>Descripcion: </strong></p>
+					<div class="editor__qe"><?= nl2br($actividad[5]) ?></div>
+					<div class="trabajos mostrar_archivos">
+
+						<?php if ($actividad[9] or $actividad[10] or $actividad[11] or $actividad[12]): ?>
+						<br>
+						<br>
+						<h4>Descarga de Materiales</h4>
+						<br>
+						<?php endif ?>
+
+						<?php if ($actividad[9]): ?>
+						<a class="link1" href="<?= constant('URL')?>public/upload/actividad/<?= $this->barMateria[2]?>/<?= $actividad[0] ?>/<?= $actividad[9] ?>" download>Material 1</a>
+						<br>
+						<br>
+						<?php endif ?>
+
+						<?php if ($actividad[10]): ?>
+						<a class="link2" href="<?= constant('URL')?>public/upload/actividad/<?= $this->barMateria[2]?>/<?= $actividad[0] ?>/<?= $actividad[10] ?>" download>Material 2</a>
+						<br>
+						<br>
+						<?php endif ?>
+
+						<?php if ($actividad[11]): ?>
+						<a class="link3" href="<?= constant('URL')?>public/upload/actividad/<?= $this->barMateria[2]?>/<?= $actividad[0] ?>/<?= $actividad[11] ?>" download>Material 3</a>
+						<br>
+						<br>
+						<?php endif ?>
+
+						<?php if ($actividad[12]): ?>
+						<a class="link4" href="<?= constant('URL')?>public/upload/actividad/<?= $this->barMateria[2]?>/<?= $actividad[0] ?>/<?= $actividad[12] ?>" download>Material 4</a>
+						<br>
+						<br>
+						<?php endif ?>
+
+					</div>
 					<br>
 					<a href="<?= constant('URL') . 'evaluacion/detail/' . $this->barMateria[2] . '/' . $actividad[0]?>">Detalles</a>
 
@@ -165,7 +203,7 @@
 								<p class="formulario__input-error"></p>
 							</div>
 
-							<button type="button" id="add_input_archivo">Otro Archivo</button>
+							<button class="btnInfo" type="button" id="add_input_archivo">Otro Archivo</button>
 						</div>
 
 					<!-- /SECCION DE AGREGAR ARCHIVOS -->
@@ -185,8 +223,8 @@
 						</div>
 
 						<div class="grupo">
-							<button id="btnSubmit" class="item" type="submit" >Guardar</button>
-							<button id="btnModalPreview" class="item" type="button" >Previsualizar</button>
+							<button id="btnSubmit" class="item btnTrue" type="submit" >Guardar</button>
+							<button id="btnModalPreview" class="item btnInfo" type="button" >Previsualizar</button>
 						</div>
 
 					</form>
@@ -278,12 +316,12 @@
 			<input type="file" name="file[]" class="file4">
 			<p class="formulario__input-error"></p>
 		</div>
-		<button type="button" id="add_input_archivo__edit">Otro Archivo</button>
 	</div>
 <!-- /SECCION DE AGREGAR ARCHIVOS -->
 
 	<div class="grupo_oculto">
-		<input type="text" name="mat" style="display: none;" value="<?= $this->barMateria[2] ?>">
+		<input type="text" name="materia" style="display: none;" value="<?= $this->barMateria[2] ?>">
+		<input type="text" name="evaluacion" style="display: none;" value="">
 	</div>
 
 	<div class="grupo">
@@ -295,7 +333,7 @@
 	</div>
 
 	<div class="grupo">
-		<button id="btnSubmit__edit" class="item" type="submit" >Guardar</button>
+		<button id="btnSubmit__edit" class="item btnTrue" type="submit" >Guardar</button>
 	</div>
 
 </form>

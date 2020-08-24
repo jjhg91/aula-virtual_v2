@@ -15,7 +15,7 @@
 
 
 	<link rel="Shortcut Icon" type="image/x-icon" href="public/media/logo.ico" />
-	<title>IUTJMC - Aula Virtual</title>
+	<title>UEPJMC</title>
 
 
 	<!-- CUSTOM CSS -->
@@ -28,11 +28,11 @@
 <body>
 	<div class="opacidad">
 		<main>
-			<img src="<?= constant('URL') ?>public/media/LogoIUTJMC.png" alt="" >
+			<img src="<?= constant('URL') ?>public/media/LogoIUTJMC.png" alt="" height="300" >
 			<section>
 				<hgroup>
 					<h1>
-						Instituto Universitario de Tecnología 
+						Unidad Educativa Privada 
 						<br />
 						"José María Carreño"
 					</h1>
@@ -61,7 +61,7 @@
 						
 					</div>
 					<div class="group group_button">
-						<button>ENTRAR</button>
+						<button class="btnTrue">ENTRAR</button>
 					</div>
 				</form>			
 			</section>

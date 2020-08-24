@@ -18,7 +18,7 @@
 
 
 	<link rel="Shortcut Icon" type="image/x-icon" href="<?= constant('URL') ?>public/media/logo.ico" />
-	<title>IUTJMC - Alumnos</title>
+	<title>UEPJMC</title>
 
 
 	<!-- CUSTOM CSS -->

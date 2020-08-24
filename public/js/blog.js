@@ -147,6 +147,48 @@ class ValidarFormulario {
 						// TODO FUE CORRECTO
 						let datos = JSON.parse(xmlhttp.response);
 						if ( datos.status == true ) {
+
+							let divArchivos = '<div class="trabajos mostrar_archivos">'
+							let pp = formulario.querySelectorAll('input[type="file"]');
+							pp.forEach(element => {
+								if ( element.value ) {
+
+									switch (element.classList[0]) {
+										case 'file1':
+														divArchivos += `
+															<a class="link1" href="${window.URL.createObjectURL(element.files[0])}" download>Material 1</a>
+															<br>
+															<br>
+														`;
+											break;
+										case 'file2':
+											divArchivos += `
+													<a class="link2" href="${window.URL.createObjectURL(element.files[0])}" download>Material 2</a>
+													<br>
+													<br>
+												`;
+											break;
+										case 'file3':
+											divArchivos += `
+													<a class="link3" href="${window.URL.createObjectURL(element.files[0])}" download>Material 3</a>
+													<br>
+													<br>
+												`;
+											break;
+										case 'file4':
+											divArchivos += `
+													<a class="link4" href="${window.URL.createObjectURL(element.files[0])}" download>Material 4</a>
+													<br>
+													<br>
+												`;
+											break;
+									}
+								}
+							});
+
+							divArchivos += '</div>'
+
+
 							let f = new Date();
 							let fecha = f.getDate() + "-" + (f.getMonth() +1) + "-" + f.getFullYear();
 							let blogs = document.getElementById('blogs');
@@ -159,13 +201,14 @@ class ValidarFormulario {
 									</div>
 									<div class="titulo_der">
 										<div class="enlaces">
-											<button title="Editar" class="btnModalEditar item icon-pencil" type="button" data-blog="${datos.idBlog}"></button>
-											<button title="Eliminar" class="btnEliminar icon-bin" data-materia="${formData.get('materia')}" data-blog="${datos.idBlog}" type="button" ></button>
+											<button title="Editar" class="btnModalEditar item icon-pencil btnInfo" type="button" data-blog="${datos.idBlog}"></button>
+											<button title="Eliminar" class="btnEliminar icon-bin btnInfo" data-materia="${formData.get('materia')}" data-blog="${datos.idBlog}" type="button" ></button>
 										</div>
 									</div>
 								</div>
 								<div class="contenido">
 									<div class="descripcion__qe">${formData.get('descripcion')}</div>
+									${divArchivos}
 								</div>
 							</section>
 							`;
@@ -264,6 +307,48 @@ class ValidarFormularioEditar  extends ValidarFormulario{
 						// TODO FUE CORRECTO
 						let datos = JSON.parse(xmlhttp.response);
 						if ( datos.status == true ) {
+
+							let divArchivos = '<div class="trabajos mostrar_archivos">'
+							let pp = formulario.querySelectorAll('input[type="file"]');
+							pp.forEach(element => {
+								if ( element.value ) {
+
+									switch (element.classList[0]) {
+										case 'file1':
+														divArchivos += `
+															<a class="link1" href="${window.URL.createObjectURL(element.files[0])}" download>Material 1</a>
+															<br>
+															<br>
+														`;
+											break;
+										case 'file2':
+											divArchivos += `
+													<a class="link2" href="${window.URL.createObjectURL(element.files[0])}" download>Material 2</a>
+													<br>
+													<br>
+												`;
+											break;
+										case 'file3':
+											divArchivos += `
+													<a class="link3" href="${window.URL.createObjectURL(element.files[0])}" download>Material 3</a>
+													<br>
+													<br>
+												`;
+											break;
+										case 'file4':
+											divArchivos += `
+													<a class="link4" href="${window.URL.createObjectURL(element.files[0])}" download>Material 4</a>
+													<br>
+													<br>
+												`;
+											break;
+									}
+								}
+							});
+
+							divArchivos += '</div>'
+
+
 							let editado = document.querySelector('section.blog[data-blog="'+datos.idBlog+'"]');
 							let fecha = editado.querySelector('.titulo > .titulo_izq > span > small').innerHTML;
 							let titulo = document.createElement('div');
@@ -275,8 +360,8 @@ class ValidarFormularioEditar  extends ValidarFormulario{
 								</div>
 								<div class="titulo_der">
 									<div class="enlaces">
-										<button title="Editar" class="btnModalEditar item icon-pencil" type="button" data-blog="${datos.idBlog}"></button>
-										<button title="Eliminar" class="btnEliminar icon-bin" data-materia="${formData.get('materia')}" data-blog="${datos.idBlog}" type="button" ></button>
+										<button title="Editar" class="btnModalEditar item icon-pencil btnInfo" type="button" data-blog="${datos.idBlog}"></button>
+										<button title="Eliminar" class="btnEliminar icon-bin btnInfo" data-materia="${formData.get('materia')}" data-blog="${datos.idBlog}" type="button" ></button>
 									</div>
 								</div>
 							`;
@@ -284,6 +369,7 @@ class ValidarFormularioEditar  extends ValidarFormulario{
 							conten.classList.add('contendio');
 							conten.innerHTML = `
 								<div class="descripcion__qe">${formData.get('descripcion')}</div>
+								${divArchivos}
 							`;
 							console.log(document.querySelectorAll('section.contenido'));
 							console.log('arriba');

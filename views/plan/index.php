@@ -65,7 +65,10 @@
 			<?php endif ?>
 
 			<div id="planes">
-			<?php foreach ($this->planes as $plan): ?>
+			<?php 
+			if ($this->planes !== false) {
+			
+			foreach ($this->planes as $plan): ?>
 			<section class="plan_evaluacion" data-plan="<?= $plan[0] ?>">
 				<div class="titulo">
 					<div class="titulo_izq">
@@ -122,7 +125,7 @@
 
 				</div>
 			</section>
-			<?php endforeach; ?>
+			<?php endforeach; };?>
 			</div>
 
 			<?php if ($_SESSION['user'] === 'profesor'): ?>
@@ -188,8 +191,8 @@
 						</div>
 
 						<div class="grupo">
-							<button id="btnSubmit" class="item" type="submit" >Guardar</button>
-							<button id="btnModalPreview" class="item" type="button" >Previsualizar</button>
+							<button id="btnSubmit" class="item btnTrue" type="submit" >Guardar</button>
+							<button id="btnModalPreview" class="item btnInfo" type="button" >Previsualizar</button>
 						</div>
 
 					</form>
@@ -312,7 +315,7 @@
 	</div>
 
 	<div class="grupo">
-		<button id="btnSubmit__edit" class="item" type="submit">Guardar</button>
+		<button id="btnSubmit__edit" class="item btnTrue" type="submit">Guardar</button>
 	</div>
 </form>
 

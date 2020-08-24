@@ -7,6 +7,32 @@
   font-family: 'Roboto';
 }
 
+button.btnTrue {
+  padding: 10px;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  background: #2980b9;
+  border-radius: 5px;
+}
+
+button.btnTrue:hover {
+  background: #1f618d;
+}
+
+button.btnFalse {
+  padding: 10px;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  background: #c0392b;
+  border-radius: 5px;
+}
+
+button.btnFalse:hover {
+  background: #922b21;
+}
+
 button.btnInfo {
   padding: 10px;
   border: none;
@@ -94,8 +120,8 @@ body header {
   display: inline-block;
   position: fixed;
   width: 100%;
-  background: #229954;
-  z-index: 1;
+  background: #145a32;
+  z-index: 2;
 }
 
 body header div.padre {
@@ -145,10 +171,11 @@ body div.contenido nav {
   display: block;
   padding-top: 70px;
   position: fixed;
-  background: #145a32;
+  background: #1e8449;
   width: 250px;
   height: 89.5%;
   overflow-y: auto;
+  z-index: 1;
 }
 
 body div.contenido nav div.datos_personales {
@@ -194,12 +221,12 @@ body div.contenido nav div.menu ul li a span.carrera {
 }
 
 body div.contenido nav div.menu ul li a:hover {
-  background: #229954;
+  background: #145a32;
   transition: all 0.5s ease;
 }
 
 body div.contenido nav div.menu ul li a.active {
-  background: #229954;
+  background: #145a32;
 }
 
 body div.contenido nav div.menu ul li ul.children {
@@ -220,7 +247,7 @@ body div.contenido nav div.menu ul li ul.children li a {
 }
 
 body div.contenido nav div.menu ul li ul.children li a:hover {
-  background: #229954;
+  background: #145a32;
   transition: all 0.5s ease;
 }
 
@@ -347,7 +374,7 @@ body main section div.contenido div.editar form button, body main section div.co
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  background: #145a32;
+  background: #1e8449;
   box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
@@ -538,7 +565,7 @@ body main section.section_agregar div.modal div.flex div.modal__contenido div.mo
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  background-color: #229954;
+  background-color: #145a32;
 }
 
 body main section.section_agregar div.modal div.flex div.modal__contenido div.modal__header h3 {

@@ -7,6 +7,32 @@
   font-family: 'Roboto';
 }
 
+button.btnTrue {
+  padding: 10px;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  background: #2980b9;
+  border-radius: 5px;
+}
+
+button.btnTrue:hover {
+  background: #1f618d;
+}
+
+button.btnFalse {
+  padding: 10px;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  background: #c0392b;
+  border-radius: 5px;
+}
+
+button.btnFalse:hover {
+  background: #922b21;
+}
+
 button.btnInfo {
   padding: 10px;
   border: none;
@@ -171,7 +197,7 @@ body div.opacidad main section form div.group_radio div.radio input[type=radio]:
 
 body div.opacidad main section form div.group_radio div.radio input[type=radio]:checked + label.label_radio {
   padding: 5px 15px;
-  background: #229954;
+  background: #145a32;
   border-radius: 2px;
   color: #fff;
 }
@@ -210,12 +236,12 @@ body div.opacidad main section form div.group_button button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  background: #145a32;
+  background: #1e8449;
   box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
 body div.opacidad main section form div.group_button button:hover {
-  background-color: rgba(59, 64, 148, 0.86);
+  background-color: #145a32;
 }
 
 @media (max-width: 900px) {

@@ -169,6 +169,46 @@ class ValidarFormulario {
 						// TODO FUE CORRECTO
 						let datos = JSON.parse(xmlhttp.response);
 						if ( datos.status == true ) {
+
+							let divArchivos = '<div class="trabajos mostrar_archivos">'
+							let pp = formulario.querySelectorAll('input[type="file"]');
+							pp.forEach(element => {
+								if ( element.value ) {
+
+									switch (element.classList[0]) {
+										case 'file1':
+														divArchivos += `
+															<a class="link1" href="${window.URL.createObjectURL(element.files[0])}" download>Material 1</a>
+															<br>
+															<br>
+														`;
+											break;
+										case 'file2':
+											divArchivos += `
+													<a class="link2" href="${window.URL.createObjectURL(element.files[0])}" download>Material 2</a>
+													<br>
+													<br>
+												`;
+											break;
+										case 'file3':
+											divArchivos += `
+													<a class="link3" href="${window.URL.createObjectURL(element.files[0])}" download>Material 3</a>
+													<br>
+													<br>
+												`;
+											break;
+										case 'file4':
+											divArchivos += `
+													<a class="link4" href="${window.URL.createObjectURL(element.files[0])}" download>Material 4</a>
+													<br>
+													<br>
+												`;
+											break;
+									}
+								}
+							});
+
+							divArchivos += '</div>'
 							
 							let evaluaciones = document.getElementById('evaluaciones');
 							evaluaciones.innerHTML += `
@@ -186,7 +226,13 @@ class ValidarFormulario {
 									<p><strong>Fecha limite: </strong>${fecha}</p>
 									<p><strong>Valor: </strong>${valor}</p>
 									<br>
+									<p><strong>Descripcion: </strong></p>
+									<div class="editor__qe">${formData.get('descripcion')}</div>
+									<br>
+									${divArchivos}
+									<br>
 									<a href="${URL}evaluacion/detail/${formData.get('materia')}/${datos.idEvaluacion}">Detalles</a>
+									
 								</div>
 							</section>
 							`;
@@ -196,6 +242,13 @@ class ValidarFormulario {
 							mensajeError.innerHTML = '<p>'+datos.respuesta+'</p>';
 							mensajeError.classList.add('mensaje__exito-activo');
 							mensajeError.scrollIntoView({behavior:'auto',block:'center'});
+
+
+							let refrescar = evaluaciones.querySelector('.editor__qe');
+							let quill3 = new Quill(refrescar,{
+								readOnly: true,
+								theme: 'bubble'
+							});
 						} else {
 							var mensajeError = formulario.querySelector('.mensaje__exito');
 							mensajeError.innerHTML = '<p>'+datos.respuesta+'</p>';
@@ -229,10 +282,11 @@ class ValidarFormulario {
 class ValidarFormularioEditar  extends ValidarFormulario{
 	constructor(formulario) {
 		super(formulario)
-		this.inputs = this.formulario.querySelectorAll('#editar_contenido input , #editar_contenido textarea');
+		this.inputs = this.formulario.querySelectorAll('input , textarea, #edit_evaluacion > div > select');
 		this.campos = {
-			numero: true,
-			message: true,
+			plan: true,
+			fecha: true,
+			descripcion: true,
 			file1: true,
 			file2: true,
 			file3: true,
@@ -264,41 +318,94 @@ class ValidarFormularioEditar  extends ValidarFormulario{
 		const formulario = this.formulario;
 		formulario.addEventListener('submit', (e) => {
 			e.preventDefault();
-			if (this.campos.numero && this.campos.message && this.campos.file1 && this.campos.file2 && this.campos.file2 && this.campos.file4 ) {
-				let btnSubmit = formulario.querySelector('#btnSubmitEditar');
+			if (this.campos.plan && this.campos.fecha && this.campos.descripcion && this.campos.file1 && this.campos.file2 && this.campos.file2 && this.campos.file4 ) {
+				let btnSubmit = formulario.querySelector('#btnSubmit__edit');
 				btnSubmit.disabled = true;
 
-				let editarDescripcion = formulario.querySelector('#editar__descripcion .ql-editor');
-				let message = formulario.querySelector('#message__editar');
-				message.innerHTML = editarDescripcion.innerHTML;
+				let editarDescripcion = formulario.querySelector('#edit__qe > .ql-editor').innerHTML;
+				let descripcion = formulario.querySelector('#descripcion_evaluacion__edit');
+				descripcion.value = editarDescripcion;
+
+				let plan = this.inputs[0].options[this.inputs[0].selectedIndex].text.split(':');
+				let tipo = plan[0];
+				let valor = plan[1].split('-')[0];
+
+				
 
 				const formData = new FormData(e.currentTarget);
-				let direccion = URL+'contenido/edit/'+formData.get('materia');
+				let direccion = `${URL}evaluacion/edit/${formData.get('materia')}`;
 				let xmlhttp = new XMLHttpRequest();
+
+				let date = formData.get('fecha').split('-');
+				let fecha = `${date[2]}-${date[1]}-${date[0]}`;
 
 				xmlhttp.onreadystatechange = function() {
 					if ( this.readyState == 4 && this.status == 200 ) {
 						// TODO FUE CORRECTO
 						let datos = JSON.parse(xmlhttp.response);
 						if ( datos.status == true ) {
-							let editado = document.querySelector('section.contenido[data-contenido="'+formData.get('contenido')+'"]');
+
+							let divArchivos = '<div class="trabajos mostrar_archivos">'
+							let pp = formulario.querySelectorAll('input[type="file"]');
+							pp.forEach(element => {
+								if ( element.value ) {
+
+									switch (element.classList[0]) {
+										case 'file1':
+														divArchivos += `
+															<a class="link1" href="${window.URL.createObjectURL(element.files[0])}" download>Material 1</a>
+															<br>
+															<br>
+														`;
+											break;
+										case 'file2':
+											divArchivos += `
+													<a class="link2" href="${window.URL.createObjectURL(element.files[0])}" download>Material 2</a>
+													<br>
+													<br>
+												`;
+											break;
+										case 'file3':
+											divArchivos += `
+													<a class="link3" href="${window.URL.createObjectURL(element.files[0])}" download>Material 3</a>
+													<br>
+													<br>
+												`;
+											break;
+										case 'file4':
+											divArchivos += `
+													<a class="link4" href="${window.URL.createObjectURL(element.files[0])}" download>Material 4</a>
+													<br>
+													<br>
+												`;
+											break;
+									}
+								}
+							});
+
+							divArchivos += '</div>'
+							let editado = document.querySelector('section.evaluacion[data-evaluacion="'+formData.get('evaluacion')+'"]');
 							let titulo = document.createElement('div');
 							titulo.classList.add('titulo');
 							titulo.innerHTML = `
-									<div class="titulo_izq">
-										<h4>Objetivo  <span class="objetivo__numero">${formData.get('numero')}</span></h4>
+								<div class="titulo_izq">
+										<h4 class="tipo">${tipo}</h4>
+								</div>
+								<div class="titulo_der">
+									<div class="enlaces">
+										<button title="Editar" class="btnModalEditar item icon-pencil btnInfo" type="button" data-evaluacion="${formData.get('evaluacion')}"></button>
+										<button title="Eliminar" class="btnEliminar icon-bin btnInfo" data-materia="${formData.get('materia')}" data-evaluacion="${formData.get('evaluacion')}" type="button" ></button>
 									</div>
-									<div class="titulo_der ">
-										<div class="enlaces">
-											<button title="Editar" class="btnModalEditar item icon-pencil" type="button" data-contenido="${formData.get('contenido')}"></button>
-											<button title="Eliminar" class="btnEliminar icon-bin" data-materia="${formData.get('materia')}" data-contenido="${formData.get('contenido')}" data-objetivo="${formData.get('numero')}" type="button" ></button>
-										</div>
-									</div>
+								</div>
 							`;
 							let conten = document.createElement('div');
 							conten.classList.add('contendio');
 							conten.innerHTML = `
-									<div class="contenido__descripcion">${formData.get('message')}</div>
+								<p><strong>Fecha limite: </strong><span class="fecha">${fecha}</span></p>
+								<p><strong>Valor: </strong><span class="valor">${valor}</span></p>
+								<br>
+								<p><strong>Descripcion: </strong></p>
+								<div class="editor__qe">${formData.get('descripcion')}</div>
 							`;
 
 
@@ -312,7 +419,7 @@ class ValidarFormularioEditar  extends ValidarFormulario{
 
 							mensajeError.scrollIntoView({behavior:'auto',block:'center'});
 
-							let refrescar = editado.querySelector('.contenido__descripcion');
+							let refrescar = editado.querySelector('.editor__qe');
 							let quill3 = new Quill(refrescar,{
 								readOnly: true,
 								theme: 'bubble'
@@ -352,10 +459,10 @@ class ValidarFormularioEditar  extends ValidarFormulario{
 class UI {
 	constructor(){
 
-		// this.contenidosQE();
+		this.contenidosQE();
 		this.previewQE();
 		this.addQE();
-		// this.editQE();
+		this.editQE();
 	}
 
 	addContenido() {}
@@ -369,21 +476,34 @@ class UI {
 		const modalEditar = document.getElementById('modalEditar');
 
 		const section = e.target.parentNode.parentNode.parentNode.parentNode;
-		const numero = section.querySelector('span.objetivo__numero');
+		const tipo = section.querySelector('.tipo').innerHTML;
+		const idPlan = section.dataset.plan;
+		const plan = section.querySelector('.plan').innerHTML;
+		const fechaArray = section.querySelector('.fecha').innerHTML.split('-');
+		const fecha = `${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}`;
+		const valor = section.querySelector('.valor').innerHTML;
+		const descripcion = section.querySelector('.editor__qe > div.ql-editor').innerHTML;
+
+		
+
 
 		const qlEditor = section.querySelector('.ql-editor');
 		
 		validarFormularioEditar.inputs.forEach( input => {
 			switch (input.name) {
-				case 'numero':
-					input.value = numero.innerHTML;
+				case 'plan':
+					console.log(section)
+					input.innerHTML += `<option value="${idPlan}" selected>${tipo}: ${valor} - ${plan}</option>`;
 					break;
-				case 'message':
-					let editarDescripcion = document.querySelector('#editar__descripcion .ql-editor');
-					editarDescripcion.innerHTML = qlEditor.innerHTML;
+				case 'fecha':
+					input.value = fecha;
 					break;
-				case 'contenido':
-					input.value = e.target.dataset.contenido;
+				case 'descripcion':
+					document.querySelector('#edit__qe > div.ql-editor').innerHTML = descripcion;
+					input.value = descripcion;
+					break;
+				case 'evaluacion':
+					input.value = e.target.dataset.evaluacion;
 					break;
 				case 'file[]':
 					let n = input.classList[0];
@@ -438,13 +558,11 @@ class UI {
 
 	deleteContenido(e) {
 		let materia = e.target.dataset.materia;
-		let contenido = e.target.dataset.contenido;
-		let objetivo = e.target.dataset.objetivo;
+		let evaluacion = e.target.dataset.evaluacion;
 
-		let eliminar = confirm('Deseas eliminar del contendio el objetivo numero: ' + objetivo );
+		let eliminar = confirm('Deseas la evaluacion?');
 		if( eliminar ) {
-			let contenidoEliminar = e.target.parentNode.parentNode.parentNode.parentNode;
-			let direccion = URL+'contenido/delete/'+materia+'/'+contenido+'/'+objetivo
+			let direccion = `${URL}evaluacion/delete/${materia}/${evaluacion}`;
 			let xmlhttp = new XMLHttpRequest();
 			
 			xmlhttp.onreadystatechange = function() {
@@ -452,12 +570,11 @@ class UI {
 					// TODO FUE CORRECTO
 					let datos = JSON.parse(xmlhttp.response);
 					if ( datos.status == true ) {
-						let sectionContenido = e.target.parentNode.parentNode.parentNode.parentNode;
-						let sectionesContenidos = e.target.parentNode.parentNode.parentNode.parentNode.parentNode;
-						sectionesContenidos.removeChild(sectionContenido);
-
+						let evaluacionEliminar = e.target.parentNode.parentNode.parentNode.parentNode;
+						let sectionesEvaluaciones = e.target.parentNode.parentNode.parentNode.parentNode.parentNode;
+						sectionesEvaluaciones.removeChild(evaluacionEliminar);
 					}else{
-						alert('El contendio no se pudo eliminar, Compruebe su conexion a internet');
+						alert('La evaluacion no se pudo eliminar, Compruebe su conexion a internet');
 					}
 				}
 			}
@@ -514,7 +631,7 @@ class UI {
 	modalEdit() {}
 
 	contenidosQE() {
-		var contenidoDescripcion = document.querySelectorAll('.contenido__descripcion');
+		var contenidoDescripcion = document.querySelectorAll('.editor__qe');
 		contenidoDescripcion.forEach( contenidos => {
 			var quill3 = new Quill(contenidos,{
 				readOnly: true,
@@ -577,7 +694,7 @@ class UI {
 			['code-block','clean']
 		];
 		const limit = 50000;
-		const quill4 = new Quill('#editar__descripcion',{
+		const quill4 = new Quill('#edit__qe',{
 			modules:{
 				toolbar: toolbarOptions
 			},
@@ -587,7 +704,7 @@ class UI {
 			if ( (quill4.getLength()-1) > limit) {
 				quill4.deleteText(limit, quill4.getLength());
 			}else{
-				document.getElementById('editar_caracteres').innerHTML = quill4.getLength() - 1;
+				document.getElementById('editor_caracteres__edit').innerHTML = quill4.getLength() - 1;
 			}
 		});
 	}
@@ -600,24 +717,24 @@ const ui = new UI();
 const editFormulario = document.getElementById('edit_evaluacion');
 const validarFormularioEditar = new ValidarFormularioEditar(editFormulario);
 
-// const addFormulario = document.getElementById('add_evaluacion');
-const evaluacion = document.getElementById('evaluacion');
+const addFormulario = document.getElementById('add_evaluacion');
+const evaluacion = document.getElementById('evaluaciones');
 
 
-// validarFormulario = new ValidarFormulario(addFormulario);
-// validarFormulario.addInputArchivo();
+validarFormulario = new ValidarFormulario(addFormulario);
+validarFormulario.addInputArchivo();
 
 
 
-// ui.modalPreview(validarFormulario.inputs);
+ui.modalPreview(validarFormulario.inputs);
 
-// evaluacion.addEventListener('click', (event) => {
-// 	switch (event.target.classList[0]) {
-// 		// case 'btnEliminar':
-// 		// 	ui.deleteContenido(event);
-// 		// 	break;
-// 		case 'btnModalEditar':
-// 			ui.editContenido(event);
-// 			break;
-// 	}
-// })
+evaluacion.addEventListener('click', (event) => {
+	switch (event.target.classList[0]) {
+		case 'btnEliminar':
+			ui.deleteContenido(event);
+			break;
+		case 'btnModalEditar':
+			ui.editContenido(event);
+			break;
+	}
+});

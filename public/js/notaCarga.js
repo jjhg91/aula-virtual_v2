@@ -153,14 +153,57 @@ class ValidarFormulario {
 						let datos = JSON.parse(xmlhttp.response);
 
 						if ( datos.status == true ) {
-							let nota = document.querySelector('section.trabajo__cargado[data-alumno="'+formData.get('alumno')+'"]');
-							let notaContenido = nota.querySelector('.correciones');
+
+							let divArchivos = '<div class="trabajos mostrar_archivos">'
+							let pp = formulario.querySelectorAll('input[type="file"]');
+							pp.forEach(element => {
+								if ( element.value ) {
+
+									switch (element.classList[0]) {
+										case 'file1':
+														divArchivos += `
+															<a class="link1" href="${window.URL.createObjectURL(element.files[0])}" download>Material 1</a>
+															<br>
+															<br>
+														`;
+											break;
+										case 'file2':
+											divArchivos += `
+													<a class="link2" href="${window.URL.createObjectURL(element.files[0])}" download>Material 2</a>
+													<br>
+													<br>
+												`;
+											break;
+										case 'file3':
+											divArchivos += `
+													<a class="link3" href="${window.URL.createObjectURL(element.files[0])}" download>Material 3</a>
+													<br>
+													<br>
+												`;
+											break;
+										case 'file4':
+											divArchivos += `
+													<a class="link4" href="${window.URL.createObjectURL(element.files[0])}" download>Material 4</a>
+													<br>
+													<br>
+												`;
+											break;
+									}
+								}
+							});
+
+							divArchivos += '</div>'
+
+
+							let nota = document.querySelector('section.nota[data-alumno="'+formData.get('alumno')+'"]');
+							let notaContenido = nota.querySelector('.contenido');
 							notaContenido.innerHTML = `
-								<span><strong>Estatus: </strong>CORREGIDO</span>
-								<br>
-								<p><strong>NOTA: </strong><span class="valor__nota">${formData.get('nota')}</span></p>
-								<p><strong>OBSERVACION: </strong></p>
-								<div class="observacion__qe">${formData.get('observacion')}</div>
+								<div class="contenido">
+										<p><strong>NOTA: </strong><span class="valor__nota">${formData.get('nota')}</span></p>
+										<p><strong>OBSERVACION: </strong></p>
+										<div class="observacion__qe">${formData.get('observacion')}</div>
+										${divArchivos}
+								</div>
 							`;
 
 
@@ -227,6 +270,7 @@ class UI {
 		const valorNota = (section.querySelector('.valor__nota') && section.querySelector('.valor__nota').innerHTML != 0) ? section.querySelector('.valor__nota').innerHTML : 0;
 		const observacion = (section.querySelector('.observacion__qe > .ql-editor')) ? section.querySelector('.observacion__qe > .ql-editor').innerHTML : 0;
 
+		
 		validarFormulario.inputs.forEach( input => {
 			switch (input.name) {
 				case 'alumno':
@@ -254,21 +298,21 @@ class UI {
 					if ( n == 'file1' ) {
 						let link = section.querySelector('.link1');
 						if ( link != null ) {
-							document.getElementById('link1').innerHTML = '<a href="'+link.href+'" download>Material 1</a>';
+							document.getElementById('link1').innerHTML = '<a href="'+link.href+'" download>Material 4</a>';
 						}else{
 							document.getElementById('link1').innerHTML = 'NO HAY ARCHIVO CARGADO';
 						}
 					}else if( n == 'file2' ){
 						let link = section.querySelector('.link2');
 						if ( link != null ) {
-							document.getElementById('link2').innerHTML = '<a href="'+link.href+'" download>Material 2</a>';
+							document.getElementById('link2').innerHTML = '<a href="'+link.href+'" download>Material 4</a>';
 						}else{
 							document.getElementById('link2').innerHTML = 'NO HAY ARCHIVO CARGADO';
 						}
 					}else if( n == 'file3' ){
 						let link = section.querySelector('.link3');
 						if ( link != null ) {
-							document.getElementById('link3').innerHTML = '<a href="'+link.href+'" download>Material 3</a>';
+							document.getElementById('link3').innerHTML = '<a href="'+link.href+'" download>Material 4</a>';
 						}else{
 							document.getElementById('link3').innerHTML = 'NO HAY ARCHIVO CARGADO';
 						}
@@ -354,7 +398,7 @@ class UI {
 const ui = new UI();
 
 const addFormulario = document.getElementById('set__nota');
-const contendios = document.getElementById('trabajos__cargados');
+const contendios = document.getElementById('notas');
 
 
 validarFormulario = new ValidarFormulario(addFormulario);

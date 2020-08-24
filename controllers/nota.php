@@ -101,6 +101,7 @@ class Nota extends Controller
 
 		$this->view->usuario = $usuario;
 		$this->view->navbarMaterias = $navbarMaterias;
+		$respuesta = ['status' => false, 'respuesta' => ""];
 
 
 		if ( ctype_digit($materia) && ctype_digit($plan) ) {
@@ -121,6 +122,10 @@ class Nota extends Controller
 				];
 
 				$agregarNota = $this->model->addNota($datos);
+				
+				$respuesta['status'] = true;
+				$respuesta['respuesta'] = "NOTA SIN ARCHIVOS AGREGADA EXITOSAMENTE";
+				
 				if ( $agregarNota ) {
 
 					$num_file = count($_FILES['file']['name']);
@@ -145,38 +150,45 @@ class Nota extends Controller
 									$upload = move_uploaded_file($tmp, $ruta.$nombre.".".$tipo);
 									if ( $upload && file_exists($ruta.$nombre.".".$tipo) ) {
 										$this->model->updateArchivo($n, $alumno, $plan, $nombre.".".$tipo);
-										echo "ARCHIVO CARGADO EXITOSAMENTE";
+
+										$respuesta['status'] = true;
+										$respuesta['respuesta'] = "NOTA CON ARCHIVOS AGREGADA EXITOSAMENTE";
 
 									}else {
-										echo "ERROR AL GUARDAR EL ARCHIVO, por favor revise su conexcion a internet";
+										$respuesta['status'] = false;
+										$respuesta['respuesta'] = "ERROR AL GUARDAR EL ARCHIVO, por favor revise su conexcion a internet";
 									}
 
 								}else {
-									echo "EL TAMAÑO DEL ARCHIVO EXCEDE  LO PERMITIDO";
+									$respuesta['status'] = false;
+									$respuesta['respuesta'] = "EL TAMAÑO DEL ARCHIVO EXCEDE  LO PERMITIDO";
 								}
 							}else{
-								echo "TIPO DE ARCHIVO NO VALIDO";
+								$respuesta['status'] = false;
+								$respuesta['respuesta'] = "TIPO DE ARCHIVO NO VALIDO";
 							}
 
 						}
 
 					}
-					echo "NOTA AGREGADA EXITOSAMENTE";
-					header('Location: ' . constant('URL') . 'nota/cargar/' . $materia . '/' . $plan);
 				}else {
-					echo "NO SE PUDO AGREGAR LA NOTA AL ALUMNO";
+					$respuesta['status'] = false;
+					$respuesta['respuesta'] = "NO SE PUDO AGREGAR LA NOTA AL ALUMNO";
 				}
 
 
 			}else{
-				echo "MATERIA NO VALIDA O NO INSCRITA";
+				$respuesta['status'] = false;
+				$respuesta['respuesta'] = "MATERIA NO VALIDA O NO INSCRITA";
 			}
 
 
 		}else{
-			echo "DIRECCION URL INVALIDA";
-			exit;
+			$respuesta['status'] = false;
+			$respuesta['respuesta'] = "DIRECCION URL INVALIDA";
 		}
+
+		echo json_encode($respuesta);
 	}
 
 

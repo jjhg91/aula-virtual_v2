@@ -47,14 +47,20 @@ class EvaluacionModel extends Model
 			actividades.descripcion,
 			tipo_evaluacion.id_tipo_evaluacion,
 			plan_evaluacion.otros,
-			COUNT(actividades_estudiante.id_actividades) AS entregados
+			COUNT(actividades_estudiante.id_actividades) AS entregados,
+			actividades.file1,
+			actividades.file2,
+			actividades.file3,
+			actividades.file4,
+			actividades.id_plan_evaluacion,
+			LEFT(plan_evaluacion.descripcion,200) AS plan
 			FROM actividades
 			INNER JOIN plan_evaluacion ON actividades.id_plan_evaluacion = plan_evaluacion.id_plan_evaluacion
 			INNER JOIN tipo_evaluacion  ON plan_evaluacion.tipo_evaluacion = tipo_evaluacion.id_tipo_evaluacion
 			INNER JOIN valor ON plan_evaluacion.valor = valor.id_valor
 			LEFT JOIN actividades_estudiante ON actividades_estudiante.id_actividades = actividades.id_actividades
 			WHERE
-			actividades.id_profesorcursogrupo = 7729
+			actividades.id_profesorcursogrupo = :materia
 			GROUP BY actividades.id_actividades
 			ORDER BY STR_TO_DATE(actividades.fecha,'%d-%m-%Y') ASC
 		");
@@ -191,8 +197,7 @@ class EvaluacionModel extends Model
 			actividades_estudiante.file3,
 			actividades_estudiante.file4,
 			actividades_estudiante.corregido,
-			notas.nota,
-			notas.observacion,
+		
 			actividades_estudiante.id_actividades_estudiante,
 			actividades.nlink1,
 			actividades.nlink2,
@@ -210,17 +215,14 @@ class EvaluacionModel extends Model
 			actividades_estudiante.link2,
 			actividades_estudiante.link3,
 			actividades_estudiante.link4,
-			actividades_estudiante.descripcion,
-			notas.file1,
-			notas.file2,
-			notas.file3,
-			notas.file4
+			actividades_estudiante.descripcion
+			
 			FROM actividades
 			INNER JOIN plan_evaluacion ON actividades.id_plan_evaluacion = plan_evaluacion.id_plan_evaluacion
 			INNER JOIN tipo_evaluacion ON plan_evaluacion.tipo_evaluacion = tipo_evaluacion.id_tipo_evaluacion
 			INNER JOIN valor ON plan_evaluacion.valor = valor.id_valor
 			INNER JOIN actividades_estudiante ON actividades_estudiante.id_actividades = actividades.id_actividades
-			LEFT JOIN notas ON notas.id_plan_evaluacion = plan_evaluacion.id_plan_evaluacion
+
 			WHERE
 			actividades.id_actividades = :evaluacion
 		");
@@ -228,8 +230,9 @@ class EvaluacionModel extends Model
 		$query->execute();
 		$resp1 = $query->fetchAll();
 		$respuesta = [];
-		//34 en adelante
+		//34 en adelante  NUEVO 28 - 30
 		foreach ($resp1 as $alumno) {
+			/// ALUMNO
 			$query2 = $this->db->connect1()->prepare("
 				SELECT
 				cedula,
@@ -243,7 +246,33 @@ class EvaluacionModel extends Model
 			$query2->bindParam(':alumno',$alumno[3]);
 			$query2->execute();
 			$resp2 = $query2->fetch();
-			$resp = array_merge($alumno,$resp2);
+
+			/// NOTAS SI FUE CORREGIDO 31 - 36
+			$query3 = $this->db->connect2()->prepare("
+				SELECT
+					nota,
+					observacion,
+					file1,
+					file2,
+					file3,
+					file4
+				FROM notas
+				WHERE
+					id_estudiante = :alumno AND
+					id_plan_evaluacion = :plan
+			");
+			$query3->bindParam(':alumno',$alumno[3]);
+			$query3->bindParam(':plan',$alumno[2]);
+			$query3->execute();
+			$resp3 = $query3->fetch();
+
+			if($resp3){
+				$resp = array_merge($alumno,$resp2,$resp3);
+			}else{
+				$resp = array_merge($alumno,$resp2);
+			}
+
+			
 			array_push($respuesta,$resp);
 		}
 
@@ -322,7 +351,6 @@ class EvaluacionModel extends Model
 		}else {
 			$respuesta = false;
 		}
-
 		return $respuesta;
 	}
 
@@ -354,15 +382,7 @@ class EvaluacionModel extends Model
 			id_plan_evaluacion = :plan,
 			publicacion = :publicado,
 			fecha = :fecha,
-			descripcion = :descripcion,
-			nlink1 = :nlink1,
-			nlink2 = :nlink2,
-			nlink3 = :nlink3,
-			nlink4 = :nlink4,
-			link1 = :link1,
-			link2 = :link2,
-			link3 = :link3,
-			link4 = :link4
+			descripcion = :descripcion
 			WHERE
 			id_profesorcursogrupo = :materia AND
 			id_actividades = :evaluacion
@@ -373,14 +393,6 @@ class EvaluacionModel extends Model
 		$query->bindParam(':publicado',$datos['publicado']);
 		$query->bindParam(':fecha',$datos['fecha']);
 		$query->bindParam(':descripcion',$datos['descripcion']);
-		$query->bindParam(':nlink1',$datos['nlink1']);
-		$query->bindParam(':nlink2',$datos['nlink2']);
-		$query->bindParam(':nlink3',$datos['nlink3']);
-		$query->bindParam(':nlink4',$datos['nlink4']);
-		$query->bindParam(':link1',$datos['link1']);
-		$query->bindParam(':link2',$datos['link2']);
-		$query->bindParam(':link3',$datos['link3']);
-		$query->bindParam(':link4',$datos['link4']);
 
 		if ( $query->execute() ) {
 			$respuesta = true;

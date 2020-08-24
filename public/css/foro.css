@@ -7,6 +7,32 @@
   font-family: 'Roboto';
 }
 
+button.btnTrue {
+  padding: 10px;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  background: #2980b9;
+  border-radius: 5px;
+}
+
+button.btnTrue:hover {
+  background: #1f618d;
+}
+
+button.btnFalse {
+  padding: 10px;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  background: #c0392b;
+  border-radius: 5px;
+}
+
+button.btnFalse:hover {
+  background: #922b21;
+}
+
 button.btnInfo {
   padding: 10px;
   border: none;
@@ -94,8 +120,8 @@ body header {
   display: inline-block;
   position: fixed;
   width: 100%;
-  background: #229954;
-  z-index: 1;
+  background: #145a32;
+  z-index: 2;
 }
 
 body header div.padre {
@@ -145,10 +171,11 @@ body div.contenido nav {
   display: block;
   padding-top: 70px;
   position: fixed;
-  background: #145a32;
+  background: #1e8449;
   width: 250px;
   height: 89.5%;
   overflow-y: auto;
+  z-index: 1;
 }
 
 body div.contenido nav div.datos_personales {
@@ -194,12 +221,12 @@ body div.contenido nav div.menu ul li a span.carrera {
 }
 
 body div.contenido nav div.menu ul li a:hover {
-  background: #229954;
+  background: #145a32;
   transition: all 0.5s ease;
 }
 
 body div.contenido nav div.menu ul li a.active {
-  background: #229954;
+  background: #145a32;
 }
 
 body div.contenido nav div.menu ul li ul.children {
@@ -220,7 +247,7 @@ body div.contenido nav div.menu ul li ul.children li a {
 }
 
 body div.contenido nav div.menu ul li ul.children li a:hover {
-  background: #229954;
+  background: #145a32;
   transition: all 0.5s ease;
 }
 
@@ -300,143 +327,6 @@ body main section div.contenido {
   padding: 20px 0px;
 }
 
-body main section div.contenido div.editar {
-  margin-top: 40px;
-  height: 0px;
-  z-index: 9999;
-  opacity: 0;
-  pointer-events: none;
-  display: none;
-}
-
-body main section div.contenido div.editar form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0px 20px;
-}
-
-body main section div.contenido div.editar form div {
-  width: 100%;
-  margin-top: 20px;
-}
-
-body main section div.contenido div.editar form input {
-  height: 30px;
-  padding-left: 10px;
-  background-color: #e8e8e8;
-  border-radius: 5px;
-  border: none;
-  width: 100%;
-}
-
-body main section div.contenido div.editar form input[type=text] {
-  margin-bottom: 10px;
-}
-
-body main section div.contenido div.editar form textarea, body main section div.contenido div.editar form select {
-  width: 100%;
-  padding: 10px;
-  background-color: #e8e8e8;
-  border-radius: 5px;
-  border: none;
-}
-
-body main section div.contenido div.editar form button, body main section div.contenido div.editar form a.cerrar {
-  margin-top: 20px;
-  padding: 10px 30px 10px 30px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background: #145a32;
-  box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3);
-}
-
-body main section div.contenido div.editar form a.close {
-  padding: 10px 30px 10px 30px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background: #ff4a4a;
-  box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3);
-  text-decoration: none;
-  color: black;
-  color: black;
-}
-
-body main section div.contenido div.editar:target {
-  height: auto;
-  opacity: 1;
-  pointer-events: auto;
-  display: block;
-}
-
-body main section div.contenido div.Modal {
-  margin-top: 40px;
-  height: 0px;
-  z-index: 9999;
-  opacity: 0;
-  pointer-events: none;
-}
-
-body main section div.contenido div.Modal form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0px 20px;
-}
-
-body main section div.contenido div.Modal form div {
-  width: 100%;
-  margin-top: 20px;
-}
-
-body main section div.contenido div.Modal form input {
-  height: 30px;
-  padding-left: 10px;
-  background-color: #e8e8e8;
-  border-radius: 5px;
-  border: none;
-  width: 100%;
-}
-
-body main section div.contenido div.Modal form textarea, body main section div.contenido div.Modal form select {
-  width: 100%;
-  padding: 10px;
-  background-color: #e8e8e8;
-  border-radius: 5px;
-  border: none;
-}
-
-body main section div.contenido div.Modal form input[type=file] {
-  margin-top: 20px;
-}
-
-body main section div.contenido div.Modal form button, body main section div.contenido div.Modal form a.cerrar {
-  margin-top: 20px;
-  padding: 10px 30px 10px 30px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background: #145a32;
-  box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3);
-}
-
-body main section div.contenido div.Modal form a.cerrar {
-  text-decoration: none;
-  color: black;
-}
-
-body main section div.contenido div.Modal form a.cerrar:active {
-  color: black;
-}
-
-body main section div.contenido div.Modal:target {
-  height: auto;
-  opacity: 1;
-  pointer-events: auto;
-}
-
 body main section.section_agregar div.contenido form {
   display: flex;
   flex-direction: column;
@@ -444,118 +334,181 @@ body main section.section_agregar div.contenido form {
   padding: 0px 20px;
 }
 
-body main section.section_agregar div.contenido form div {
+body main section.section_agregar div.contenido form div.grupo {
   width: 100%;
-  margin-top: 20px;
+  padding-top: 20px;
 }
 
-body main section.section_agregar div.contenido form input {
+body main section.section_agregar div.contenido form div.grupo div {
+  margin: 0px;
+}
+
+body main section.section_agregar div.contenido form div.grupo input {
+  width: 100%;
+  border: none;
+  background-color: #e8e8e8;
+  border-radius: 5px;
   height: 30px;
   padding-left: 10px;
-  background-color: #e8e8e8;
-  border-radius: 5px;
-  border: none;
-  width: 100%;
+  margin-bottom: 10px;
 }
 
-body main section.section_agregar div.contenido form textarea, body main section.section_agregar div.contenido form select {
+body main section.section_agregar div.contenido form div.grupo input.incorrecto {
+  border: 3px solid #ec7063;
+  background: rgba(236, 112, 99, 0.4);
+}
+
+body main section.section_agregar div.contenido form div.grupo input.correcto {
+  border: 3px solid #58d68d;
+  background: rgba(88, 214, 141, 0.4);
+}
+
+body main section.section_agregar div.contenido form div.grupo textarea {
   width: 100%;
+  border: none;
+  background-color: #e8e8e8;
+  border-radius: 5px;
   padding: 10px;
-  background-color: #e8e8e8;
-  border-radius: 5px;
-  border: none;
 }
 
-body main section.section_agregar div.contenido form button {
-  padding: 10px 30px 10px 30px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background: #145a32;
-  box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3);
+body main section.section_agregar div.contenido form div.grupo textarea.incorrecto {
+  border: 3px solid #ec7063;
+  background: rgba(236, 112, 99, 0.4);
 }
 
-body main section.section_agregar div.contenido form a.OpenModal {
-  margin-top: 20px;
-  padding: 10px 30px 10px 30px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background: #145a32;
-  box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3);
-  text-decoration: none;
-  color: black;
+body main section.section_agregar div.contenido form div.grupo textarea.correcto {
+  border: 3px solid #58d68d;
+  background: rgba(88, 214, 141, 0.4);
 }
 
-body main section.section_agregar div.contenido form div.PreviewModal {
-  height: 0px;
-  z-index: 9999;
-  opacity: 0;
-  pointer-events: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+body main section.section_agregar div.contenido form div.grupo p.formulario__input-error {
+  display: none;
+  font-size: .8rem;
+  color: red;
+  padding-left: 20px;
 }
 
-body main section.section_agregar div.contenido form div.PreviewModal:target {
+body main section.section_agregar div.contenido form div.grupo p.formulario__input-error-activo {
+  display: block;
+}
+
+body main section.section_agregar div.contenido form div.grupo p#editor_contador {
+  font-size: .8rem;
+  padding-left: 20px;
+}
+
+body main section.section_agregar div.contenido form div.grupo div.mensaje__error {
+  display: none;
+  padding: 20px;
+  border: 3px solid #ec7063;
+  background-color: rgba(236, 112, 99, 0.4);
+}
+
+body main section.section_agregar div.contenido form div.grupo div.mensaje__error p {
+  color: #ec7063;
+  font-size: 1.2rem;
+}
+
+body main section.section_agregar div.contenido form div.grupo div.mensaje__error-activo {
+  display: block;
+}
+
+body main section.section_agregar div.contenido form div.grupo div.mensaje__exito {
+  display: none;
+  padding: 20px;
+  border: 3px solid #58d68d;
+  background-color: rgba(88, 214, 141, 0.4);
+}
+
+body main section.section_agregar div.contenido form div.grupo div.mensaje__exito p {
+  color: #58d68d;
+  font-size: 1.2rem;
+}
+
+body main section.section_agregar div.contenido form div.grupo div.mensaje__exito-activo {
+  display: block;
+}
+
+body main section.section_agregar div.contenido form div.grupo div#editor {
+  height: 375px;
+}
+
+body main section.section_agregar div.modal {
+  display: none;
   position: fixed;
   margin: 0;
+  overflow: none;
+  opacity: 1;
   left: 0;
   top: 0;
-  opacity: 1;
-  pointer-events: auto;
-  background: rgba(255, 255, 255, 0.9);
-  height: 100%;
   width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 9;
 }
 
-body main section.section_agregar div.contenido form div.PreviewModal section.preview {
+body main section.section_agregar div.modal div.flex {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  justify-content: space-between;
+  align-items: center;
+}
+
+body main section.section_agregar div.modal div.flex div.modal__contenido {
+  position: relative;
+  margin: auto;
   width: 70%;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.4);
+  animation-name: modal;
+  animation-duration: .5s;
+  padding: 0;
+}
+
+body main section.section_agregar div.modal div.flex div.modal__contenido div.modal__header {
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #145a32;
+}
+
+body main section.section_agregar div.modal div.flex div.modal__contenido div.modal__header h3 {
+  color: #d4d4d4;
+}
+
+body main section.section_agregar div.modal div.flex div.modal__contenido div.modal__header a {
+  padding: 5px 10px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.7);
+  color: #d4d4d4;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+body main section.section_agregar div.modal div.flex div.modal__contenido div.modal__header a:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+body main section.section_agregar div.modal div.flex div.modal__contenido div.modal__preview {
+  padding: 10px;
+  margin: 0;
+  background-color: #e8e8e8;
+  min-height: 300px;
+  max-height: 60vh;
   overflow-y: auto;
   overflow-x: hidden;
-  margin: 20px 0px;
 }
 
-body main section.section_agregar div.contenido form div.PreviewModal section.preview div.titulo {
-  margin: 0;
-  border-bottom: none;
-}
-
-body main section.section_agregar div.contenido form div.PreviewModal section.preview hr {
-  width: 95%;
-  margin: auto;
-}
-
-body main section.section_agregar div.contenido form div.PreviewModal section.preview div.botones {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  flex-wrap: strech;
-}
-
-body main section.section_agregar div.contenido form div.PreviewModal section.preview div.botones .item {
-  margin-left: 10px;
-}
-
-body main section.section_agregar div.contenido form div.PreviewModal section.preview div.botones button {
-  padding: 10px 30px 10px 30px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background: #145a32;
-  box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3);
-}
-
-body main section.section_agregar div.contenido form div.PreviewModal section.preview div.botones a.close {
-  padding: 10px 30px 10px 30px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background: #ff4a4a;
-  box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3);
-  text-decoration: none;
-  color: black;
-  color: black;
+@keyframes modal {
+  0% {
+    top: -200%;
+    opacity: 0;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+  }
 }

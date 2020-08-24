@@ -39,42 +39,43 @@ body
 					display: none
 					
 					form 
-						display: flex
-						flex-direction: column
-						align-items: center 
-						padding: 0px 20px 
-						div
-							width: 100%
-							margin-top: 20px
-						input 
-							height: 30px
-							padding-left: 10px  
-							background-color: $bg-3
-							border-radius: 5px
-							border: none
-							width: 100%
-						input[type=text]
-							margin-bottom: 10px
-						textarea, select
-							width: 100%
-							padding: 10px 
-							background-color: $bg-3
-							border-radius: 5px
-							border: none	
-						button, a.cerrar
-							margin-top: 20px 
-							@include btn-t
-						a.close
-							@include btn-f
-							text-decoration: none
-							color: black
-							&:active
-							color: black
-					&:target
-						height: auto
-						opacity: 1
-						pointer-events: auto
-						display: block
+						@include formulario
+						div.grupo 
+							@include grupoFormulario
+							div
+								margin: 0px
+							input 
+								@include input
+							input[type=file]
+								@include archivo
+							textarea, select
+								@include textArea
+							p.formulario__input-error
+								display: none
+								font-size: .8rem
+								color: red
+								padding-left: 20px
+							p.formulario__input-error-activo
+								display: block
+							p#editor_contador
+								font-size: .8rem
+								padding-left: 20px
+							div.mensaje__error
+								display: none
+								@include mensaje__error
+							div.mensaje__error-activo
+								display: block
+							div.mensaje__exito
+								display: none
+								@include mensaje__exito
+							div.mensaje__exito-activo
+								display: block
+							div#editor
+								height: 375px
+						div.oculto
+							display: none
+							height: 0
+							width: 0
 
 
 
@@ -82,12 +83,11 @@ body
 
 
 				div.Modal
-					margin-top: 40px
+					display: none
 					height: 0px
-					z-index: 9999
 					opacity: 0
-					pointer-events: none
-					
+					margin-top: 40px
+					z-index: 2
 					form 
 						display: flex
 						flex-direction: column
@@ -113,16 +113,16 @@ body
 							margin-top: 20px 
 						button, a.cerrar
 							margin-top: 20px 
-							@include btn-t
 						a.cerrar
 							text-decoration: none
 							color: black
 							&:active
 								color: black
-					&:target
-						height: auto
-						opacity: 1
-						pointer-events: auto
+				div.Modal-active
+					display: block
+					height: auto
+					opacity: 1
+					pointer-events: auto
 
 
 
@@ -220,6 +220,44 @@ body
 							max-height: 60vh
 							overflow-y: auto
 							overflow-x: hidden
+							form 
+								@include formulario
+								div.grupo 
+									@include grupoFormulario
+									div
+										margin: 0px
+									input 
+										@include input
+									input[type=file]
+										@include archivo
+									textarea, select
+										@include textArea
+									p.formulario__input-error
+										display: none
+										font-size: .8rem
+										color: red
+										padding-left: 20px
+									p.formulario__input-error-activo
+										display: block
+									p#editor_contador
+										font-size: .8rem
+										padding-left: 20px
+									div.mensaje__error
+										display: none
+										@include mensaje__error
+									div.mensaje__error-activo
+										display: block
+									div.mensaje__exito
+										display: none
+										@include mensaje__exito
+									div.mensaje__exito-activo
+										display: block
+									div#editor
+										height: 375px
+								div.oculto
+									display: none
+									height: 0
+									width: 0
 
 @keyframes modal
 	0%

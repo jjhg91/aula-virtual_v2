@@ -161,7 +161,7 @@ class Evaluacion extends Controller
 
 										$respuesta['status'] = true;
 										$respuesta['respuesta'] = "EVALUACION Y ARCHIVOS GUARDADA EXITOSAMENTE";
-										$respuesta['idEvaluacion'] = idEvaluacion;
+										$respuesta['idEvaluacion'] = $idEvaluacion;
 									}else {
 										$respuesta['status'] = false;
 										$respuesta['respuesta'] = "ERROR AL GUARDAR EL ARCHIVO, por favor revise su conexcion a internet";
@@ -202,41 +202,43 @@ class Evaluacion extends Controller
 		$sesion = new Sesion();
 		$sesion->validateSesion();
 		$usuario = $sesion->getSesion();
+		$respuesta = ['status' => false, 'respuesta' => ""];
 
 		if (  ctype_digit($materia) && ctype_digit($evaluacion) ) {
 			$navbar = new Navbar($usuario);
 			$barMateria = $navbar->barMateria($usuario,$materia);
 			if ($barMateria) {
 				$eliminar = $this->model->deleteEvaluacion($materia, $evaluacion);
-
 				if ( $eliminar ) {
-					header('Location: ' . constant('URL') . 'evaluacion/all/' . $materia);
+					$respuesta['status'] = true;
+					$respuesta['respuesta'] = "EVALUACION ELIMINADA EXITOSAMENTE";
 				}else{
-					echo "ERROR AL ELIMINAR CONTENIDO";
+					$respuesta['status'] = false;
+					$respuesta['respuesta'] = "ERROR AL ELIMINAR EVALUACION";
 				}
-
-
-
 			}else{
-				echo "MATERIA NO VALIDA O NO INSCRITA";
+				$respuesta['status'] = false;
+				$respuesta['respuesta'] = "MATERIA NO VALIDA O NO INSCRITA";
 			}
 
 		}else{
-			echo "DIRECCION URL INVALIDA";
-			exit;
+			$respuesta['status'] = false;
+			$respuesta['respuesta'] = "DIRECCION URL INVALIDA";
 		}
+		echo json_encode($respuesta);
 
 	}
 
 	public function edit($url)
 	{
 		//URLS VARIABLES
-		$materia = (int)$_POST['mat'];
-		$evaluacion = (int)$_POST['actividad'];
+		$materia = (int)$_POST['materia'];
+		$evaluacion = (int)$_POST['evaluacion'];
 
 		$sesion = new Sesion();
 		$sesion->validateSesion();
 		$usuario = $sesion->getSesion();
+		$respuesta = ['status' => false, 'respuesta' => "", 'idEvaluacion' => ""];
 
 		if (  ctype_digit($materia) && ctype_digit($evaluacion) ) {
 			$navbar = new Navbar($usuario);
@@ -248,36 +250,22 @@ class Evaluacion extends Controller
 				$descripcion = $_POST['descripcion'];
 				$publicado = date("d-m-Y",time());
 
-				$nlink1 = $_POST['nlink1'];
-				$nlink2 = $_POST['nlink2'];
-				$nlink3 = $_POST['nlink3'];
-				$nlink4 = $_POST['nlink4'];
-
-				$link1 = $_POST['link1'];
-				$link2 = $_POST['link2'];
-				$link3 = $_POST['link3'];
-				$link4 = $_POST['link4'];
-
 				$datos = [
 					'materia' => $materia,
 					'evaluacion' => $evaluacion,
 					'plan' => $plan,
 					'fecha' => $fecha,
 					'descripcion' => $descripcion,
-					'publicado' => $publicado,
-					'nlink1' => $nlink1,
-					'nlink2' => $nlink2,
-					'nlink3' => $nlink3,
-					'nlink4' => $nlink4,
-					'link1' => $link1,
-					'link2' => $link2,
-					'link3' => $link3,
-					'link4' => $link4
+					'publicado' => $publicado
 				];
 				$update = $this->model->updateEvaluacion($datos);
-				if ( $update ) {
-					$idEvaluacion = $this->model->getIdEvaluacion($datos);
+				$idEvaluacion = $this->model->getIdEvaluacion($datos);
 
+				$respuesta['status'] = true;
+				$respuesta['respuesta'] = "EVALUACION EDITADA EXITOSAMENTE";
+				$respuesta['idEvaluacion'] = $idEvaluacion;
+
+				if ( $update ) {
 					$num_file = count($_FILES['file']['name']);
 					for ($i=0; $i < $num_file; $i++) {
 						if ( !empty($_FILES['file']['name'][$i]) ) {
@@ -300,33 +288,40 @@ class Evaluacion extends Controller
 									$upload = move_uploaded_file($tmp, $ruta.$nombre.".".$tipo);
 									if ( $upload && file_exists($ruta.$nombre.".".$tipo) ) {
 										$this->model->updateArchivoEvaluacion($n, $materia, $idEvaluacion, $nombre.".".$tipo);
-										echo "ARCHIVO CARGADO EXITOSAMENTE";
+										
+										$respuesta['status'] = true;
+										$respuesta['respuesta'] = "EVALUACION CON ARCHIVOS EDITADA EXITOSAMENTE";
+										$respuesta['idEvaluacion'] = $idEvaluacion;
 									}else {
-										echo "ERROR AL GUARDAR EL ARCHIVO, por favor revise su conexcion a internet";
+										$respuesta['status'] = false;
+										$respuesta['respuesta'] = "ERROR AL GUARDAR EL ARCHIVO, por favor revise su conexcion a internet";
 									}
 
 								}else {
-									echo "EL TAMAÑO DEL ARCHIVO EXCEDE  LO PERMITIDO";
+									$respuesta['status'] = false;
+									$respuesta['respuesta'] = "EL TAMAÑO DEL ARCHIVO EXCEDE  LO PERMITIDO";
 								}
 							}else{
-								echo "TIPO DE ARCHIVO NO VALIDO";
+								$respuesta['status'] = false;
+								$respuesta['respuesta'] = "TIPO DE ARCHIVO NO VALIDO";
 							}
 
 						}
 
 					}
-					header('Location: ' . constant('URL') . 'evaluacion/detail/' . $materia . '/' . $evaluacion);
 				}
 
 
 			}else{
-				echo "MATERIA NO VALIDA O NO INSCRITA";
+				$respuesta['status'] = false;
+				$respuesta['respuesta'] = "MATERIA NO VALIDA O NO INSCRITA";
 			}
 
 		}else{
-			echo "DIRECCION URL INVALIDA";
-			exit;
+			$respuesta['status'] = false;
+			$respuesta['respuesta'] = "DIRECCION URL INVALIDA";
 		}
+		echo json_encode($respuesta);
 	}
 
 	public function addEvaluacionAlumno($url)

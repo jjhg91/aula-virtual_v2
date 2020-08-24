@@ -30,184 +30,108 @@ body
 					text-align: right
 			div.contenido
 				padding: 20px 0px
-				div.editar
-					margin-top: 40px
-					height: 0px
-					z-index: 9999
-					opacity: 0
-					pointer-events: none
-					display: none
-					form 
-						display: flex
-						flex-direction: column
-						align-items: center 
-						padding: 0px 20px 
-						div
-							width: 100%
-							margin-top: 20px
-						input 
-							height: 30px
-							padding-left: 10px  
-							background-color: $bg-3
-							border-radius: 5px
-							border: none
-							width: 100%
-						input[type=text]
-							margin-bottom: 10px
-						textarea, select
-							width: 100%
-							padding: 10px 
-							background-color: $bg-3
-							border-radius: 5px
-							border: none	
-						button, a.cerrar
-							margin-top: 20px 
-							@include btn-t
-						a.close
-							@include btn-f
-							text-decoration: none
-							color: black
-							&:active
-							color: black
-					&:target
-						height: auto
-						opacity: 1
-						pointer-events: auto
-						display: block
+			
 
-
-
-
-
-
-				div.Modal
-					margin-top: 40px
-					height: 0px
-					z-index: 9999
-					opacity: 0
-					pointer-events: none
-					
-					form 
-						display: flex
-						flex-direction: column
-						align-items: center 
-						padding: 0px 20px 
-						div
-							width: 100%
-							margin-top: 20px
-						input 
-							height: 30px
-							padding-left: 10px  
-							background-color: $bg-3
-							border-radius: 5px
-							border: none
-							width: 100%
-						textarea, select
-							width: 100%
-							padding: 10px 
-							background-color: $bg-3
-							border-radius: 5px
-							border: none
-						input[type=file]
-							margin-top: 20px 
-						button, a.cerrar
-							margin-top: 20px 
-							@include btn-t
-						a.cerrar
-							text-decoration: none
-							color: black
-							&:active
-								color: black
-					&:target
-						height: auto
-						opacity: 1
-						pointer-events: auto
 
 
 
 		section.section_agregar
 			div.contenido
 				form 
-					display: flex
-					flex-direction: column
-					align-items: center 
-					padding: 0px 20px 
-					div
-						width: 100%
-						margin-top: 20px
-					input 
-						height: 30px
-						padding-left: 10px  
-						background-color: $bg-3
-						border-radius: 5px
-						border: none
-						width: 100%
-					
-					textarea, select
-						width: 100%
-						padding: 10px 
-						background-color: $bg-3
-						border-radius: 5px
-						border: none
-					
-					button 
-						@include btn-t
+					@include formulario
+					div.grupo
+						@include grupoFormulario
+						div
+							margin: 0px
+						input 
+							@include input
+						textarea
+							@include textArea
+						p.formulario__input-error
+							display: none
+							font-size: .8rem
+							color: red
+							padding-left: 20px
+						p.formulario__input-error-activo
+							display: block
+						p#editor_contador
+							font-size: .8rem
+							padding-left: 20px
+						div.mensaje__error
+							display: none
+							@include mensaje__error
+						div.mensaje__error-activo
+							display: block
+						div.mensaje__exito
+							display: none
+							@include mensaje__exito
+						div.mensaje__exito-activo
+							display: block
+						div#editor
+							height: 375px
 
-					a.OpenModal
-						margin-top: 20px 
-						@include btn-t
-						text-decoration: none
-						color: black
-					div.PreviewModal
-						height: 0px
-						z-index: 9999
-						opacity: 0
-						pointer-events: none
-						display: flex
-						flex-direction: column
-						justify-content: center
-						align-items: center
-						&:target
-							position: fixed
+			div.modal
+				display: none
+				position: fixed
+				margin: 0
+				overflow: none
+				opacity: 1
+				left: 0
+				top: 0
+				width: 100%
+				height: 100vh
+				background: rgba(0, 0, 0, 0.7)
+				z-index: 9
+				div.flex
+					display: flex
+					width: 100%
+					height: 100vh
+					justify-content: space-between
+					align-items: center
+					div.modal__contenido
+						position: relative
+						margin: auto
+						width: 70%
+						box-shadow: 0 0 6px 0 rgba(0,0,0,0.4)
+						animation-name: modal
+						animation-duration: .5s
+						padding: 0
+						div.modal__header
 							margin: 0
-							left: 0
-							top: 0
-							opacity: 1
-							pointer-events: auto
-							background: rgba(255,255,255,0.9)
-							height: 100%
-							width: 100%
-						section.preview
-							width: 70%
+							display: flex
+							flex-direction: row
+							justify-content: space-between
+							align-items: center
+							padding: 10px
+							background-color: $bg-1
+							h3
+								color: $fc-3
+							a
+								padding: 5px 10px
+								text-align: center
+								background: rgba(0,0,0,0.7)
+								color: $fc-3
+								cursor: pointer
+								border-radius: 5px
+								&:hover
+									background: rgba(0,0,0,0.4)
+						div.modal__preview
+							padding: 10px
+							margin: 0
+							background-color: $bg-3
+							min-height: 300px
+							max-height: 60vh
 							overflow-y: auto
 							overflow-x: hidden
-							margin: 20px 0px
-							div.titulo
 
-								margin: 0
-								border-bottom: none
-
-							hr 
-								width: 95%
-								margin: auto
-							div.botones
-								display: flex
-								justify-content: center 
-								align-items: center
-								flex-direction: row
-								flex-wrap: strech
-								.item 
-									margin-left: 10px
-								button
-									@include btn-t
-								a.close
-									@include btn-f
-									text-decoration: none
-									color: black
-									&:active
-									color: black
+@keyframes modal
+	0%
+		top: -200%
+		opacity: 0
+	100%
+		top: 0
+		opacity: 1
 
 
-						
 
 

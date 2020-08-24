@@ -1,19 +1,13 @@
 class ValidarFormulario {
 	constructor(formulario){
 		this.formulario = formulario;
-		this.inputs = this.formulario.querySelectorAll('#add_plan input , #add_plan textarea , #add_plan > div > select');
+		this.inputs = this.formulario.querySelectorAll('input , textarea');
 		this.expresiones = {
-			tipo: /^\d{1,6}$/,
-			otros: /^[\s\S]{0,500}$/,
-			valor: /^\d{1,3}$/,
-			semana: /^\d{1,3}$/,
-			descripcion: /^[\s\S]{1,100000}$/
+			titulo: /^[\s\S]{1,1000}$/, // cualquier caracter de tamaño 1 a 1 mil
+			descripcion: /^[\s\S]{1,100000}$/ // cualquier caracter de tamaño 1 a 100 mil
 		}
 		this.campos = {
-			tipo: false,
-			otros: true,
-			valor: false,
-			semana: false,
+			titulo: false,
 			descripcion: true
 		}
 
@@ -31,26 +25,17 @@ class ValidarFormulario {
 
 	validarFormulario(e) {
 		switch (e.target.name) {
-			case "tipo":
-				this.validarCampo(this.expresiones.tipo, e.target, 'tipo', parseInt(e.target.value));
-				break;
-			case "otros":
-				this.validarCampo(this.expresiones.otros, e.target, 'otros', e.target.value);
-				break;
-			case "valor":
-				this.validarCampo(this.expresiones.valor, e.target, 'valor', parseInt(e.target.value));
-				break;
-			case "semana":
-				this.validarCampo(this.expresiones.semana, e.target, 'semana', parseInt(e.target.value));
+			case "titulo":
+				this.validarCampo(this.expresiones.titulo, e.target, 'titulo');
 				break;
 			case "descripcion":
-				this.validarCampo(this.expresiones.descripcion, e.target, 'descripcion', e.target.value);
+				this.validarCampo(this.expresiones.descripcion, e.target, 'descripcion');
 				break;
 		}
 	}
 
-	validarCampo(expresion, input, campo, value) {
-		if ( expresion.test(value) ) {
+	validarCampo(expresion, input, campo) {
+		if ( expresion.test(input.value) ) {
 			input.classList.remove('incorrecto');
 			input.classList.add('correcto');
 			let grupo = input.parentNode;
@@ -65,86 +50,64 @@ class ValidarFormulario {
 		}
 	}
 
-
 	sendFormulario(){
 		const formulario = this.formulario;
 		formulario.addEventListener('submit', (e) => {
+			
 			e.preventDefault();
-			if (this.campos.tipo && this.campos.otros && this.campos.valor && this.campos.semana && this.campos.descripcion ) {
+			if (this.campos.titulo && this.campos.descripcion ) {
 				let btnSubmit = formulario.querySelector('#btnSubmit');
 				btnSubmit.disabled = true;
 
-				let editarDescripcion = formulario.querySelector('#editor .ql-editor');
-				let descripcion = formulario.querySelector('#descripcion_evaluacion');
-				descripcion.innerHTML = editarDescripcion.innerHTML;
+				let editarDescripcion = formulario.querySelector('#add__descripcion__qe .ql-editor');
+				let message = formulario.querySelector('#add__descripcion');
+				message.innerHTML = editarDescripcion.innerHTML;
 
 				const formData = new FormData(e.currentTarget);
-				let direccion = URL+'plan/add/'+formData.get('mat');
+				let direccion = `${URL}foro/addForo/${formData.get('materia')}`;
 				let xmlhttp = new XMLHttpRequest();
 
 				xmlhttp.onreadystatechange = function() {
 					if ( this.readyState == 4 && this.status == 200 ) {
 						// TODO FUE CORRECTO
-
 						let datos = JSON.parse(xmlhttp.response);
-						console.log(datos);
-						
 						if ( datos.status == true ) {
-							let planes = document.getElementById('planes');
-
-							let tipo = formulario.querySelector('.tipo').options[formulario.querySelector('.tipo').selectedIndex].text;
-							let otros = formulario.querySelector('.otros').value;
-							let valor = formulario.querySelector('.valor').options[formulario.querySelector('.valor').selectedIndex].text;
-							let tit = (tipo === 'otros') ? otros: tipo;
-							
-							planes.innerHTML += `
-								<section class="plan_evaluacion" data-plan="${datos.idPlan}">
+							let foros = document.getElementById('foros');
+							foros.innerHTML += `
+								<section class="foro" data-foro="${datos.idForo}">
 									<div class="titulo">
 										<div class="titulo_izq">
-											<h4>${tit}</h4>
+											<h4>${formData.get('titulo')}</h4>
 										</div>
 										<div class="titulo_der">
 											<div class="enlaces">
-												<button
-													title="Editar"
-													class="btnModalEditar item icon-pencil btnInfo"
-													type="button"
-													data-plan="${datos.idPlan}"></button>
-												<button
-													title="Eliminar"
-													class="btnEliminar icon-bin btnInfo"
-													data-materia="7729"
-													data-plan="${datos.idPlan}"
-													type="button"></button>
+												<button title="Editar" class="btnModalEditar item icon-pencil btnInfo" type="button" data-foro="${datos.idForo}"></button>
+												<button title="Eliminar" class="btnEliminar icon-bin btnInfo" data-materia="${formData.get('materia')}" data-foro="${datos.idForo}" type="button" ></button>
 											</div>
 										</div>
 									</div>
 									<div class="contenido">
-										<span class="semana"><small>Semana 2</small></span>
-										<br/>
-										<span class="valor"><small><strong>Valor: </strong><span>${valor}</span></small></span>
-										<br/>
-										<br/>
-										<p><strong>Descripcion: </strong><p>
-										<div class="descripcion">${formData.get('descripcion')}</div>
+										<p><strong>Descripcion: </strong><?= $tema[3]?></p>
+										<div class="contenido__qe">${formData.get('descripcion')}</div>
+										<br>
+										<a href="${URL}foro/detail/${formData.get('materia')}/${datos.idForo}>INGRESAR AL FORO</a>
 									</div>
 								</section>
 							`;
 
-						
-							let aa = planes.querySelector(`section.plan_evaluacion[data-plan="${datos.idPlan}"] .descripcion`);
-							let quill = new Quill(aa, {
+
+							
+							let aa = foros.querySelector(`section.foro[data-foro="${datos.idForo}"] .contenido__qe`);
+							var quill3 = new Quill(aa,{
 								readOnly: true,
 								theme: 'bubble'
 							});
-							
 							var mensajeError = formulario.querySelector('.mensaje__exito');
 							mensajeError.innerHTML = '<p>'+datos.respuesta+'</p>';
 							mensajeError.classList.add('mensaje__exito-activo');
 							mensajeError.scrollIntoView({behavior:'auto',block:'center'});
 						} else {
-							console.log('hola');
-							let mensajeError = formulario.querySelector('.mensaje__error');
+							var mensajeError = formulario.querySelector('.mensaje__exito');
 							mensajeError.innerHTML = '<p>'+datos.respuesta+'</p>';
 							mensajeError.classList.add('mensaje__error-activo');
 						}
@@ -176,12 +139,9 @@ class ValidarFormulario {
 class ValidarFormularioEditar  extends ValidarFormulario{
 	constructor(formulario) {
 		super(formulario)
-		this.inputs = this.formulario.querySelectorAll('#edit__plan input , #edit__plan textarea , #edit__plan > div > select');
+		this.inputs = this.formulario.querySelectorAll(' input , textarea');
 		this.campos = {
-			tipo: true,
-			otros: true,
-			valor: true,
-			semana: true,
+			titulo: true,
 			descripcion: true
 		}
 		this.setiarFormulario();
@@ -210,18 +170,16 @@ class ValidarFormularioEditar  extends ValidarFormulario{
 		const formulario = this.formulario;
 		formulario.addEventListener('submit', (e) => {
 			e.preventDefault();
-
-			if (this.campos.tipo && this.campos.otros && this.campos.valor && this.campos.semana && this.campos.descripcion ) {
+			if (this.campos.titulo && this.campos.descripcion ) {
 				let btnSubmit = formulario.querySelector('#btnSubmit__edit');
 				btnSubmit.disabled = true;
 
-				let editarDescripcion = formulario.querySelector('#edit__qe > .ql-editor').innerHTML;
-
+				let editarDescripcion = formulario.querySelector('#edit__descripcion__qe > .ql-editor').innerHTML;
 				let descripcion = formulario.querySelector('#edit__descripcion');
 				descripcion.innerHTML = editarDescripcion;
 
 				const formData = new FormData(e.currentTarget);
-				let direccion = `${URL}plan/edit/${formData.get('materia')}`;
+				let direccion = `${URL}foro/editForo/${formData.get('materia')}`;
 				let xmlhttp = new XMLHttpRequest();
 
 				xmlhttp.onreadystatechange = function() {
@@ -229,49 +187,44 @@ class ValidarFormularioEditar  extends ValidarFormulario{
 						// TODO FUE CORRECTO
 						let datos = JSON.parse(xmlhttp.response);
 						if ( datos.status == true ) {
-							let editado = document.querySelector('section.plan_evaluacion[data-plan="'+formData.get('plan')+'"]');
+							let editado = document.querySelector('section.foro[data-foro="'+formData.get('foro')+'"]');
 							let titulo = document.createElement('div');
 							titulo.classList.add('titulo');
 							titulo.innerHTML = `
 								<div class="titulo_izq">
-									<h4>${(formData.get('tipo') == 8)? formData.get('otros'):formData.get('tipos')}</h4>
+									<h4>${formData.get('titulo')}</h4>
 								</div>
-									<div class="titulo_der">
+								<div class="titulo_der">
 									<div class="enlaces">
-										<button title="Editar" class="btnModalEditar item icon-pencil btnInfo" type="button" data-plan="${formData.get('plan')}"></button>
-										<button title="Eliminar" class="btnEliminar icon-bin btnInfo" data-materia="${formData.get('materia')}" data-plan="${formData.get('plan')}" type="button"></button>
+										<button title="Editar" class="btnModalEditar item icon-pencil btnInfo" type="button" data-foro="${datos.idForo}"></button>
+										<button title="Eliminar" class="btnEliminar icon-bin btnInfo" data-materia="${formData.get('materia')}" data-foro="${datos.idForo}" type="button" ></button>
 									</div>
 								</div>
 							`;
 							let conten = document.createElement('div');
-							conten.classList.add('contenido');
+							conten.classList.add('contendio');
 							conten.innerHTML = `
-								<span class="semana"><small>Semana 0</small></span>
+								<p><strong>Descripcion: </strong><?= $tema[3]?></p>
+								<div class="contenido__qe">${formData.get('descripcion')}</div>
 								<br>
-								<span class="valor"><small><strong>Valor: </strong><span>0 %</span></small></span>
-								<br>
-								<br>
-								<p><strong>Descripcion: </strong></p>
-								<div class="descripcion">${formData.get('descripcion')}</div>
+								<a href="${URL}foro/detail/${formData.get('materia')}/${datos.idForo}>INGRESAR AL FORO</a>
 							`;
-
-
 
 							editado.innerHTML = "";
 							editado.appendChild(titulo);
 							editado.appendChild(conten);
-							
-							let refrescar = editado.querySelector('.contenido > .descripcion');
-							let quill3 = new Quill(refrescar,{
-								readOnly: true,
-								theme: 'bubble'
-							});
 
 							let mensajeError = formulario.querySelector('.mensaje__exito');
 							mensajeError.innerHTML = '<p>'+datos.respuesta+'</p>';
 							mensajeError.classList.add('mensaje__exito-activo');
 
 							mensajeError.scrollIntoView({behavior:'auto',block:'center'});
+
+							let refrescar = editado.querySelector('.contenido__qe');
+							let quill3 = new Quill(refrescar,{
+								readOnly: true,
+								theme: 'bubble'
+							});
 
 						}else {
 							var mensajeError = formulario.querySelector('.mensaje__exito');
@@ -311,7 +264,6 @@ class UI {
 		this.previewQE();
 		this.addQE();
 		this.editQE();
-		
 	}
 
 	addContenido() {}
@@ -325,57 +277,22 @@ class UI {
 		const modalEditar = document.getElementById('modalEditar');
 
 		const section = e.target.parentNode.parentNode.parentNode.parentNode;
+		const titulo = section.querySelector('.title').innerHTML;
+		const descripcion = section.querySelector('.contenido__qe > .ql-editor').innerHTML;
 
-		const tipo = section.querySelector('.titulo > .titulo_izq > h4').innerHTML;
-		const valor = section.querySelector('.valor > small > span').innerHTML;
-		const semana = section.querySelector('.semana > small').innerHTML;
-		const descripcion = section.querySelector('.contenido > .descripcion > .ql-editor').innerHTML;
-		
-		const qEditor = document.querySelector('#edit__qe .ql-editor');
-		
 		validarFormularioEditar.inputs.forEach( input => {
 			switch (input.name) {
-				case 'tipo':
-					let otros = true;
-					for ( let option of input.options ) { 
-						// console.log(option.text);
-						// console.log(tipo);
-						if ( option.text == tipo ){
-							option.selected = true;
-							otros = false;
-						}
-					}
-					if (otros == true){
-						input.options[7].selected = true;
-						validarFormularioEditar.inputs[1].parentNode.classList.remove('oculto');
-						validarFormularioEditar.inputs[1].value = tipo;
-					}else{
-						validarFormularioEditar.inputs[1].parentNode.classList.add('oculto');
-						validarFormularioEditar.inputs[1].value = "";
-					}
-					
-					break;
-				case 'valor':
-					for ( let option of input.options ) {
-						if ( option.text == valor ){
-							option.selected = true;
-						}
-					}
-					break;
-				case 'semana':
-					for ( let option of input.options ) {
-						if ( option.text == semana ){
-							option.selected = true;
-						}
-					}
+				case 'titulo':
+					input.value = titulo;
 					break;
 				case 'descripcion':
-					qEditor.innerHTML = descripcion;
+					let editarDescripcion = document.querySelector('#edit__descripcion__qe > .ql-editor');
+					editarDescripcion.innerHTML = descripcion;
+					input.innerHTML = descripcion;
 					break;
-				case 'plan':
-					input.value = section.dataset.plan;
+				case 'foro':
+					input.value = e.target.dataset.foro;
 					break;
-				
 			}
 		});
 
@@ -395,17 +312,12 @@ class UI {
 
 	deleteContenido(e) {
 		let materia = e.target.dataset.materia;
-		let plan = e.target.dataset.plan;
+		let foro = e.target.dataset.foro;
 
-		let objetivos = e.target.parentNode.parentNode.parentNode.parentNode;
-		let tipo = objetivos.querySelector('div.titulo div.titulo_izq h4').innerHTML;
-		let valor = objetivos.querySelector('div.contenido span.valor small span').innerHTML;
-		let semana = objetivos.querySelector('div.contenido span.semana small').innerHTML;
-
-		let eliminar = confirm(`Deseas eliminar del plan de evaluacion la evaluacion: ${tipo} de la ${semana} con el valor de ${valor}` );
+		let eliminar = confirm('Deseas eliminar el foro?');
 		if( eliminar ) {
-			let planEliminar = e.target.parentNode.parentNode.parentNode.parentNode;
-			let direccion = `${URL}plan/delete/${materia}/${plan}`;
+			
+			let direccion = `${URL}foro/deleteForo/${materia}/${foro}`;
 			let xmlhttp = new XMLHttpRequest();
 			
 			xmlhttp.onreadystatechange = function() {
@@ -413,9 +325,9 @@ class UI {
 					// TODO FUE CORRECTO
 					let datos = JSON.parse(xmlhttp.response);
 					if ( datos.status == true ) {
-						let sectionesPlanes = document.getElementById('planes');
-						let sectionPlan = sectionesPlanes.querySelector(`section.plan_evaluacion[data-plan="${plan}"]`);
-						sectionesPlanes.removeChild(sectionPlan);
+						let foroEliminar = e.target.parentNode.parentNode.parentNode.parentNode;
+						let sectionesForos = e.target.parentNode.parentNode.parentNode.parentNode.parentNode;
+						sectionesForos.removeChild(foroEliminar);
 
 					}else{
 						alert('El contendio no se pudo eliminar, Compruebe su conexion a internet');
@@ -428,32 +340,19 @@ class UI {
 		}
 	}
 
-	modalPreview(inputs) {
+	modalPreview(inputs) { 
 		const btnModalPreview = document.getElementById('btnModalPreview');
 		const btnCerrar = document.getElementById('btnCerrarPreview');
 		const flex = document.getElementById('flexPreview');
 		const modal = document.getElementById('modalPreview');
 
-		const previewTipo = document.getElementById('preview__tipo');
-		const previewSemana = document.getElementById('preview__semana');
-		const previewValor = document.getElementById('preview__valor');
-		const previewPuntos = document.getElementById('preview__puntos');
-		const previewDescripcion = document.getElementById('preview__descripcion2');
+		const previewTitulo = document.getElementById('preview__titulo');
+		const previewDescripcion = document.querySelector('#preview__descripcion > div');
 
 		btnModalPreview.addEventListener('click', () => {
-			let tipo = inputs[0].options[inputs[0].selectedIndex].text;
-			let otros = inputs[1].value;
-			let semana = inputs[3].options[inputs[3].selectedIndex].text;
-			let valor = inputs[2].options[inputs[2].selectedIndex].text;
-			let puntos = ((inputs[2].selectedIndex+1) * 1);
-			
 			modal.style.display = 'block';
-			previewTipo.innerHTML = `<p><strong>Tipo evaluacion: </strong> ${(tipo === 'otros')? otros : tipo}</p>`;
-			previewSemana.innerHTML = `<p><small> ${semana}</small></p>`;
-			previewValor.innerHTML = `<p><small><strong>Valor:</strong> ${valor}</small></p>`;
-			previewPuntos.innerHTML = `<p><small><strong>Puntos:</strong> ${puntos}pts</small></p>`;
-			previewDescripcion.innerHTML = `<br/><p><strong>Descripcion :</p></strong>`;
-
+			previewTitulo.innerHTML = `<h4>${(inputs[0].value == '')? '<small style="color: red;">ingresa un titulo valido</small>' : inputs[0].value}<h4><br/>`;
+			previewDescripcion.innerHTML = inputs[2].value;
 		});
 		btnCerrar.addEventListener('click', () => {
 			modal.style.display = 'none';
@@ -468,7 +367,7 @@ class UI {
 	modalEdit() {}
 
 	contenidosQE() {
-		var contenidoDescripcion = document.querySelectorAll('.descripcion');
+		var contenidoDescripcion = document.querySelectorAll('.contenido__qe');
 		contenidoDescripcion.forEach( contenidos => {
 			var quill3 = new Quill(contenidos,{
 				readOnly: true,
@@ -496,18 +395,17 @@ class UI {
 			['link','video'],
 			['code-block','clean']
 		];
-		const quill = new Quill('#editor',{
+		const quill = new Quill('#add__descripcion__qe',{
 			modules:{
 				toolbar: toolbarOptions
 			},
 			theme: 'snow'
 		});
 		quill.on('text-change', function() {
-			console.log('Text change!');
-			let prueba =  document.querySelector('#preview__descripcion > div');
-			let message =  document.getElementById('descripcion_evaluacion');
-			message.innerHTML = quill.container.firstChild.innerHTML;
-			prueba.innerHTML = quill.container.firstChild.innerHTML;
+			// let prueba =  document.querySelector('#preview__descripcion div');
+			let foro =  document.getElementById('add__descripcion');
+			foro.innerHTML = quill.container.firstChild.innerHTML;
+			// prueba.innerHTML = quill.container.firstChild.innerHTML;
 		});
 
 		const limit = 50000;
@@ -516,7 +414,7 @@ class UI {
 			if ( (quill.getLength()-1) > limit) {
 				quill.deleteText(limit, quill.getLength());
 			}else{
-				document.getElementById('editor_caracteres').innerHTML = quill.getLength() - 1;
+				document.getElementById('add__caracteres').innerHTML = quill.getLength() - 1;
 			}
 		});
 	}
@@ -534,7 +432,7 @@ class UI {
 			['code-block','clean']
 		];
 		const limit = 50000;
-		const quill4 = new Quill('#edit__qe',{
+		const quill4 = new Quill('#edit__descripcion__qe',{
 			modules:{
 				toolbar: toolbarOptions
 			},
@@ -544,18 +442,7 @@ class UI {
 			if ( (quill4.getLength()-1) > limit) {
 				quill4.deleteText(limit, quill4.getLength());
 			}else{
-				document.getElementById('edit_caracteres').innerHTML = quill4.getLength() - 1;
-			}
-		});
-	}
-
-	addOtros(inputs){
-		inputs[0].addEventListener('change', (e) => {
-			let tipo = inputs[0].options[inputs[0].selectedIndex].text;
-			if (tipo === 'otros') {
-				inputs[1].parentNode.classList.remove('oculto');
-			}else {
-				inputs[1].parentNode.classList.add('oculto');
+				document.getElementById('edit__caracteres').innerHTML = quill4.getLength() - 1;
 			}
 		});
 	}
@@ -565,32 +452,24 @@ class UI {
 
 const ui = new UI();
 
-const editFormulario = document.getElementById('edit__plan');
+const editFormulario = document.getElementById('edit__foro');
 const validarFormularioEditar = new ValidarFormularioEditar(editFormulario);
 
-const addFormulario = document.getElementById('add_plan');
-const planes = document.getElementById('planes');
+const addFormulario = document.getElementById('add__foro');
+const foros = document.getElementById('foros');
 
 
 validarFormulario = new ValidarFormulario(addFormulario);
 
 
-
-
 ui.modalPreview(validarFormulario.inputs);
-
-ui.addOtros(validarFormulario.inputs);
-ui.addOtros(validarFormularioEditar.inputs);
-
-planes.addEventListener('click', (event) => {
+foros.addEventListener('click', (event) => {
 	switch (event.target.classList[0]) {
 		case 'btnEliminar':
 			ui.deleteContenido(event);
 			break;
 		case 'btnModalEditar':
 			ui.editContenido(event);
-			break;
-		default:
 			break;
 	}
 })

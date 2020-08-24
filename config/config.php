@@ -1,7 +1,9 @@
 <?php 
 
 // DIRECCION URL ESTATTICA
-define('URL', 'http://localhost/MVC/');
+// define('URL', 'http://localhost/MVC/');
+define('URL', 'http://192.168.0.102/MVC/');
+
 
 // CONSTANTE DE LA BASE DE DATOS
 define('HOST', 'localhost');

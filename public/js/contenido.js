@@ -148,6 +148,47 @@ class ValidarFormulario {
 						// TODO FUE CORRECTO
 						let datos = JSON.parse(xmlhttp.response);
 						if ( datos.status == true ) {
+							let divArchivos = '<div class="trabajos mostrar_archivos">'
+							let pp = formulario.querySelectorAll('input[type="file"]');
+							pp.forEach(element => {
+								if ( element.value ) {
+
+									switch (element.classList[0]) {
+										case 'file1':
+														divArchivos += `
+															<a class="link1" href="${window.URL.createObjectURL(element.files[0])}" download>Material 1</a>
+															<br>
+															<br>
+														`;
+											break;
+										case 'file2':
+											divArchivos += `
+													<a class="link2" href="${window.URL.createObjectURL(element.files[0])}" download>Material 2</a>
+													<br>
+													<br>
+												`;
+											break;
+										case 'file3':
+											divArchivos += `
+													<a class="link3" href="${window.URL.createObjectURL(element.files[0])}" download>Material 3</a>
+													<br>
+													<br>
+												`;
+											break;
+										case 'file4':
+											divArchivos += `
+													<a class="link4" href="${window.URL.createObjectURL(element.files[0])}" download>Material 4</a>
+													<br>
+													<br>
+												`;
+											break;
+									}
+								}
+							});
+
+							divArchivos += '</div>'
+						
+
 							//let contenidos = document.getElementById('contenido').innerHTML += datos.html;
 							let contenidos = document.getElementById('contenido');
 							contenidos.innerHTML += `
@@ -158,13 +199,14 @@ class ValidarFormulario {
 									</div>
 									<div class="titulo_der ">
 										<div class="enlaces">
-											<button title="Editar" class="btnModalEditar item icon-pencil" type="button" data-contenido="${datos.idContenido}"></button>
-											<button title="Eliminar" class="btnEliminar icon-bin" data-materia="${formData.get('materia')}" data-contenido="${datos.idContenido}" data-objetivo="${formData.get('numero')}" type="button" ></button>
+											<button title="Editar" class="btnModalEditar item icon-pencil btnInfo" type="button" data-contenido="${datos.idContenido}"></button>
+											<button title="Eliminar" class="btnEliminar icon-bin btnInfo" data-materia="${formData.get('materia')}" data-contenido="${datos.idContenido}" data-objetivo="${formData.get('numero')}" type="button" ></button>
 										</div>
 									</div>
 								</div>
 								<div class="contenido">
 									<div class="contenido__descripcion">${formData.get('message')}</div>
+									${divArchivos}
 								</div>
 							</section>
 							`;
@@ -265,32 +307,74 @@ class ValidarFormularioEditar  extends ValidarFormulario{
 						// TODO FUE CORRECTO
 						let datos = JSON.parse(xmlhttp.response);
 						if ( datos.status == true ) {
+							
 							let editado = document.querySelector('section.contenido[data-contenido="'+formData.get('contenido')+'"]');
-							let titulo = document.createElement('div');
-							titulo.classList.add('titulo');
-							titulo.innerHTML = `
-									<div class="titulo_izq">
-										<h4>Objetivo  <span class="objetivo__numero">${formData.get('numero')}</span></h4>
-									</div>
-									<div class="titulo_der ">
-										<div class="enlaces">
-											<button title="Editar" class="btnModalEditar item icon-pencil" type="button" data-contenido="${formData.get('contenido')}"></button>
-											<button title="Eliminar" class="btnEliminar icon-bin" data-materia="${formData.get('materia')}" data-contenido="${formData.get('contenido')}" data-objetivo="${formData.get('numero')}" type="button" ></button>
-										</div>
-									</div>
-							`;
-							let conten = document.createElement('div');
-							conten.classList.add('contendio');
-							conten.innerHTML = `
-									<div class="contenido__descripcion">${formData.get('message')}</div>
-							`;
-							console.log(document.querySelectorAll('section.contenido'));
-							console.log('arriba');
+							editado.querySelector('.objetivo__numero').innerHTML = formData.get('numero');
+							editado.querySelector('.contenido__descripcion').innerHTML = formData.get('message');
+							
+							let pp = formulario.querySelectorAll('#grupo_archivos_editar > input');
+							pp.forEach(element => {
+								if ( element.value ) {
 
-							editado.innerHTML = "";
-							editado.appendChild(titulo);
-							editado.appendChild(conten);
+									switch (element.classList[0]) {
+										case 'file1':
+													if ( editado.querySelector('.link1') ) {
+														console.log(element.files[0]);
+														console.log();
+														editado.querySelector('.link1').href = window.URL.createObjectURL(element.files[0]);
+													}else {
+														editado.querySelector('.mostrar_archivos').innerHTML += `
+															<a class="link1" href="${window.URL.createObjectURL(element.files[0])}" download>Material 1</a>
+															<br>
+															<br>
+														`;
+													}
 
+											break;
+										case 'file2':
+											if ( editado.querySelector('.link2') ) {
+												console.log(element.files[0]);
+												console.log();
+												editado.querySelector('.link2').href = window.URL.createObjectURL(element.files[0]);
+											}else {
+												editado.querySelector('.mostrar_archivos').innerHTML += `
+													<a class="link2" href="${window.URL.createObjectURL(element.files[0])}" download>Material 2</a>
+													<br>
+													<br>
+												`;
+											}
+											break;
+										case 'file3':
+											if ( editado.querySelector('.link3') ) {
+												console.log(element.files[0]);
+												console.log();
+												editado.querySelector('.link3').href = window.URL.createObjectURL(element.files[0]);
+											}else {
+												editado.querySelector('.mostrar_archivos').innerHTML += `
+													<a class="link3" href="${window.URL.createObjectURL(element.files[0])}" download>Material 3</a>
+													<br>
+													<br>
+												`;
+											}
+											break;
+										case 'file4':
+											if ( editado.querySelector('.link4') ) {
+												console.log(element.files[0]);
+												console.log();
+												editado.querySelector('.link4').href = window.URL.createObjectURL(element.files[0]);
+											}else {
+												editado.querySelector('.mostrar_archivos').innerHTML += `
+													<a class="link4" href="${window.URL.createObjectURL(element.files[0])}" download>Material 4</a>
+													<br>
+													<br>
+												`;
+											}
+											break;
+									
+									}
+								}
+							});
+							
 							let mensajeError = formulario.querySelector('.mensaje__exito');
 							mensajeError.innerHTML = '<p>'+datos.respuesta+'</p>';
 							mensajeError.classList.add('mensaje__exito-activo');
@@ -376,21 +460,21 @@ class UI {
 					if ( n == 'file1' ) {
 						let link = section.querySelector('.link1');
 						if ( link != null ) {
-							document.getElementById('link1').innerHTML = '<a href="'+link.href+'" download>Material 4</a>';
+							document.getElementById('link1').innerHTML = '<a href="'+link.href+'" download>Material 1</a>';
 						}else{
 							document.getElementById('link1').innerHTML = 'NO HAY ARCHIVO CARGADO';
 						}
 					}else if( n == 'file2' ){
 						let link = section.querySelector('.link2');
 						if ( link != null ) {
-							document.getElementById('link2').innerHTML = '<a href="'+link.href+'" download>Material 4</a>';
+							document.getElementById('link2').innerHTML = '<a href="'+link.href+'" download>Material 2</a>';
 						}else{
 							document.getElementById('link2').innerHTML = 'NO HAY ARCHIVO CARGADO';
 						}
 					}else if( n == 'file3' ){
 						let link = section.querySelector('.link3');
 						if ( link != null ) {
-							document.getElementById('link3').innerHTML = '<a href="'+link.href+'" download>Material 4</a>';
+							document.getElementById('link3').innerHTML = '<a href="'+link.href+'" download>Material 3</a>';
 						}else{
 							document.getElementById('link3').innerHTML = 'NO HAY ARCHIVO CARGADO';
 						}

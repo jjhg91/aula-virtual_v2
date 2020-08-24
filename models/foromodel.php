@@ -25,6 +25,50 @@ class ForoModel extends Model
 		return $respuesta;
 	}
 
+	public function getIdTema($datos)
+	{
+		$query = $this->db->connect2()->prepare("
+				SELECT
+					id_foro_tema
+				FROM foro_tema
+				WHERE
+					id_materia = :materia AND 
+					titulo = :titulo AND 
+					descripcion = :descripcion
+			");
+		$query->bindParam(':materia', $datos['materia']);
+		$query->bindParam(':titulo', $datos['titulo']);
+		$query->bindParam(':descripcion', $datos['descripcion']);
+		$query->execute();
+		$respuesta = $query->fetch()[0];
+
+		return $respuesta;
+	}
+
+	public function getIdPost($datos)
+	{
+		$query = $this->db->connect2()->prepare("
+				SELECT
+					id_foro
+				FROM foro
+				WHERE
+					id_profesorcursogrupo = :materia AND
+					fecha = :fecha AND
+					descripcion = :descripcion AND
+					usuario = :usuario AND
+					nivel = :nivel
+			");
+		$query->bindParam(':materia', $datos['materia']);
+		$query->bindParam(':fecha', $datos['fecha']);
+		$query->bindParam(':descripcion', $datos['mensaje']);
+		$query->bindParam(':usuario', $datos['usuario']);
+		$query->bindParam(':nivel', $datos['level']);
+		$query->execute();
+		$respuesta = $query->fetch()[0];
+
+		return $respuesta;
+	}
+
 	public function getPostsGeneral($materia)
 	{
 		$query = $this->db->connect2()->prepare("
@@ -315,6 +359,31 @@ class ForoModel extends Model
 		$query->bindParam(':foro',$foro);
 
 		if	( $query->execute() ) {
+			$respuesta = true;
+		}else {
+			$respuesta = false;
+		}
+
+		return $respuesta;
+	}
+
+	
+	public function editForoTema($datos)
+	{
+		$query = $this->db->connect2()->prepare("
+			UPDATE foro_tema SET
+				titulo = :titulo,
+				descripcion = :descripcion
+			WHERE
+				id_materia = :materia AND
+				id_foro_tema = :foro;
+		");
+		$query->bindParam(':titulo',$datos['titulo']);
+		$query->bindParam(':descripcion',$datos['descripcion']);
+		$query->bindParam(':materia',$datos['materia']);
+		$query->bindParam(':foro',$datos['foro']);
+
+		if ( $query->execute() ) {
 			$respuesta = true;
 		}else {
 			$respuesta = false;

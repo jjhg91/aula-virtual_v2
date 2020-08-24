@@ -12,7 +12,7 @@
 	<!-- /PROBANDO RESPOSNIVE DESIGN -->
 
 	<link rel="Shortcut Icon" type="image/x-icon" href="<?= constant('URL') ?>public/media/logo.ico" />
-	<title>IUTJMC - Blog</title>
+	<title>UEPJMC</title>
 
 
 	<!-- CUSTOM CSS -->
@@ -209,7 +209,7 @@
 								<p class="formulario__input-error"></p>
 							</div>
 
-							<button type="button" id="add_input_archivo">Otro Archivo</button>
+							<button class="btnInfo" type="button" id="add_input_archivo">Otro Archivo</button>
 						</div>
 					<!-- /SECCION DE AGREGAR ARCHIVOS -->
 
@@ -221,8 +221,8 @@
 						</div>
 
 						<div class="grupo">
-							<button id="btnSubmit" class="item" type="submit" >Guardar</button>
-							<button id="btnModalPreview" class="item" type="button" >Previsualizar</button>
+							<button id="btnSubmit" class="item btnTrue" type="submit" >Guardar</button>
+							<button id="btnModalPreview" class="item btnInfo" type="button" >Previsualizar</button>
 						</div>
 						
 					</form>
@@ -310,7 +310,7 @@
 	</div>
 
 	<div class="grupo">
-		<button id="btnSubmit__edit" class="item" type="submit" >Guardar</button>
+		<button id="btnSubmit__edit" class="item btnTrue" type="submit" >Guardar</button>
 	</div>
 	
 </form>

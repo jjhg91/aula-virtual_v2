@@ -7,6 +7,32 @@
   font-family: 'Roboto';
 }
 
+button.btnTrue {
+  padding: 10px;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  background: #2980b9;
+  border-radius: 5px;
+}
+
+button.btnTrue:hover {
+  background: #1f618d;
+}
+
+button.btnFalse {
+  padding: 10px;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  background: #c0392b;
+  border-radius: 5px;
+}
+
+button.btnFalse:hover {
+  background: #922b21;
+}
+
 button.btnInfo {
   padding: 10px;
   border: none;
@@ -94,8 +120,8 @@ body header {
   display: inline-block;
   position: fixed;
   width: 100%;
-  background: #229954;
-  z-index: 1;
+  background: #145a32;
+  z-index: 2;
 }
 
 body header div.padre {
@@ -145,10 +171,11 @@ body div.contenido nav {
   display: block;
   padding-top: 70px;
   position: fixed;
-  background: #145a32;
+  background: #1e8449;
   width: 250px;
   height: 89.5%;
   overflow-y: auto;
+  z-index: 1;
 }
 
 body div.contenido nav div.datos_personales {
@@ -194,12 +221,12 @@ body div.contenido nav div.menu ul li a span.carrera {
 }
 
 body div.contenido nav div.menu ul li a:hover {
-  background: #229954;
+  background: #145a32;
   transition: all 0.5s ease;
 }
 
 body div.contenido nav div.menu ul li a.active {
-  background: #229954;
+  background: #145a32;
 }
 
 body div.contenido nav div.menu ul li ul.children {
@@ -220,7 +247,7 @@ body div.contenido nav div.menu ul li ul.children li a {
 }
 
 body div.contenido nav div.menu ul li ul.children li a:hover {
-  background: #229954;
+  background: #145a32;
   transition: all 0.5s ease;
 }
 
@@ -309,121 +336,209 @@ body main section div.contenido div.editar {
   display: non;
 }
 
-body main section div.contenido div.editar form {
+body main form#set__nota {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 0px 20px;
 }
 
-body main section div.contenido div.editar form div {
+body main form#set__nota div.grupo {
   width: 100%;
-  margin-top: 20px;
+  padding-top: 20px;
 }
 
-body main section div.contenido div.editar form input {
-  height: 30px;
-  padding-left: 10px;
+body main form#set__nota div.grupo div {
+  margin: 0px;
+}
+
+body main form#set__nota div.grupo input {
+  width: 100%;
+  border: none;
   background-color: #e8e8e8;
   border-radius: 5px;
-  border: none;
-  width: 100%;
-}
-
-body main section div.contenido div.editar form input[type=text] {
+  height: 30px;
+  padding-left: 10px;
   margin-bottom: 10px;
 }
 
-body main section div.contenido div.editar form textarea, body main section div.contenido div.editar form select {
+body main form#set__nota div.grupo input.incorrecto {
+  border: 3px solid #ec7063;
+  background: rgba(236, 112, 99, 0.4);
+}
+
+body main form#set__nota div.grupo input.correcto {
+  border: 3px solid #58d68d;
+  background: rgba(88, 214, 141, 0.4);
+}
+
+body main form#set__nota div.grupo textarea, body main form#set__nota div.grupo select {
   width: 100%;
-  padding: 10px;
+  border: none;
   background-color: #e8e8e8;
   border-radius: 5px;
-  border: none;
+  padding: 10px;
 }
 
-body main section div.contenido div.editar form button, body main section div.contenido div.editar form a.cerrar {
-  margin-top: 20px;
-  padding: 10px 30px 10px 30px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background: #145a32;
-  box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3);
+body main form#set__nota div.grupo textarea.incorrecto, body main form#set__nota div.grupo select.incorrecto {
+  border: 3px solid #ec7063;
+  background: rgba(236, 112, 99, 0.4);
 }
 
-body main section div.contenido div.editar form a.close {
-  padding: 10px 30px 10px 30px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background: #ff4a4a;
-  box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3);
-  text-decoration: none;
-  color: black;
-  color: black;
+body main form#set__nota div.grupo textarea.correcto, body main form#set__nota div.grupo select.correcto {
+  border: 3px solid #58d68d;
+  background: rgba(88, 214, 141, 0.4);
 }
 
-body main section div.contenido div.editar:target {
-  height: auto;
-  opacity: 1;
-  pointer-events: auto;
+body main form#set__nota div.grupo input[type=file] {
+  padding-top: 10px;
+  margin-bottom: 10px;
+}
+
+body main form#set__nota div.grupo input[type=file].incorrecto {
+  border: 3px solid #ec7063;
+  background: rgba(236, 112, 99, 0.4);
+}
+
+body main form#set__nota div.grupo input[type=file].correcto {
+  border: 3px solid #58d68d;
+  background: rgba(88, 214, 141, 0.4);
+}
+
+body main form#set__nota div.grupo p.formulario__input-error {
+  display: none;
+  font-size: .8rem;
+  color: red;
+  padding-left: 20px;
+}
+
+body main form#set__nota div.grupo p.formulario__input-error-activo {
   display: block;
 }
 
-body main form section.section_agregar {
-  width: 100%;
-  margin-top: 20px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.3);
-  padding: 20px 0px;
+body main form#set__nota div.grupo p#editor_contador {
+  font-size: .8rem;
+  padding-left: 20px;
 }
 
-body main form section.section_agregar div.contenido {
+body main form#set__nota div.grupo div.mensaje__error {
+  display: none;
+  padding: 20px;
+  border: 3px solid #ec7063;
+  background-color: rgba(236, 112, 99, 0.4);
+}
+
+body main form#set__nota div.grupo div.mensaje__error p {
+  color: #ec7063;
+  font-size: 1.2rem;
+}
+
+body main form#set__nota div.grupo div.mensaje__error-activo {
+  display: block;
+}
+
+body main form#set__nota div.grupo div.mensaje__exito {
+  display: none;
+  padding: 20px;
+  border: 3px solid #58d68d;
+  background-color: rgba(88, 214, 141, 0.4);
+}
+
+body main form#set__nota div.grupo div.mensaje__exito p {
+  color: #58d68d;
+  font-size: 1.2rem;
+}
+
+body main form#set__nota div.grupo div.mensaje__exito-activo {
+  display: block;
+}
+
+body main form#set__nota div.grupo div#editor {
+  height: 375px;
+}
+
+body main form#set__nota div.oculto {
+  display: none;
+  height: 0;
+  width: 0;
+}
+
+body main div.modal {
+  display: none;
+  position: fixed;
+  margin: 0;
+  overflow: none;
+  opacity: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 9;
+}
+
+body main div.modal div.flex {
   display: flex;
-  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  justify-content: space-between;
   align-items: center;
-  padding: 0px 20px;
 }
 
-body main form section.section_agregar div.contenido div {
-  width: 100%;
-  margin-top: 20px;
+body main div.modal div.flex div.modal__contenido {
+  position: relative;
+  margin: auto;
+  width: 70%;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.4);
+  animation-name: modal;
+  animation-duration: .5s;
+  padding: 0;
 }
 
-body main form section.section_agregar div.contenido input {
-  height: 30px;
-  padding-left: 10px;
-  background-color: #e8e8e8;
-  border-radius: 5px;
-  border: none;
-  width: 100%;
-}
-
-body main form section.section_agregar div.contenido textarea, body main form section.section_agregar div.contenido select {
-  width: 100%;
-  padding: 10px;
-  background-color: #e8e8e8;
-  border-radius: 5px;
-  border: none;
-}
-
-body main form section.section_agregar div.contenido input[type=file] {
-  margin-top: 20px;
-}
-
-body main form section div.contenido {
+body main div.modal div.flex div.modal__contenido div.modal__header {
+  margin: 0;
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #145a32;
 }
 
-body main form section div.contenido button {
-  margin-top: 20px;
-  padding: 10px 30px 10px 30px;
-  border: none;
-  border-radius: 5px;
+body main div.modal div.flex div.modal__contenido div.modal__header h3 {
+  color: #d4d4d4;
+}
+
+body main div.modal div.flex div.modal__contenido div.modal__header a {
+  padding: 5px 10px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.7);
+  color: #d4d4d4;
   cursor: pointer;
-  background: #145a32;
-  box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+}
+
+body main div.modal div.flex div.modal__contenido div.modal__header a:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+body main div.modal div.flex div.modal__contenido div.modal__preview {
+  padding: 10px;
+  margin: 0;
+  background-color: #e8e8e8;
+  min-height: 300px;
+  max-height: 60vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+@keyframes modal {
+  0% {
+    top: -200%;
+    opacity: 0;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+  }
 }

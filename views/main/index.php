@@ -16,7 +16,7 @@
 
 
 	<link rel="Shortcut Icon" type="image/x-icon" href="public/media/logo.ico" />
-	<title>IUTJMC - Inicio</title>
+	<title>UEPJMC</title>
 	
 
 	<!-- CUSTOM CSS -->

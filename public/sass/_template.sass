@@ -5,8 +5,8 @@
 // $bg-3: rgb(232,232,232)
 // $bg-4: rgb(255,255,255)
 
-$bg-1: rgb(34, 153, 84)
-$bg-2: rgb(20, 90, 50)
+$bg-1: rgb(20, 90, 50)
+$bg-2: rgb(30, 132, 73)
 $bg-3: rgb(232,232,232)
 $bg-4: rgb(255,255,255)
 
@@ -24,7 +24,23 @@ $fc-3: rgb(212,212,212)
 	font-family: 'Roboto'
 
 button.btnTrue
+	padding: 10px
+	border: none
+	font-size: 1.2rem
+	cursor: pointer
+	background: rgb(41, 128, 185)
+	border-radius: 5px
+	&:hover
+		background: rgb(31, 97, 141)
 button.btnFalse
+	padding: 10px
+	border: none
+	font-size: 1.2rem
+	cursor: pointer
+	background: rgb(192, 57, 43)
+	border-radius: 5px
+	&:hover
+		background: rgb(146,43,33)
 button.btnInfo
 	padding: 10px
 	border: none
@@ -196,7 +212,7 @@ div.enlaces
 			position: fixed
 			width: 100%
 			background: $bg-1
-			z-index: 1
+			z-index: 2
 
 			div.padre
 				display: flex
@@ -233,18 +249,19 @@ div.enlaces
 
 
 @mixin Navbar
-	body 
+	body
 		div.contenido
 			nav
 				display: block
 				padding-top: 70px
 				position: fixed
-				background: $bg-2 
+				background: $bg-2
 				width: 250px
 				//max-width: 250px
 				//min-width: 250px
 				height: 89.5%
 				overflow-y: auto
+				z-index: 1
 				div.datos_personales
 					display: flex
 					flex-direction: column

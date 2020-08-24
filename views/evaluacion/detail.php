@@ -15,7 +15,7 @@
 
 
 	<link rel="Shortcut Icon" type="image/x-icon" href="<?= constant('URL') ?>public/media/logo.ico" />
-	<title>IUTJMC - Evaluaciones</title>
+	<title>UEPJMC</title>
 
 
 	<!-- CUSTOM CSS -->
@@ -24,6 +24,12 @@
 	<!-- /CUSTOM CSS -->
 	<script src="<?= constant('URL') ?>public/js/jquery/jquery-3.5.0.min.js"></script>
 	<script src="<?= constant('URL') ?>public/js/jquery/jquery.cookie.js"></script>
+
+
+	
+	<!-- Theme included stylesheets -->
+	<link href="<?= constant('URL') ?>public/quill/quill.snow.css" rel="stylesheet">
+	<link href="<?= constant('URL') ?>public/quill/quill.bubble.css" rel="stylesheet">
 
 
 </head>
@@ -55,7 +61,7 @@
 					<?php if ($_SESSION['user'] == 'profesor'): ?>
 					<div class="titulo_der">
 						<div class="enlaces">
-							<a title="Editar" href="#ModalEditar<?= $this->actividad[0] ?>"><span class="icon-pencil"></span></a>
+						
 						</div>
 					</div>
 					<?php endif ?>
@@ -154,184 +160,6 @@
 
 					</div>
 
-					<!-- MODAL EDITAR EVALUACION -->
-					<?php if ($_SESSION['user'] === 'profesor'): ?>
-
-					<div id="ModalEditar<?= $this->actividad[0] ?>" class="editar">
-						<form method="post" enctype="multipart/form-data" action="<?= constant('URL') ?>evaluacion/edit/<?= $this->barMateria[2] ?>/<?= $this->actividad[0]?>">
-							<div class="grupo">
-								<label for="plan">Evaluacion</label>
-								<select name="plan" id="plan_evaluacion">
-									<option value="<?= $this->actividad[22] ?>" selected><?= $this->actividad[2].": ".$this->actividad[1]."% - ".$this->actividad[21] ?></option>
-
-								</select>
-							</div>
-							<div class="grupo">
-								<label for="fecha">Fecha</label>
-								<?php
-									$f = $this->actividad[4];
-									$dias = explode("-", $f);
-								?>
-								<input type="date" id="fecha_evaluacion" name="fecha" value="<?= $dias[2].'-'.$dias[1].'-'.$dias[0] ?>">
-							</div>
-
-							<div class="grupo">
-								<textarea name="descripcion" id="descripcion_evaluacion" cols="20" rows="10" placeholder="Descripcion de la evaluacion"><?= $this->actividad[5] ?></textarea>
-							</div>
-
-
-						<!-- SECCION DE AGREGAR LINKS -->
-
-							<div class="grupo">
-								<br>
-								<br>
-								<h3>Links</h3>
-								<br>
-								<p><small>
-									Para agregar un link tendrás que colocar un nombre en el campo (Nombre link) y luego colocar el link en el campo de abajo (Link) colocar el link. 
-									<br>
-									<br>
-									Ejemplo:
-
-									<br>
-									Nombre Link = Pagina Web del Instituto
-									<br>
-									Url del Link = https://iutjmc.com.ve
-									<br>
-									<br>
-									Aparecerá de esta manera a los alumnos <a href="https://iutjmc.com.ve">Pagina Web del Instituto</a>
-								</small></p>
-							</div>
-
-							<div class="grupo">
-								<span>Link 1</span>
-								<div class="grupo">
-									<label for="">Nombre del Link</label>
-									<input id="nlink1" name="nlink1"  type="text" placeholder="Nombre del link 1" value="<?= $this->actividad[13] ?>">
-								</div>
-								<div class="grupo">
-									<label for="">Url del Link</label>
-									<input id="link1" name="link1" type="text" placeholder="Url del Link 1" value="<?= $this->actividad[17] ?>">
-								</div>
-							</div>
-
-							<div class="grupo">
-								<span>Link 2</span>
-								<div class="grupo">
-									<label for="">Nombre del Link</label>
-									<input id="nlink2" name="nlink2" type="text" placeholder="Nombre del link 2" value="<?= $this->actividad[14] ?>">
-								</div>
-								<div class="grupo">
-									<label for="">Url del Link</label>
-									<input id="link2" name="link2" type="text" placeholder="Url del Link 2" value="<?= $this->actividad[18] ?>">
-								</div>
-							</div>
-
-							<div class="grupo">
-								<span>Link 3</span>
-								<div class="grupo">
-									<label for="">Nombre del Link</label>
-									<input id="nlink3" name="nlink3" type="text" placeholder="Nombre del link 3" value="<?= $this->actividad[15] ?>">
-								</div>
-								<div class="grupo">
-									<label for="">Url del Link</label>
-									<input id="link3" name="link3" type="text" placeholder="Url del Link 3" value="<?= $this->actividad[19] ?>">
-								</div>
-
-							</div>
-
-							<div class="grupo">
-								<span>Link 4</span>
-								<div class="grupo">
-									<label for="">Nombre del Link</label>
-									<input id="nlink4" name="nlink4" type="text" placeholder="Nombre del link 4" value="<?= $this->actividad[16] ?>">
-								</div>
-								<div class="grupo">
-									<label for="">Url del Link</label>
-									<input id="link4" name="link4" type="text" placeholder="Url del Link 4" value="<?= $this->actividad[20] ?>">
-								</div>
-							</div>
-
-						<!-- /SECCION DE AGREGAR LINKS -->
-
-
-
-						<!-- EDITAR ARCHIVOS -->
-							<div class="grupo">
-								<br>
-								<br>
-								<h3>Archivos</h3>
-							</div>
-
-							<div class="grupo">
-								<?php if ($this->actividad[6]): ?>
-								<a href="<?= constant('URL') ?>public/upload/actividad/<?= $this->actividad[10]?>/<?= $this->actividad[0] ?>/<?= $this->actividad[6] ?>" download>Material 1</a>
-								<br>
-								<br>
-								<?php else: ?>
-								<p>Material 1 - SIN CARGAR</p>
-								<br>
-								<?php endif ?>
-								<input name="file[]" type="file">
-							</div>
-							<div class="grupo">
-								<?php if ($this->actividad[7]): ?>
-								<a href="<?= constant('URL') ?>public/upload/actividad/<?= $this->actividad[10]?>/<?= $this->actividad[0] ?>/<?= $this->actividad[7] ?>" download>Material 2</a>
-								<br>
-								<br>
-								<?php else: ?>
-								<p>Material 2 - SIN CARGAR</p>
-								<br>
-								<?php endif ?>
-								<input name="file[]" type="file">
-							</div>
-							<div class="grupo">
-								<?php if ($this->actividad[8]): ?>
-								<a href="<?= constant('URL') ?>public/upload/actividad/<?= $this->actividad[10]?>/<?= $this->actividad[0] ?>/<?= $this->actividad[8] ?>" download>Material 3</a>
-								<br>
-								<br>
-								<?php else: ?>
-								<p>Material 3 - SIN CARGAR</p>
-								<br>
-								<?php endif ?>
-								<input name="file[]" type="file">
-							</div>
-							<div class="grupo">
-								<?php if ($this->actividad[9]): ?>
-								<a href="<?= constant('URL') ?>public/upload/actividad/<?= $this->actividad[10]?>/<?= $this->actividad[0] ?>/<?= $this->actividad[9] ?>" download>Material 4</a>
-								<br>
-								<br>
-								<?php else: ?>
-								<p>Material 4 - SIN CARGAR</p>
-								<br>
-								<?php endif ?>
-								<input name="file[]" type="file">
-							</div>
-						<!-- /EDITAR ARCHIVOS -->
-
-
-
-							<div class="grupo_oculto">
-								<input type="text" name="mat" style="display: none;" value="<?= $this->actividad[10] ?> ">
-								<input type="text" name="actividad" style="display: none;" value="<?= $this->actividad[0] ?> ">
-							</div>
-
-
-							<div class="botones">
-								<button class="item" type="submit" >Guardar</button>
-								<a class="item close cerrar" href="#close"  >Cancelar</a>
-							</div>
-
-
-
-						</form>
-
-
-					</div>
-
-					<?php endif ?>
-				<!-- /MODAL EDITAR EVALUACION -->
-
 				</div>
 			</section>
 		<!-- /MOSTRAR DETALLES DE LA EVALUACION -->
@@ -361,76 +189,81 @@
 		</section>
 		<?php endif ?>
 
-		<?php foreach ($this->evaluacionesEntregadas as $actividad): ?>
 
-		<section class="trabajos cargados">
+		<div id="trabajos__cargados">
+		<?php foreach ($this->evaluacionesEntregadas as $actividad): ?>
+		<section class="trabajo__cargado" data-alumno="<?= $actividad[3] ?>">
 				<div class="titulo">
 					<div class="titulo_izq">
-						<h4><?= $actividad[35]." ".$actividad[36]  ?></h4>
+						<h4 class="nombre"><?= $actividad[29]." ".$actividad[30]  ?></h4>
 					</div>
 					<div class="titulo_der">
 						<div class="enlaces">
 
-							<a title="Corregir Evaluación" href="#OpenModal<?= $actividad[3] ?>"><span class="icon-pencil"></span></a>
+							<!-- <a title="Corregir Evaluación" href="#OpenModal<?= $actividad[3] ?>"><span class="icon-pencil"></span></a> -->
+							<button title="Editar" class="btnModalEditar item icon-pencil btnInfo" type="button" data-alumno="<?= $actividad[3] ?>"></button>
 						</div>
 					</div>
 				</div>
 				<div class="contenido">
 
-					<span><small><strong>C.I: </strong><?= $actividad[34] ?></small></span>
+					<span class="cedula"><small><strong>C.I: </strong><?= $actividad[28] ?></small></span>
 					<br>
 					<span><small><strong>Fecha de Entrega: </strong><?= $actividad[4]  ?></small></span>
 					<br>
 					<br>
 					
-					<?php if( !isset($actividad[10]) ): ?>
+					<div class="correciones">
+					<?php if( !isset($actividad[31]) ): ?>
 					<span><strong>Estatus: </strong>SIN CORREGIR</span>
 					<?php else: ?>
 					<span><strong>Estatus: </strong>CORREGIDO</span>
 					<br>
-					<span><strong>Nota: </strong><?= $actividad[10] ?></span>
+					<span><strong>Nota: </strong><span class="valor__nota"><?= $actividad[31] ?></span></span>
 					<br>
-					<span><strong>Observacion: </strong><?= $actividad[11] ?></span>
+					<span><strong>Observacion: </strong></span>
+					<div class="observacion__qe"><?= $actividad[32] ?></div>
 
 
 					<!-- MOSTRAR CORRECIONES -->
 
 
-						<?php if ($actividad[30] or $actividad[31] or $actividad[32] or $actividad[33]): ?>
+						<?php if ($actividad[33] or $actividad[34] or $actividad[35] or $actividad[36]): ?>
 						<br>
 						<br>
 						<h4>Descargar Correcciones</h4>
 						<br>
 						<?php endif ?>
 
-						<?php if ($actividad[30]): ?>
-						<a href="<?= constant('URL') ?>public/upload/correcciones/<?= $actividad[1] ?>/<?= $actividad[2] ?>/<?= $actividad[30] ?>" download>Material 1</a>
-						<br>
-						<br>
-						<?php endif ?>
-
-						<?php if ($actividad[31]): ?>
-						<a href="<?= constant('URL') ?>public/upload/correcciones/<?= $actividad[1] ?>/<?= $actividad[2] ?>/<?= $actividad[31] ?>" download>Material 2</a>
-						<br>
-						<br>
-						<?php endif ?>
-
-						<?php if ($actividad[32]): ?>
-						<a href="<?= constant('URL') ?>public/upload/correcciones/<?= $actividad[1] ?>/<?= $actividad[2] ?>/<?= $actividad[32] ?>" download>Material 3</a>
-						<br>
-						<br>
-						<?php endif ?>
-
 						<?php if ($actividad[33]): ?>
-						<a href="<?= constant('URL') ?>public/upload/correcciones/<?= $actividad[1] ?>/<?= $actividad[2] ?>/<?= $actividad[33] ?>" download>Material 4</a>
+						<a class="link1" href="<?= constant('URL') ?>public/upload/correcciones/<?= $actividad[1] ?>/<?= $actividad[2] ?>/<?= $actividad[33] ?>" download>Material 1</a>
+						<br>
+						<br>
+						<?php endif ?>
+
+						<?php if ($actividad[34]): ?>
+						<a class="link2" href="<?= constant('URL') ?>public/upload/correcciones/<?= $actividad[1] ?>/<?= $actividad[2] ?>/<?= $actividad[34] ?>" download>Material 2</a>
+						<br>
+						<br>
+						<?php endif ?>
+
+						<?php if ($actividad[35]): ?>
+						<a class="link3" href="<?= constant('URL') ?>public/upload/correcciones/<?= $actividad[1] ?>/<?= $actividad[2] ?>/<?= $actividad[35] ?>" download>Material 3</a>
+						<br>
+						<br>
+						<?php endif ?>
+
+						<?php if ($actividad[36]): ?>
+						<a class="link4" href="<?= constant('URL') ?>public/upload/correcciones/<?= $actividad[1] ?>/<?= $actividad[2] ?>/<?= $actividad[36] ?>" download>Material 4</a>
 						<br>
 						<br>
 						<?php endif ?>
 
 
 					<!-- /MOSTRAR CORRECIONES -->
-
+						
 					<?php endif; ?>
+					</div>
 
 
 
@@ -439,11 +272,12 @@
 					<br>
 					<br>
 					<h3>DATOS ENVIADOS POR EL ESTUDIANTE</h3>
+					
 
-					<?php if ($actividad[29]): ?>
-					<h4>Descripcion</h4>
+					<?php if ($actividad[27]): ?>
+					<h4>Descripcion:</h4>
 					<br>
-					<p><?= nl2br($actividad[29]); ?></p>
+					<p><?= nl2br($actividad[27]); ?></p>
 					<?php endif ?>
 
 				</div>
@@ -486,73 +320,10 @@
 					</div>
 				<!-- /ARCHIVOS ENTREGADOS POR EL ESTUDIANTE -->
 
-
-				<!-- CORREGIR EVALUACION PROFESOR -->
-					<div id="OpenModal<?= $actividad[3] ?>" class="Modal">
-						<form enctype="multipart/form-data" method="post" action="<?= constant('URL') ?>nota/addNota/<?= $actividad[1] ?>/<?= $actividad[0]?>">
-							<div class="grupo">
-								<label for="nota">Nota</label>
-								<select name="nota" id="nota">
-									<?php
-									$n = 0;
-									while ( $n <= 20) {
-
-										if ($actividad[10] == $n) {
-											print '<option selected="selected" value="'.$n.'">'.$n.'</option>';
-										}else{
-											print '<option value="'.$n.'">'.$n.'</option>';
-										}
-										$n++;
-
-									} ?>
-								</select>
-							</div>
-							<div class="grupo">
-								<label for="">Observacion</label>
-								<textarea name="observacion" id="observacion" cols="30" rows="10"><?= $actividad[11] ?></textarea>
-							</div>
-
-							<div class="grupo_oculto">
-								<input type="text" name="materia" value="<?= $actividad[1] ?>" style="display: none;">
-								<input type="text" name="plan" value="<?= $actividad[2] ?>" style="display: none;">
-								<input type="text" name="alumno" value="<?= $actividad[3] ?>" style="display: none;">
-							</div>
-
-							<div class="grupo">
-
-								<div class="grupo">
-
-									<h3>Archivos</h3>
-								</div>
-								<input type="file" name="file[]">
-								<br>
-								<input type="file" name="file[]">
-								<br>
-								<input type="file" name="file[]">
-								<br>
-								<input type="file" name="file[]">
-							</div>
-
-							<div class="botones">
-								<button  type="submit">Guardar</button>
-								<a  href="#close" class="cerrar">Cerrar</a>
-							</div>
-
-
-
-						</form>
-					</div>
-				<!-- /CORREGIR EVALUACION PROFESOR -->
-
-				
-
-				
-
 				</div>
 		</section>
-
-
 		<?php endforeach; ?>
+		<!-- </div> -->
 		</div>
 
 		<?php endif ?>
@@ -664,43 +435,6 @@
 
 
 
-		<!-- LINKS ENTREGADOS POR EL ESTUDIANTE -->
-			<div class="trabajos">
-
-				<?php if ($this->actividadAlumno[21] or $this->actividadAlumno[22] or $this->actividadAlumno[23] or $this->actividadAlumno[24]): ?>
-				<br>
-				<br>
-				<h4>Links</h4>
-				<br>
-				<?php endif ?>
-
-				<?php if ($this->actividadAlumno[21]): ?>
-				<a href="<?= $this->actividadAlumno[25] ?>"><?= $this->actividadAlumno[21] ?></a>
-				<br>
-				<br>
-				<?php endif ?>
-
-				<?php if ($this->actividadAlumno[22]): ?>
-				<a href="<?= $this->actividadAlumno[26] ?>"><?= $this->actividadAlumno[22] ?></a>
-				<br>
-				<br>
-				<?php endif ?>
-
-				<?php if ($this->actividadAlumno[23]): ?>
-				<a href="<?= $this->actividadAlumno[27] ?>"><?= $this->actividadAlumno[23] ?></a>
-				<br>
-				<br>
-				<?php endif ?>
-
-				<?php if ($this->actividadAlumno[24]): ?>
-				<a href="<?= $this->actividadAlumno[28] ?>"><?= $this->actividadAlumno[24] ?></a>
-				<br>
-				<br>
-				<?php endif ?>
-
-			</div>
-		<!-- /LINKS ENTREGADOS POR EL ESTUDIANTE -->
-
 
 		<!-- ARCHIVOS ENTREGADOS POR EL ESTUDIANTE -->
 			<?php if ($this->actividadAlumno[5] or $this->actividadAlumno[6] or $this->actividadAlumno[7] or $this->actividadAlumno[8]): ?>
@@ -747,79 +481,6 @@
 							<textarea name="descripcion" id="message" cols="30" rows="10" placeholder="Descripcion"><?= $this->actividadAlumno[29]; ?></textarea>
 					</div>
 
-					<!-- SECCION DE AGREGAR LINKS -->
-
-						<div class="grupo">
-							<br>
-							<br>
-							<h3>Links</h3>
-							<br>
-							<p><small>
-								Para agregar un link tendrás que colocar un nombre en el campo (Nombre link) y luego colocar el link en el campo de abajo (Link) colocar el link. 
-								<br>
-								<br>
-								Ejemplo:
-
-								<br>
-								Nombre Link = Pagina Web del Instituto
-								<br>
-								Url del Link = https://iutjmc.com.ve
-								<br>
-								<br>
-								Aparecerá de esta manera al profesor <a href="https://iutjmc.com.ve">Pagina Web del Instituto</a>
-							</small></p>
-						</div>
-
-						<div class="grupo">
-							<span>Link 1</span>
-							<div class="grupo">
-								<label for="">Nombre del Link</label>
-								<input id="nlink1" name="nlink1"  type="text" placeholder="Nombre del link 1" value=" <?= $this->actividadAlumno[21] ?>">
-							</div>
-							<div class="grupo">
-								<label for="">Url del Link</label>
-								<input id="link1" name="link1" type="text" placeholder="Url del Link 1" value=" <?= $this->actividadAlumno[25] ?>">
-							</div>
-						</div>
-
-						<div class="grupo">
-							<span>Link 2</span>
-							<div class="grupo">
-								<label for="">Nombre del Link</label>
-								<input id="nlink2" name="nlink2" type="text" placeholder="Nombre del link 2" value=" <?= $this->actividadAlumno[22] ?>">
-							</div>
-							<div class="grupo">
-								<label for="">Url del Link</label>
-								<input id="link2" name="link2" type="text" placeholder="Url del Link 2" value=" <?= $this->actividadAlumno[26] ?>">
-							</div>
-						</div>
-
-						<div class="grupo">
-							<span>Link 3</span>
-							<div class="grupo">
-								<label for="">Nombre del Link</label>
-								<input id="nlink3" name="nlink3" type="text" placeholder="Nombre del link 3" value=" <?= $this->actividadAlumno[23] ?>">
-							</div>
-							<div class="grupo">
-								<label for="">Url del Link</label>
-								<input id="link3" name="link3" type="text" placeholder="Url del Link 3" value=" <?= $this->actividadAlumno[27] ?>">
-							</div>
-
-						</div>
-
-						<div class="grupo">
-							<span>Link 4</span>
-							<div class="grupo">
-								<label for="">Nombre del Link</label>
-								<input id="nlink4" name="nlink4" type="text" placeholder="Nombre del link 4" value=" <?= $this->actividadAlumno[24] ?>">
-							</div>
-							<div class="grupo">
-								<label for="">Url del Link</label>
-								<input id="link4" name="link4" type="text" placeholder="Url del Link 4" value=" <?= $this->actividadAlumno[28] ?>">
-							</div>
-						</div>
-
-					<!-- /SECCION DE AGREGAR LINKS -->
 
 					<!-- CARGAR ARCHIVO -->
 						<div class="grupo">
@@ -874,7 +535,7 @@
 						</div>
 
 						<div class="botones">
-							<button class="item" type="submit" >Guardar</button>
+							<button class="item btnTrue" type="submit" >Guardar</button>
 							<a class="item close" href="#close" class="cerrar" >Cancelar</a>
 						</div>
 					</form>
@@ -1038,7 +699,7 @@
 							<input type="text" name="evaluacion" value="<?= $this->actividad[0] ?>" style="display: none;">
 						</div>
 
-						<button>Guardar</button>
+						<button class="btnTrue">Guardar</button>
 					</form>
 				</div>
 			</section>
@@ -1061,6 +722,114 @@
 
 
 
+
+
+				<section class="section_agregar">
+<!-- AGREGAR NOTAS -->
+	<!-- SECCION DE PREVIEW MODAL -->
+
+	<div class="modal" id="modalEditar">
+							<div class="flex" id="flexEditar">
+								<div class="modal__contenido">
+									<div class="modal__header">
+										<h3>Previsualización</h3>
+										<a id="btnCerrarEditar">&times;</a>
+									</div>
+									<div class="modal__preview">
+										<!-- FORMULARIO AGREGAR Y EDITAR NOTAS -->
+<form id="set__nota" enctype="multipart/form-data" method="post" >
+	<div class="grupo">
+		<label for="nota">Nota</label>
+		<select name="nota" id="nota">
+			<option value="" selected="selected">Sin cargar notas</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+			<option value="20">20</option>
+		</select>
+		<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
+	</div>
+
+	<div class="grupo">
+		<label for="observacion">Observacion</label>
+		<div id="editor" style="height: 375px;"></div>
+		<p id="editor_contador">caracteres (<span id="editor_caracteres">0</span>/50000)</p>
+		<textarea name="observacion" id="observacion" cols="30" rows="10" style="display: none;"></textarea>
+	</div>
+
+	<!-- SECCION DE AGREGAR ARCHIVOS -->
+
+	<div class="grupo">
+		<div>
+			<br>
+			<br>
+			<h3>Agregar Archivos</h3>
+			<br>
+		</div>
+
+		<div id="grupo_archivos_editar">
+			<div id="link1"></div>
+			<input type="file" name="file[]" class="file1">
+			<p class="formulario__input-error"></p>
+			<div id="link2"></div>
+			<input type="file" name="file[]" class="file2">
+			<p class="formulario__input-error"></p>
+			<div id="link3"></div>
+			<input type="file" name="file[]" class="file3">
+			<p class="formulario__input-error"></p>
+			<div id="link4"></div>
+			<input type="file" name="file[]" class="file4">
+			<p class="formulario__input-error"></p>
+		</div>
+	</div>
+
+	<!-- /SECCION DE AGREGAR ARCHIVOS -->
+
+
+	<div class="grupo_oculto">
+		<input type="text" name="materia" value="<?= $this->actividad[10] ?>" style="display: none;">
+		<input type="text" name="plan" value="<?= $this->actividad[22] ?>" style="display: none;">
+		<input type="text" name="alumno" value="" style="display: none;">
+	</div>
+
+	<div class="grupo">
+		<div class="mensaje__error">
+			<p>No se puedo guardar, por favor revise todo los campos y verifique que no tengan ningun error.</p>
+		</div>
+		<div class="mensaje__exito">
+		</div>
+	</div>
+
+	<div class="grupo botones">
+		<button id="btnSubmit" class="item btnTrue" type="submit" >Guardar</button>
+	</div>
+</form>
+										<!-- /FORMULARIO AGREGAR Y EDITAR NOTAS -->
+									</div>
+								</div>
+							</div>
+						</div>
+
+					<!-- /SECCION DE PREVIEW MODAL -->
+<!-- /AGREGAR NOTAS -->
+</section>
+
 		</main>
 
 	</div>
@@ -1074,8 +843,13 @@
 
 
 
+	<!-- Main Quill library -->
+	<script src="<?= constant('URL') ?>public/quill/quill.min.js"></script>
+
 	<!-- JS -->
+	<script src="<?= constant('URL') ?>public/js/config.js"></script>
 	<script src="<?= constant('URL') ?>public/js/menu.js"></script>
+	<script src="<?= constant('URL') ?>public/js/evaluaciones__detail.js"></script>
 	<!-- /JS -->
 
 </body>

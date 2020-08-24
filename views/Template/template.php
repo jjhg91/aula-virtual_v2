@@ -30,8 +30,8 @@
 			
 			<div>
 
-				<h4 class="grande">Instituto Universitario de Tecnología "José María Carreño"</h4>
-				<h4 class="chico">IUTJMC</h4>
+				<h4 class="grande">Unidad Educativa Privada "José María Carreño"</h4>
+				<h4 class="chico">UEPJMC</h4>
 			</div>
 			<div>
 				<a title="Manual de usuario Alumnos" href="<?= constant('URL') ?>public/media/manuales/manual_de_usuario_alumno.pdf" download=""><span class="icon-map"></span></a>
@@ -63,16 +63,17 @@
 
 			<!-- <img src="../../media/user.jpg" alt=""> -->
 
-			<h4><?= $usuario['nombre'] ?></h4>
+			<h4 id="nombre__usuario"><?= $usuario['nombre'] ?></h4>
 			
 			<?php if ( $usuario['user'] === 'alumno' ): ?>
-				<span><small>Alumno</small></span>
+				<span><small>Estudiante</small></span>
 			<?php else: ?>
 				<span><small>Profesor</small></span>
 			<?php endif; ?>	
 				
 			
-			<span><small>2020-2</small></span>	
+			<!-- <span><small>2020-2</small></span>	 -->
+			<span><small>2020-2021</small></span>
 		</div>
 		<!-- /DATOS PERSONALES DEL USUARIO -->
 		
@@ -161,10 +162,13 @@
 	NOMRES DE LA CARRERA, MATERIA, PROFESOR Y PERIODO -->
 	<section class="tarjeta_informacion">
 		<hgroup class="hgroup_izq"	>
-			<h4>Carrera: <?= $barMateria[4] ?></h4>
-			<h4>Materia: <?= $barMateria[0] ?></h4>
+			<!-- <h4>Carrera: <?= $barMateria[4] ?></h4> -->
+			<h4><?= $barMateria[4] ?></h4>
+			<!-- <h4>Materia: <?= $barMateria[0] ?></h4> -->
+			<h4>Asignatura: <?= $barMateria[0] ?></h4> 
 			<h4>Profesor: <?= $barMateria[3] ?></h4>
-			<h4>Periodo: 2020-2</h4>
+			<!-- <h4>Periodo: 2020-2</h4> -->
+			<h4>Año escolar: 2020-2021</h4>
 		</hgroup>
 			
 		<hgroup class="hgroup_der">

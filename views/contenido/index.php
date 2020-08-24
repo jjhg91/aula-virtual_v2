@@ -19,7 +19,7 @@ require_once('views/Template/template.php');
 
 
 	<link rel="Shortcut Icon" type="image/x-icon" href="<?= constant('URL') ?>public/media/logo.ico" />
-	<title>IUTJMC - Contenido</title>
+	<title>UEPJMC</title>
 
 
 	<!-- CUSTOM CSS -->
@@ -85,13 +85,8 @@ require_once('views/Template/template.php');
 					<?php if($_SESSION['user'] == 'profesor'): ?>
 					<div class="titulo_der ">
 						<div class="enlaces">
-							<!-- <a title="Editar" href="#ModalEditar<?= $contenido[0] ?>"><span class="icon-pencil"></span></a> -->
-
 							<button title="Editar" class="btnModalEditar item icon-pencil btnInfo" type="button" data-contenido="<?= $contenido[0] ?>"></button>
-
-							<!-- <a title="Eliminar" href="<?= constant('URL') ?>contenido/delete/<?= $contenido[1] ?>/<?= $contenido[0] ?>"><span class="icon-bin"></span></a> -->
 							<button title="Eliminar" class="btnEliminar icon-bin btnInfo" data-materia="<?= $contenido[1] ?>" data-contenido="<?= $contenido[0] ?>" data-objetivo="<?= $contenido[2] ?>" type="button" ></button>
-							
 						</div>
 					</div>
 					<?php endif; ?>
@@ -139,7 +134,7 @@ require_once('views/Template/template.php');
 				<!-- /MOSTAR LINKS -->
 
 				<!-- MOSTRAR ARCHIVOS  -->
-					<div class="trabajos">
+					<div class="trabajos mostrar_archivos">
 						<?php if ($contenido[4] or $contenido[5] or $contenido[6] or $contenido[7]): ?>
 						<br>
 						<br>
@@ -246,7 +241,7 @@ require_once('views/Template/template.php');
 								<p class="formulario__input-error"></p>
 							</div>
 
-							<button type="button" id="add_input_archivo">Otro Archivo</button>
+							<button class="btnInfo" type="button" id="add_input_archivo">Otro Archivo</button>
 						</div>
 
 					<!-- /SECCION DE AGREGAR ARCHIVOS -->
@@ -262,8 +257,8 @@ require_once('views/Template/template.php');
 						</div>
 
 						<div class="grupo">
-							<button id="btnSubmit" class="item" type="submit" >Guardar</button>
-							<button id="btnModalPreview" class="item" type="button" >Previsualizar</button>
+							<button id="btnSubmit" class="item btnTrue" type="submit" >Guardar</button>
+							<button id="btnModalPreview" class="item btnInfo" type="button" >Previsualizar</button>
 						</div>
 						
 					</form>
@@ -366,7 +361,7 @@ require_once('views/Template/template.php');
 											</div>
 
 											<div class="grupo">
-												<button id="btnSubmitEditar" class="item" type="submit" >Guardar</button>
+												<button id="btnSubmitEditar" class="item btnTrue" type="submit" >Guardar</button>
 											</div>
 										</form>
 										<!-- /FORMULARIO AGREGAR CONTENIDO -->

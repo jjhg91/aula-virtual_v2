@@ -96,29 +96,30 @@ class Foro extends Controller
 		$sesion = new Sesion();
 		$sesion->validateSesion();
 		$usuario = $sesion->getSesion();
+		$respuesta = ['status' => false, 'respuesta' => ""];
 
 		if (  ctype_digit($materia) && ctype_digit($foro) ) {
 			$navbar = new Navbar($usuario);
 			$barMateria = $navbar->barMateria($usuario,$materia);
 			if ($barMateria) {
 				$eliminar = $this->model->deleteForo($materia, $foro);
-
 				if ( $eliminar ) {
-					header('Location: ' . constant('URL') . 'foro/all/' . $materia);
+					$respuesta['status'] = true;
+					$respuesta['respuesta'] = "EL FORO SE A ELIMINADO EXITOSAMENTE";
 				}else{
-					echo "ERROR AL ELIMINAR CONTENIDO";
+					$respuesta['status'] = false;
+					$respuesta['respuesta'] = "ERROR AL ELIMINAR CONTENIDO";
 				}
-
-
-
 			}else{
-				echo "MATERIA NO VALIDA O NO INSCRITA";
+				$respuesta['status'] = false;
+				$respuesta['respuesta'] = "MATERIA NO VALIDA O NO INSCRITA";
 			}
 
 		}else{
-			echo "DIRECCION URL INVALIDA";
-			exit;
+			$respuesta['status'] = false;
+			$respuesta['respuesta'] = "DIRECCION URL INVALIDA";
 		}
+		echo json_encode($respuesta);
 	}
 
 	public function addForo($url)
@@ -129,6 +130,7 @@ class Foro extends Controller
 		$sesion = new Sesion();
 		$sesion->validateSesion();
 		$usuario = $sesion->getSesion();
+		$respuesta = ['status' => false, 'respuesta' => "", 'idForo' => ""];
 
 		if (  ctype_digit($materia) ) {
 			$navbar = new Navbar($usuario);
@@ -138,41 +140,47 @@ class Foro extends Controller
 				$titulo = $_POST['titulo'];
 				$descripcion = $_POST['descripcion'];
 
-
 				$datos = [
 					'materia' => $materia,
 					'titulo' => $titulo,
 					'descripcion' => $descripcion
 				];
 				$insert = $this->model->addForo($datos);
-				if ( $insert ) {
-					echo "FORO CREADO EXITOSAMENTE";
 
-					header('Location: ' . constant('URL') . 'foro/all/' . $materia);
+				if ( $insert ) {
+					$idForo = $this->model->getIdTema($datos);
+
+					$respuesta['status'] = true;
+					$respuesta['respuesta'] = "FORO CREADO EXITOSAMENTE";
+					$respuesta['idForo'] = $idForo;
 				}
 
 
 			}else{
-				echo "MATERIA NO VALIDA O NO INSCRITA";
+				$respuesta['status'] = false;
+				$respuesta['respuesta'] = "MATERIA NO VALIDA O NO INSCRITA";
 			}
 
 		}else{
-			echo "DIRECCION URL INVALIDA";
-			exit;
+			$respuesta['status'] = false;
+			$respuesta['respuesta'] = "DIRECCION URL INVALIDA";
 		}
+		
+		echo json_encode($respuesta);
 	}
 
 	public function addPost($url)
 	{
 		//URLS VARIABLES
 		$materia = (int)$_POST['materia'];
-		$tem = (int)$_POST['tema'];
+		$tem = (int)$_POST['foro'];
 
 		$sesion = new Sesion();
 		$sesion->validateSesion();
 		$usuario = $sesion->getSesion();
+		$respuesta = ['status' => false, 'respuesta' => "",'idPost' => "", 'fecha' => ""];
 
-		if (  ctype_digit($materia) ) {
+		if (  is_int($materia) && is_int($tem) ) {
 			$navbar = new Navbar($usuario);
 			$barMateria = $navbar->barMateria($usuario,$materia);
 			if ($barMateria) {
@@ -180,11 +188,11 @@ class Foro extends Controller
 				$mensaje = $_POST['message'];
 				$user = $usuario['id'];
 				$level = $usuario['user'];
-				$fecha = date("m-d-Y",time()) ;
-				if ( (int)$_POST['tema'] == 0 ) {
+				$fecha = date("m-d-Y",time());
+				if ( $tem == 0 ) {
 					$tema = null;
 				}else{
-					$tema = $url[1];
+					$tema = $tem;
 				}
 
 				$datos = [
@@ -196,21 +204,25 @@ class Foro extends Controller
 					'tema' => $tema
 				];
 				$insert = $this->model->addPost($datos);
-				if ( $insert ) {
-					echo "POST ENVIADO EXITOSAMENTE";
+				$idPost = $this->model->getIdPost($datos);
 
-					header('Location: ' . constant('URL') . 'foro/detail/' . $materia . "/" . $tema );
+				if ( $insert ) {
+					$respuesta['status'] = true;
+					$respuesta['respuesta'] = "POST AGREGADO EN EL FORO EXITOSAMENTE";
+					$respuesta['idPost'] = $idPost;
+					$respuesta['fecha'] = $fecha;
 				}
 
-
 			}else{
-				echo "MATERIA NO VALIDA O NO INSCRITA";
+				$respuesta['status'] = false;
+				$respuesta['respuesta'] = "MATERIA NO VALIDA O NO INSCRITA";
 			}
 
 		}else{
-			echo "DIRECCION URL INVALIDA";
-			exit;
+			$respuesta['status'] = false;
+			$respuesta['respuesta'] = "DIRECCION URL INVALIDA";
 		}
+		echo json_encode($respuesta);
 	}
 
 	public function addRespuestaPost($url)
@@ -218,12 +230,14 @@ class Foro extends Controller
 		//URLS VARIABLES
 		$materia = (int)$_POST['materia'];
 		$post = (int)$_POST['post'];
+		$tem = (int)$_POST['tema'];
 
 		$sesion = new Sesion();
 		$sesion->validateSesion();
 		$usuario = $sesion->getSesion();
+		$respuesta = ['status' => false, 'respuesta' => "", 'fecha' => ""];
 
-		if (  ctype_digit($materia) && ctype_digit($post) ) {
+		if (  is_int($materia) && is_int($post) && is_int($tem) ) {
 			$navbar = new Navbar($usuario);
 			$barMateria = $navbar->barMateria($usuario,$materia);
 			if ($barMateria) {
@@ -232,7 +246,7 @@ class Foro extends Controller
 				$user = $usuario['id'];
 				$level = $usuario['user'];
 				$fecha = date("m-d-Y",time()) ;
-				if ( (int)$_POST['tema'] == 0 ) {
+				if ( $tem == 0 ) {
 					$tema = null;
 				}else{
 					$tema = $tem;
@@ -248,21 +262,24 @@ class Foro extends Controller
 					'post' => $post
 				];
 				$insert = $this->model->addRespuestaPost($datos);
+				// $idRespuesta = $this->model->getRespuestaPost($datos);
 				if ( $insert ) {
-					echo "POST ENVIADO EXITOSAMENTE";
-
-					header('Location: ' . constant('URL') . 'foro/detail/' . $materia . "/" . (int)$_POST['tema'] );
+					$respuesta['status'] = true;
+					$respuesta['respuesta'] = "POST GUARDADO EXITOSAMENTE";
+					$respuesta['fecha'] = $fecha;
 				}
 
 
 			}else{
-				echo "MATERIA NO VALIDA O NO INSCRITA";
+				$respuesta['status'] = false;
+				$respuesta['respuesta'] = "MATERIA NO VALIDA O NO INSCRITA";
 			}
 
 		}else{
-			echo "DIRECCION URL INVALIDA";
-			exit;
+			$respuesta['status'] = false;
+			$respuesta['respuesta'] = "DIRECCION URL INVALIDA";
 		}
+		echo json_encode($respuesta);
 	}
 
 	public function deletePost($url)
@@ -271,33 +288,89 @@ class Foro extends Controller
 		$tema = $url[1];
 		$post = $url[2];
 
-
 		$sesion = new Sesion();
 		$sesion->validateSesion();
 		$usuario = $sesion->getSesion();
+		$respuesta = ['status' => false, 'respuesta' => ""];
 
 		if (  ctype_digit($materia) && ctype_digit($post) ) {
 			$navbar = new Navbar($usuario);
 			$barMateria = $navbar->barMateria($usuario,$materia);
 			if ($barMateria) {
 				$eliminar = $this->model->deletePost($materia, $url[2]);
-
 				if ( $eliminar ) {
-					header('Location: ' . constant('URL') . 'foro/detail/' . $materia . "/" . $url[1] );
+					$respuesta['status'] = true;
+					$respuesta['respuesta'] = "POST ELIMINADO EXITOSAMENTE";
 				}else{
-					echo "ERROR AL ELIMINAR CONTENIDO";
+					$respuesta['status'] = false;
+					$respuesta['respuesta'] = "ERROR AL ELIMINAR CONTENIDO";
+				}
+			}else{
+				$respuesta['status'] = false;
+				$respuesta['respuesta'] = "MATERIA NO VALIDA O NO INSCRITA";
+			}
+		}else{
+			$respuesta['status'] = false;
+			$respuesta['respuesta'] = "DIRECCION URL INVALIDA";
+		}
+		echo json_encode($respuesta);
+	}
+
+
+	public function editForo($url)
+	{
+		$materia = (int)$_POST['materia'];
+		$foro = (int)$_POST['foro'];
+
+		$gg = gettype($foro);
+		$g = gettype($materia);
+
+		$sesion = new Sesion();
+		$sesion->validateSesion();
+		$usuario = $sesion->getSesion();
+		$respuesta = ['status' => false, 'respuesta' => ""];
+
+		if (  is_int($materia) && is_int($foro) ) {
+			$navbar = new Navbar($usuario);
+			$barMateria = $navbar->barMateria($usuario,$materia);
+
+			if ($barMateria) {
+				// DATOS DEL FORMULARIO
+				$titulo = $_POST['titulo'];
+				$descripcion = $_POST['descripcion'];
+				
+				$datos = [
+					'materia' => $materia,
+					'foro' => $foro,
+					'titulo' => $titulo,
+					'descripcion' => $descripcion
+				];
+				
+				$editar = $this->model->editForoTema($datos);
+				
+				if ( $editar ) {
+					$respuesta['status'] = true ;
+					$respuesta['respuesta'] = "CONTENIDO SIN ARCHIVOS, EDITADO EXITOSAMENTE";
+				}else{
+					$respuesta['status'] = false ;
+					$respuesta['respuesta'] = "ERROR AL EDITAR CONTENIDO";
 				}
 
 
 
 			}else{
-				echo "MATERIA NO VALIDA O NO INSCRITA";
+				$respuesta['status'] = false ;
+				$respuesta['respuesta'] = "MATERIA NO VALIDA O NO INSCRITA";
 			}
 
 		}else{
-			echo "DIRECCION URL INVALIDA";
-			exit;
+			$respuesta['status'] = false ;
+			$respuesta['respuesta'] = "DIRECCION URL INVALIDA";
 		}
+
+
+		
+		echo json_encode($respuesta);
 	}
 
 }

@@ -14,15 +14,15 @@
 
 
 
-	<link rel="Shortcut Icon" type="image/x-icon" href="<?= constant('URL') ?>public/media/logo.ico" />
+	<link rel="Shortcut Icon" type="image/x-icon" href="public/media/logo.ico" />
 	<title>UEPJMC</title>
 
 
 	<!-- CUSTOM CSS -->
-	<link rel="stylesheet" href="<?= constant('URL') ?>public/icon/icomoon/style.css">
-	<link rel="stylesheet" href="<?= constant('URL') ?>public/css/index.css">
+	<link rel="stylesheet" href="public/icon/icomoon/style.css">
+	<link rel="stylesheet" href="public/css/index.css">
 	<!-- /CUSTOM CSS -->
-	<script src="<?= constant('URL') ?>public/js/jquery/jquery-3.5.0.min.js"></script>
+	<script src="public/js/jquery/jquery-3.5.0.min.js"></script>
 
 </head>
 <body>
@@ -37,10 +37,10 @@
 						"José María Carreño"
 					</h1>
 					<hr>
-					<h3>Aula Virtual</h3>
+					<h3>ADMINISTRACION - Aula Virtual</h3>
 					
 				</hgroup>
-				<form name="formulario-login" method="post" 	action="<?= constant('URL')?>index/login">
+				<form name="formulario-login" method="post" 	action="<?= constant('URL')?>admin/login">
 					<div class="group">
 						<label for="user">Usuario</label>
 						<input name="user" type="text" placeholder="Usuario">
@@ -49,17 +49,7 @@
 						<label for="pass">Contraseña</label>
 						<input name="pass" type="password" placeholder="Contraseña">
 					</div>
-					<div class="group group_radio">
-						<div class="radio">
-							<input type="radio" id="alumno" name="level" value="alumno" checked="true" >
-							<label for="alumno" class="label_radio">Alumno</label>
-						</div>
-						<div class="radio">
-							<input type="radio" id="profesor" name="level" value="profesor">
-							<label for="profesor" class="label_radio">Profesor</label>
-						</div>
-						
-					</div>
+					
 					<div class="group group_button">
 						<button class="btnTrue">ENTRAR</button>
 					</div>

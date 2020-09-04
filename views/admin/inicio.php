@@ -21,7 +21,7 @@
 
 	<!-- CUSTOM CSS -->
 	<link rel="stylesheet" href="<?= constant('URL') ?>public/icon/icomoon/style.css">
-	<link rel="stylesheet" href="public/css/inicio.css">
+	<link rel="stylesheet" href="<?= constant('URL') ?>public/css/inicio.css">
 	<!-- /CUSTOM CSS -->
 	<script src="<?= constant('URL') ?>public/js/jquery/jquery-3.5.0.min.js"></script>
 	<script src="<?= constant('URL') ?>public/js/jquery/jquery.cookie.js"></script>

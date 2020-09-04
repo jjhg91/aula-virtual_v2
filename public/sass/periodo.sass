@@ -1,0 +1,118 @@
+@import _template.sass
+
+*
+	margin: 0
+	padding: 0
+
+
+@include Loader
+@include Headerr
+@include Navbar
+@include Main
+@include TarjetaInformativa
+
+
+
+body
+	
+	main
+		section
+			@include Tarjeta
+			padding: 20px 0px
+			width: auto
+			div 
+				margin: 0px 20px
+			div.titulo
+				padding-bottom: 10px
+				border-bottom: 2px solid rgba(0,0,0,0.3)
+				display: flex
+				align-items: center
+				div
+					display: inline-block
+					width: 50%
+				div.titulo_der 
+					text-align: right
+			div.contenido
+				padding: 20px 0px
+				overflow: auto
+
+
+
+div.paginas
+	ul
+		margin: 10px 0
+   		padding: 0
+		li 
+			display: inline-block
+			margin: 0
+			padding: 10px
+			a 
+				background: rgb(228, 228, 228)
+				border-radius: 3px
+				color: rgb(50, 50, 50)
+				padding: 10px 15px
+				text-decoration: none
+			&.actual
+				a
+					background: $bg-1 !important
+					color: rgb(255, 255, 255) !important
+
+div.inputs > input.correcto
+	border: 3px solid rgb(88,214,141)
+	background: rgba(88,214,141,0.4)
+div.inputs > input.incorrecto
+	border: 3px solid rgb(236,112,99)
+	background: rgba(236, 112, 99,0.4)
+p.formulario__input-error
+	display: block
+	font-size: .8rem
+	color: red
+	padding-left: 20px
+	visibility: hidden
+p.formulario__input-error-activo
+	visibility: visible
+tr 
+	height: 50px
+td 
+	padding-left: 10px
+
+table
+	display: block
+	text-align: left
+	border-collapse: collapse
+	width: 100% !important
+	tr, td 
+		padding: 20px
+	tr 
+		width: 100%
+	thead
+		background-color: $bg-2
+		border-bottom: solid 2px $bg-1
+		color: white;
+		width: 100%
+	tr:nth-child(even)
+		background-color: #ddd
+	td,th :before
+		text-align:center
+
+button
+	cursor: pointer
+	background: $bg-2
+	border-radius: 3px
+	color: white
+	padding: 10px 15px
+	text-decoration: none
+	border: none
+	border-radius: 5px
+
+
+div.mensaje__error
+	display: none
+	@include mensaje__error
+div.mensaje__error-activo
+	display: block
+div.mensaje__exito
+	display: none
+	@include mensaje__exito
+div.mensaje__exito-activo
+	display: block

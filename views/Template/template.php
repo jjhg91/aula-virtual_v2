@@ -67,7 +67,7 @@
 			
 			<?php if ( $usuario['user'] === 'alumno' ): ?>
 				<span><small>Estudiante</small></span>
-			<?php else: ?>
+			<?php elseif ( $usuario['user'] === 'profesor' ): ?>
 				<span><small>Profesor</small></span>
 			<?php endif; ?>	
 				
@@ -86,9 +86,28 @@
 				<li class="submenu">
 					<a href="<?= constant('URL') ?>main">Inicio</a>
 				</li>
+			
+				<?php if ( $usuario['user'] === 'admin' ): ?>
+					<li class="submenu">
+						<a href="<?= constant('URL') ?>admin/profesor">Profesores</a>
+					</li>
+					<!-- <li class="submenu">
+						<a href="#">Alumnos</a>
+					</li> -->
 
+					<li class="submenu">
+						<a href="<?= constant('URL') ?>admin/periodo">Periodos</a>
+					</li>
+					<li class="submenu">
+						<a href="<?= constant('URL') ?>admin/grado">Grados</a>
+					</li>
+					<li class="submenu">
+						<a href="<?= constant('URL') ?>admin/asignatura">Asignaturas</a>
+					</li>
+				<?php endif ?>
 
-				<?php foreach ($navbarMaterias as $row): ?>
+				<?php  foreach ($navbarMaterias as $row): ?>
+
 				<li class="submenu">
 
 					<?php if(!empty($_GET['mat']) and $_GET['mat'] == $row[2] ): ?>

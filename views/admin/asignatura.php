@@ -64,7 +64,7 @@
 				</div>
 
 				<div class="contenido">
-					<table class="table" >
+					<table class="table"  >
 						<thead>
 							<tr>
 								<th>EDUCACION</th>

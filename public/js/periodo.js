@@ -1,7 +1,7 @@
 class ValidarFormulario {
 	constructor(formulario){
 		this.formulario = formulario;
-		this.inputs = document.querySelectorAll('#add__periodo, #add__estatus');
+		this.inputs = document.querySelectorAll('#add__periodo, #add__lapso,#add__estatus');
 		this.expresiones = {
 			periodo: /^(\d{4})-(\d{4})$/, // 4 numero un - y 4 numeros
 		}
@@ -58,7 +58,8 @@ class ValidarFormulario {
 
 				const formData = new FormData();
 				formData.append('add__periodo', this.inputs[1].value);
-				formData.append('add__estatus',this.inputs[2].value);
+				formData.append('add__lapso',this.inputs[2].value);
+				formData.append('add__estatus',this.inputs[3].value);
 
 				let direccion = `${URL}admin/periodo/`;
 				let xmlhttp = new XMLHttpRequest();
@@ -81,6 +82,7 @@ class ValidarFormulario {
 							nuevo.innerHTML += `
 									<td  class="id_periodo">${datos.json.id}</td>
 									<td class="periodo">${datos.json.periodo}</td>
+									<td class="periodo">${datos.json.lapso}</td>
 									<td class="status">${datos.json.estatus}</td>
 									<td class="td__btnEditar"><button type="submit" class="btnEditar" data-periodo="${datos.json.id}">EDITAR</button></td>
 									<td class="td__btnEliminar"><button type="button" class="btnEliminar" data-periodo="${datos.json.id}">ELIMINAR</button></td>
@@ -125,7 +127,7 @@ class ValidarFormulario {
 class ValidarFormularioEditar  extends ValidarFormulario{
 	constructor(formulario) {
 		super(formulario)
-		this.inputs = document.querySelectorAll('#edit__periodo, #edit__estatus, #edit__id_periodo');
+		this.inputs = document.querySelectorAll('#edit__periodo, #edit__lapso,#edit__estatus, #edit__id_periodo');
 		console.log(this.inputs[1].value)
 		this.campos = {
 			periodo: true
@@ -168,7 +170,8 @@ class ValidarFormularioEditar  extends ValidarFormulario{
 				
 				const formData = JSON.stringify({
 					edit__periodo : this.inputs[2].value,
-					edit__estatus : this.inputs[3].value
+					edit__lapso : this.inputs[3].value,
+					edit__estatus : this.inputs[4].value
 				});
 
 
@@ -186,6 +189,7 @@ class ValidarFormularioEditar  extends ValidarFormulario{
 							tr.innerHTML = `
 								<td class="id_periodo">${datos.json.id}</td>
 								<td class="periodo">${datos.json.periodo}</td>
+								<td class="lapso">${datos.json.lapso}</td>
 								<td class="status">${datos.json.estatus}</td>
 								<td class="td__btnEditar"><button type="submit" class="btnEditar" data-periodo="${datos.json.id}">EDITAR</button></td>
 								<td class="td__btnEliminar"><button type="button" class="btnEliminar" data-periodo="${datos.json.id}">ELIMINAR</button></td>
@@ -226,15 +230,17 @@ class UI {
 		const tr = e.target.parentNode.parentNode
 		const idPeriodo = tr.querySelector('.id_periodo');
 		const periodo = tr.querySelector('.periodo');
+		const lapso = tr.querySelector('.lapso');
 		const status = tr.querySelector('.status');
 		const btnEditar = tr.querySelector('.td__btnEditar');
 		const btnEliminar = tr.querySelector('.td__btnEliminar');
 
 		let id = idPeriodo.innerHTML;
 		let p = periodo.innerHTML;
+		let l = lapso.innerHTML;
 		let s = status.innerHTML;
 
-
+console.log(l)
 		tr.innerHTML = `
 			<form id="edit__periodo" name="edit__periodo" enctype="multipart/form-data">
 				<td class="id_periodo">
@@ -246,6 +252,16 @@ class UI {
 				<td class="periodo">
 					<div class="inputs">
 						<input id="edit__periodo" name="edit__periodo" type="text" placeholder="año inicial - año finalizar" value="${p}">
+						<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
+					</div>
+				</td>
+				<td class="lapso">
+					<div class="inputs">
+						<select id="edit__lapso">
+							<option value="1" ${(l === '1')? 'selected="true"':''}>1 lapso</option>
+							<option value="2" ${(l === '2')? 'selected="true"':''}>2 lapso</option>
+							<option value="3" ${(l === '3')? 'selected="true"':''}>3 lapso</option>
+						</select>
 						<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
 					</div>
 				</td>
@@ -279,6 +295,7 @@ class UI {
 			tr.innerHTML = `
 				<td class="id_periodo">${id}</td>
 				<td class="periodo">${p}</td>
+				<td class="status">${l}</td>
 				<td class="status">${s}</td>
 				<td class="td__btnEditar"><button class="btnEditar" data-periodo="${id}">EDITAR</button></td>
 				<td class="td__btnEliminar"><button class="btnEliminar" data-periodo="${id}">ELIMINAR</button></td>

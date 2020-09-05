@@ -388,10 +388,12 @@ table {
   text-align: left;
   border-collapse: collapse;
   width: 100% !important;
+  font-size: 0.8rem;
 }
 
-table tr, table td {
-  padding: 20px;
+table th, table td {
+  padding: 5px;
+  text-align: center;
 }
 
 table tr {
@@ -414,10 +416,16 @@ button {
   background: #1e8449;
   border-radius: 3px;
   color: white;
-  padding: 10px 15px;
+  padding: 5px 7px;
   text-decoration: none;
   border: none;
   border-radius: 5px;
+  box-shadow: 2px 2px 4px 3px rgba(0, 0, 0, 0.3);
+}
+
+button:hover {
+  background: #145a32;
+  box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.5);
 }
 
 div.mensaje__error {

@@ -91,9 +91,9 @@
 					<li class="submenu">
 						<a href="<?= constant('URL') ?>admin/profesor">Profesores</a>
 					</li>
-					<!-- <li class="submenu">
-						<a href="#">Alumnos</a>
-					</li> -->
+					<li class="submenu">
+						<a href="<?= constant('URL') ?>admin/alumno">Alumnos</a>
+					</li>
 
 					<li class="submenu">
 						<a href="<?= constant('URL') ?>admin/periodo">Periodos</a>

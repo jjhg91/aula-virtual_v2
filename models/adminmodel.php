@@ -45,12 +45,15 @@ class AdminModel extends Model
 			INSERT INTO
 			periodo(
 				periodo,
+				lapso,
 				status)
 			VALUES (
 				:periodo,
+				:lapso,
 				:estatus)
 		");
 		$query->bindParam(':periodo', $datos['periodo']);
+		$query->bindParam(':lapso', $datos['lapso']);
 		$query->bindParam(':estatus', $datos['estatus']);
 		if ( $query->execute() ) {
 			$resultado = true;
@@ -66,6 +69,7 @@ class AdminModel extends Model
 			SELECT 
 				periodo.id_periodo,
 				periodo.periodo,
+				periodo.lapso,
 				status_periodo.status
 			FROM periodo
 			INNER JOIN status_periodo ON status_periodo.id_status = periodo.status
@@ -100,11 +104,13 @@ class AdminModel extends Model
 		$query = $this->db->connect1()->prepare("
 			UPDATE periodo SET
 			periodo = :periodo,
+			lapso = :lapso,
 			status = :estatus
 			WHERE
 			id_periodo = :id_periodo
 		");
 		$query->bindParam(':periodo',$datos['periodo']);
+		$query->bindParam(':lapso',$datos['lapso']);
 		$query->bindParam(':estatus',$datos['estatus']);
 		$query->bindParam(':id_periodo',$datos['id_periodo']);
 
@@ -478,9 +484,147 @@ class AdminModel extends Model
 			return $profesor;
 		}else {
 			return false;
-		}
-		
+		}	
 	}
+
+
+	/////////// ALUMNOS
+
+	public function totalAlumnos()
+	{
+		$query = $this->db->connect1()->prepare("
+		SELECT COUNT(*) AS total FROM estudiante
+		");
+		// $query->bindParam('',$datos['']);
+		// $query->bindParam('',$datos['']);
+		$query->execute();
+		$resultado = $query->fetch(PDO::FETCH_ASSOC);
+		return $resultado;
+	}
+
+	public function getAlumnos($pos, $n)
+	{
+		$query = $this->db->connect1()->prepare("
+			SELECT * FROM estudiante 
+			ORDER BY id_estudia DESC
+			LIMIT ".$pos.", ".$n."
+		");
+		$query->execute();
+		$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+		return $resultado;
+	}
+
+	public function deleteAlumno($alumno)
+	{
+		$query = $this->db->connect1()->prepare("
+			DELETE FROM estudiante WHERE id_estudia = :alumno
+		");
+		$query->bindParam(':alumno', $alumno);
+
+		if ( $query->execute() ) {
+			$respuesta = true;
+		}else {
+			$respuesta = false;
+		}
+		return $respuesta;
+	}
+
+	public function getAlumno($datos)
+	{
+		$query = $this->db->connect1()->prepare("
+			SELECT
+				*
+			FROM estudiante
+			WHERE
+				cedula = :cedula
+		");
+		$query->bindParam(':cedula',$datos['cedula']);
+		$query->execute();
+		$resultado = $query->fetch(PDO::FETCH_ASSOC);
+		return $resultado;
+	}
+
+
+	
+	public function addAlumno($datos)
+	{
+		$queryID = $this->db->connect1()->prepare(" 
+			SELECT id_estudia FROM estudiante
+			ORDER BY id_estudia DESC
+			LIMIT 1
+		");
+		$queryID->execute();
+		$id_estudia = $queryID->fetch(PDO::FETCH_ASSOC);
+		$id= ($id_estudia)? ((int)$id_estudia['id_estudia'] + 1): "1";
+
+
+		
+		$query =  $this->db->connect1()->prepare("
+			INSERT INTO
+			estudiante(
+				id_estudia,
+				cedula,
+				p_nombres,
+				p_apellido,
+				email,
+				tlf1,
+				representante)
+			VALUES (
+				:id_estudia,
+				:cedula,
+				:nombre,
+				:apellido,
+				:email,
+				:tlf,
+				:representante)
+		");
+		$query->bindParam(':id_estudia', $id);
+		$query->bindParam(':cedula', $datos['cedula']);
+		$query->bindParam(':nombre', $datos['nombre']);
+		$query->bindParam(':apellido', $datos['apellido']);
+		$query->bindParam(':email', $datos['email']);
+		$query->bindParam(':tlf', $datos['tlf']);
+		$query->bindParam(':representante', $datos['representante']);
+		if ( $query->execute() ) {
+			$resultado = true;
+		}else{
+			$resultado = false;
+		}
+		return $resultado;
+	}
+
+
+	
+	public function updateAlumno($datos)
+	{
+		$query = $this->db->connect1()->prepare("
+			UPDATE estudiante SET
+			cedula = :cedula,
+			p_nombres = :nombre,
+			p_apellido = :apellido,
+			email = :email,
+			tlf1 = :tlf,
+			representante = :representante
+			WHERE
+			id_estudia = :id
+		");
+		$query->bindParam(':cedula',$datos['cedula']);
+		$query->bindParam(':nombre',$datos['nombre']);
+		$query->bindParam(':apellido',$datos['apellido']);
+		$query->bindParam(':email',$datos['email']);
+		$query->bindParam(':tlf',$datos['tlf']);
+		$query->bindParam(':representante',$datos['representante']);
+		$query->bindParam(':id',$datos['id_estudia']);
+
+		if ( $query->execute() ) {
+			$respuesta = true;
+		}else {
+			$respuesta = false;
+		}
+
+		return $respuesta;
+	}
+
 
 }
 

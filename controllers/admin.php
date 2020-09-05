@@ -113,9 +113,11 @@ class Admin extends Controller
 			case 'POST':
 					// DATOS DE FORMULARIO
 					$periodo = $_POST['add__periodo'];
+					$lapso = $_POST['add__lapso'];
 					$estatus = $_POST['add__estatus'];
 					$datos = [
 						'periodo' => $periodo,
+						'lapso' => $lapso,
 						'estatus' => $estatus
 					];
 					$insert = $this->model->addPeriodo($datos);
@@ -126,6 +128,7 @@ class Admin extends Controller
 						$respuesta['json'] = [
 							'id' => $getPeriodo['id_periodo'],
 							'periodo' => $getPeriodo['periodo'],
+							'lapso' => $getPeriodo['lapso'],
 							'estatus' => $getPeriodo['status']
 						];
 					}else {
@@ -143,10 +146,12 @@ class Admin extends Controller
 					$id_periodo = (int)$url[0];
 
 					$periodo = $_PUT['edit__periodo'];
+					$lapso = (int)$_PUT['edit__lapso'];
 					$estatus = (int)$_PUT['edit__estatus'];
 					$datos = [
 						'id_periodo' => $id_periodo,
 						'periodo' => $periodo,
+						'lapso' => $lapso,
 						'estatus' => $estatus
 					];
 					$update = $this->model->updatePeriodo($datos);
@@ -157,6 +162,7 @@ class Admin extends Controller
 						$respuesta['json'] = [
 							'id' => $getPeriodo['id_periodo'],
 							'periodo' => $getPeriodo['periodo'],
+							'lapso' => $getPeriodo['lapso'],
 							'estatus' => $getPeriodo['status']
 						];
 
@@ -539,6 +545,166 @@ class Admin extends Controller
 					echo json_encode($respuesta);
 				break;
 
+		}
+	}
+
+	//// GESTION DE ALUMNOS 
+
+	public function alumno($url = null)
+	{
+		
+		$sesion = new Sesion();
+		$sesion->validateSesion();
+		$usuario = $sesion->getSesion();
+		
+		$navbar = new Navbar($usuario);
+		$navbarMaterias = $navbar->navbarMaterias($usuario);
+		$this->view->usuario = $usuario;
+		$this->view->navbarMaterias = $navbarMaterias;
+		$respuesta = ['status' => false, 'respuesta' => "", 'json' => ""];
+
+		switch ( $_SERVER['REQUEST_METHOD'] ) {
+			case 'GET':
+				$paginaActual = 1;
+				$totalPaginas;
+				$nResultados;
+				$resultadosPorPagina  = 10;
+				$indice = 0;
+
+				$nResultados = $this->model->totalAlumnos()['total'];
+
+				$totalPaginas = ceil($nResultados / $resultadosPorPagina);
+				
+				if ( !isset($url[0]) || $url[0] === '0' ) {
+					$url[0] = 1;
+				}
+					if ( is_numeric($url[0]) ) {
+						if ( $url[0] >= 1 && $url[0] <= $totalPaginas || empty($nResultados)) {
+							$paginaActual = $url[0];
+							$indice =(($paginaActual - 1) * $resultadosPorPagina);
+							
+							$getAlumnos = $this->model->getAlumnos($indice,$resultadosPorPagina);
+							$this->view->alumnos = $getAlumnos;
+							$this->view->paginaActual = $paginaActual;
+							$this->view->totalPaginas = $totalPaginas;
+							$this->view->render('admin/alumno');
+
+						}else{
+							echo 'No existe la pagina';
+						}
+					}else{
+						echo 'Error al mostrar la pagina';
+					}
+				
+				break;
+
+			case 'POST':
+					// DATOS DE FORMULARIO
+					$cedula = $_POST['add__cedula'];
+					$nombre = $_POST['add__nombre'];
+					$apellido = $_POST['add__apellido'];
+					$email = $_POST['add__email'];
+					$tlf = $_POST['add__tlf'];
+					$representante = $_POST['add__representante'];
+
+					$datos = [
+						'cedula' => $cedula,
+						'nombre' => $nombre,
+						'apellido' => $apellido,
+						'email' => $email,
+						'tlf' => $tlf,
+						'representante' => $representante
+					];
+
+
+					if( $this->model->getAlumno($datos) ) {
+						$insert = null;
+					}else{
+						$insert = $this->model->addAlumno($datos);
+					}
+
+
+					if ( $insert ) {
+						$getAlumno = $this->model->getAlumno($datos);
+						$respuesta['status'] = true;
+						$respuesta['respuesta'] = "PERIODO AGREGADO EXITOSAMENTE";
+						$respuesta['json'] = [
+							'id' => $getAlumno['id_estudia'],
+							'nombre' => $getAlumno['p_nombres'],
+							'apellido' => $getAlumno['p_apellido'],
+							'email' => $getAlumno['email'],
+							'tlf' => $getAlumno['tlf1'],
+							'representante' => $getAlumno['representante']
+						];
+					}else {
+						$respuesta['status'] = false;
+						$respuesta['respuesta'] = "ERROR AL AGREGAR PERIODO";
+						
+					}
+					echo json_encode($respuesta);
+				break;
+
+			case 'PUT':
+					// DATOS DEL FORMULARIO
+					$_PUT = json_decode(file_get_contents('php://input'),true);
+					$a = gettype($_PUT);
+					$id_estudia = (int)$url[0];
+
+					$cedula = $_PUT['edit__cedula'];
+					$nombre = $_PUT['edit__nombre'];
+					$apellido = $_PUT['edit__apellido'];
+					$email = $_PUT['edit__email'];
+					$tlf = $_PUT['edit__tlf'];
+					$representante = $_PUT['edit__representante'];
+
+					$datos = [
+						'id_estudia' => $id_estudia,
+						'cedula' => $cedula,
+						'nombre' => $nombre,
+						'apellido' => $apellido,
+						'email' => $email,
+						'tlf' => $tlf,
+						'representante' => $representante
+					];
+					
+					$update = $this->model->updateAlumno($datos);
+					
+					if ( $update ) {
+						$getAlumno = $this->model->getAlumno($datos);
+						$respuesta['status'] = true;
+						$respuesta['respuesta'] = "EL PERIODO FUE ADITADA EXITOSAMENTE";
+						$respuesta['json'] = [
+							'id' => $getAlumno['id_estudia'],
+							'cedula' => $getAlumno['cedula'],
+							'nombre' => $getAlumno['p_nombres'],
+							'apellido' => $getAlumno['p_apellido'],
+							'email' => $getAlumno['email'],
+							'tlf' => $getAlumno['tlf1'],
+							'representante' => $getAlumno['representante']
+						];
+
+					}else{
+						$respuesta['status'] = false;
+						$respuesta['respuesta'] = "ERROR AL EDITAR PERIODO";
+					}
+					echo json_encode($respuesta);
+				break;
+
+			case 'DELETE':
+
+					$alumno = $url[0];
+					$eliminar = $this->model->deleteAlumno($alumno);
+
+					if ( $eliminar ) {
+						$respuesta['status'] = true;
+						$respuesta['respuesta'] = "EL ALUMNO A SIDO ELIMINADO EXITOSAMENTE";
+					}else{
+						$respuesta['status'] = false;
+						$respuesta['respuesta'] = " ERROR AL INTENTAR ELIMINAR EL ALUMNO";
+					}
+
+					echo json_encode($respuesta);
+				break;
 		}
 
 		

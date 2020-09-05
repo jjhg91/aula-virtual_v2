@@ -142,13 +142,13 @@
 						
 						<tbody id="periodos">
 						<?php foreach ($this->grados as $grado): ?>
-						<tr class="periodo" >
+						<tr class="periodo" data-grado="<?= $grado['id_profesorcursogrupo'] ?>">
 							<td class="educacion"><?= $grado['descripcion'] ?></td>
 							<td class="grado"><?= $grado['especial'] ?></td>
 							<td class="seccion"><?= $grado['seccion'] ?></td>
 							<td class="periodo"><?= $grado['periodo'] ?></td>
-							<td class="td__btnEditar"></td>
-							<td class="td__btnEliminar"><button type="button" class="btnEliminar" data-grado="">ELIMINAR</button></td>
+							<td class="td__btnInscritos"><button type="button" class="btnAlumnosInscritos" data-grado="<?= $grado['id_profesorcursogrupo'] ?>">Alumnos Inscitos</button></td>
+							<td class="td__btnEliminar"><button type="button" class="btnEliminar" data-grado="<?= $grado['id_profesorcursogrupo'] ?>">ELIMINAR</button></td>
 						</tr>
 						<?php endforeach ?>
 						</tbody>

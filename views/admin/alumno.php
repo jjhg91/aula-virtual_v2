@@ -55,9 +55,9 @@
 						<?php for( $i=1; $i <= $this->totalPaginas; $i++ ): ?>
 							
 							<?php if ( $i === (int)$this->paginaActual ): ?>
-								<li class="actual"> <a href="<?= constant('URL') ?>admin/periodo/<?= $i ?>"><?= $i ?></a></li>
+								<li class="actual"> <a href="<?= constant('URL') ?>admin/alumno/<?= $i ?>"><?= $i ?></a></li>
 							<?php else: ?>
-								<li> <a href="<?= constant('URL') ?>admin/periodo/<?= $i ?>"><?= $i ?></a></li>
+								<li> <a href="<?= constant('URL') ?>admin/alumno/<?= $i ?>"><?= $i ?></a></li>
 							<?php endif ?>
 						<?php endfor ?>
 					</ul>
@@ -67,10 +67,12 @@
 					<table class="table" style="border-collapse: collapse; display: block;">
 						<thead>
 							<tr>
-								<th>ID</th>
-								<th>PERIODO</th>
-								<th>LAPSO</th>
-								<th>ESTATUS</th>
+								<th>CEDULA</th>
+								<th>NOMBRE</th>
+								<th>APELLIDO</th>
+								<th>EMAIL</th>
+								<th>TLF</th>
+								<th>REPRESENTANTE</th>
 								<th></th>
 								<th></th>
 							</tr>
@@ -80,35 +82,41 @@
 							<form id="add__periodo" name="add__periodo" enctype="multipart/form-data">
 								<td>
 									<div class="inputs">
-										<input type="text" placeholder="CODIGO ID" disabled='true'>
+										<input id="add__cedula" name="add__cedula" type="text" placeholder="cedula(solo numeros)" >
 										<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
 									</div>
 								</td>
 								<td>
 									<div class="inputs">
-										<input id="add__periodo" name="add__periodo" type="text" placeholder="año inicial - año finalizar">
+										<input id="add__nombre" name="add__nombre" type="text" placeholder="Nombre">
 										<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
 									</div>
 								</td>
 								<td>
 									<div class="inputs">
-										<select id="add__lapso">
-											<option value="1" selected="true">1 lapso</option>
-											<option value="2">2 lapso</option>
-											<option value="3">3 lapso</option>
-										</select>
+										<input id="add__apellido" name="add__apellido" type="text" placeholder="Apellido">
 										<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
 									</div>
 								</td>
 								<td>
 									<div class="inputs">
-										<select id="add__estatus">
-											<option value="2" selected="true">desabilitado</option>
-											<option value="1">activo</option>
-										</select>
+										<input id="add__email" name="add__email" type="text" placeholder="Email">
 										<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
 									</div>
 								</td>
+								<td>
+									<div class="inputs">
+										<input id="add__tlf" name="add__tlf" type="text" placeholder="04169300910">
+										<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
+									</div>
+								</td>
+								<td>
+									<div class="inputs">
+										<input id="add__representante" name="add__representante" type="text" placeholder="Nombre y Apellido">
+										<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
+									</div>
+								</td>
+								
 								<td>
 									<button type="submit" id="btn__add">GUARDAR</button>
 								</td>
@@ -131,14 +139,16 @@
 						</div>
 						
 						<tbody id="periodos">
-						<?php foreach ($this->periodos as $periodo): ?>
-						<tr class="periodo" data-periodo="<?= $periodo['id_periodo'] ?>">
-							<td class="id_periodo"><?= $periodo['id_periodo'] ?></td>
-							<td class="periodo"><?= $periodo['periodo'] ?></td>
-							<td class="lapso"><?= $periodo['lapso'] ?></td>
-							<td class="status"><?= $periodo['status'] ?></td>
-							<td class="td__btnEditar"><button type="submit" class="btnEditar" data-periodo="<?= $periodo['id_periodo'] ?>">EDITAR</button></td>
-							<td class="td__btnEliminar"><button type="button" class="btnEliminar" data-periodo="<?= $periodo['id_periodo'] ?>">ELIMINAR</button></td>
+						<?php foreach ($this->alumnos as $alumno): ?>
+						<tr class="periodo" data-alumno="<?= $alumno['id_estudia'] ?>">
+							<td class="cedula"><?= $alumno['cedula'] ?></td>
+							<td class="nombre"><?= $alumno['p_nombres'] ?></td>
+							<td class="apellido"><?= $alumno['p_apellido'] ?></td>
+							<td class="email"><?= $alumno['email'] ?></td>
+							<td class="tlf"><?= $alumno['tlf1'] ?></td>
+							<td class="representante"><?= $alumno['representante'] ?></td>
+							<td class="td__btnEditar"><button type="submit" class="btnEditar" data-alumno="<?= $alumno['id_estudia'] ?>">EDITAR</button></td>
+							<td class="td__btnEliminar"><button type="button" class="btnEliminar" data-alumno="<?= $alumno['id_estudia'] ?>">ELIMINAR</button></td>
 						</tr>
 						<?php endforeach ?>
 						</tbody>
@@ -147,26 +157,20 @@
 
 			</section>
 
-
-
 		</main>
 
 	</div>
-	
-		
-	
 
 	<footer>
-		
 	</footer>
-	
+
 
 
 
 	<!-- JS -->
 	<script src="<?= constant('URL') ?>public/js/config.js"></script>
 	<script src="<?= constant('URL') ?>public/js/menu.js"></script>
-	<script src="<?= constant('URL') ?>public/js/periodo.js"></script>
+	<script src="<?= constant('URL') ?>public/js/alumno.js"></script>
 	<!-- /JS -->
 
 </body>

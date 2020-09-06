@@ -68,20 +68,19 @@ class NavbarModel extends Model
 	{
 		$query = $this->db->connect1()->prepare("
             SELECT
-            pensum.descripcion,
-            especialidad.descripcion,
-            profesorcursogrupo.id_profesorcursogrupo,
-            personal.nombres,
-            especialidad.especial
+				pensum.descripcion,
+				especialidad.descripcion,
+				profesorcursogrupo.id_profesorcursogrupo,
+				personal.nombres,
+				especialidad.especial
             FROM inscripcion
             INNER JOIN profesorcursogrupo ON inscripcion.id_profesorcursogrupo = profesorcursogrupo.id_profesorcursogrupo
             INNER JOIN pensum ON profesorcursogrupo.curso = pensum.id_pensum
             INNER JOIN especialidad ON pensum.id_especialidad = especialidad.id_especialidad
             INNER JOIN personal ON profesorcursogrupo.personal = personal.id_personal
             WHERE
-            id_estudia = :usuario AND
-            periodo = 71 AND
-            profesorcursogrupo.id_profesorcursogrupo = :materia
+				id_estudia = :usuario AND
+				profesorcursogrupo.id_profesorcursogrupo = :materia
             ");
 		$query->bindParam(':usuario', $usuario);
 		$query->bindParam(':materia', $materia);
@@ -95,19 +94,18 @@ class NavbarModel extends Model
 	{
 		$query = $this->db->connect1()->prepare("
 			SELECT
-			pensum.descripcion,
-			especialidad.descripcion,
-			profesorcursogrupo.id_profesorcursogrupo,
-			personal.nombres,
-			especialidad.especial
+				pensum.descripcion,
+				especialidad.descripcion,
+				profesorcursogrupo.id_profesorcursogrupo,
+				personal.nombres,
+				especialidad.especial
 			FROM profesorcursogrupo
 			INNER JOIN pensum ON profesorcursogrupo.curso = pensum.id_pensum
 			INNER JOIN especialidad ON pensum.id_especialidad = especialidad.id_especialidad
 			INNER JOIN personal ON profesorcursogrupo.personal = personal.id_personal
 			WHERE
 			personal = :id AND
-			profesorcursogrupo.id_profesorcursogrupo = :materia AND
-			periodo = 71
+			profesorcursogrupo.id_profesorcursogrupo = :materia
 		");
 		$query->bindParam(':id', $usuario);
 		$query->bindParam(':materia', $materia);

@@ -14,17 +14,22 @@ class NavbarModel extends Model
 	{
 		$query = $this->db->connect1()->prepare("
 			SELECT
-			pensum.descripcion,
-			especialidad.descripcion,
-			profesorcursogrupo.id_profesorcursogrupo,
-			especialidad.especial
+				pensum.descripcion,
+				especialidad.descripcion,
+				profesorcursogrupo.id_profesorcursogrupo,
+				especialidad.especial,
+				periodo.periodo,
+				periodo.status
 			FROM inscripcion
 			INNER JOIN profesorcursogrupo ON inscripcion.id_profesorcursogrupo = profesorcursogrupo.id_profesorcursogrupo
 			INNER JOIN pensum ON profesorcursogrupo.curso = pensum.id_pensum
 			INNER JOIN especialidad ON pensum.id_especialidad = especialidad.id_especialidad
+            INNER JOIN estudiante ON estudiante.id_estudia = inscripcion.id_estudia
+            INNER JOIN periodo ON periodo.id_periodo = profesorcursogrupo.periodo
 			WHERE
-			id_estudia = :id AND
-			periodo = 71
+			estudiante.id_estudia = :id
+			AND
+			periodo.status = 1
 		");
 		$query->bindParam(':id', $args);
 		$query->execute();
@@ -37,16 +42,20 @@ class NavbarModel extends Model
 	public function navbarMateriasProfesor($args)
 	{
 		$query = $this->db->connect1()->prepare("
+
 			SELECT
-            pensum.descripcion,
-            especialidad.descripcion,
-            profesorcursogrupo.id_profesorcursogrupo,
-            especialidad.especial
+				pensum.descripcion,
+				especialidad.descripcion,
+				profesorcursogrupo.id_profesorcursogrupo,
+				especialidad.especial,
+				periodo.periodo
             FROM profesorcursogrupo
 			INNER JOIN pensum ON profesorcursogrupo.curso = pensum.id_pensum
 			INNER JOIN especialidad ON pensum.id_especialidad = especialidad.id_especialidad
+            INNER JOIN periodo ON periodo.id_periodo = profesorcursogrupo.periodo
 			WHERE
-			personal = :id and periodo = 71
+				personal = :id AND
+				periodo.status = 1
 		");
 		$query->bindParam(':id', $args);
 		$query->execute();

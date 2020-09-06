@@ -24,8 +24,7 @@ class IndexModel extends Model
 			FROM estudiante 
 			WHERE 
 			cedula = :user AND 
-			cedula = :pass AND 
-			regimen_estudio = 2");
+			cedula = :pass");
 		$query->bindParam(':user', $datos['user']);
 		$query->bindParam(':pass', $datos['pass']);
 		$query->execute();

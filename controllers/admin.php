@@ -28,7 +28,7 @@ class Admin extends Controller
 			'pass'  => $pass,
 			'level' => $level
 		];
-		if ( $user === 'admin-uepjmc' && $pass === '21151272' ) {
+		if ( $user === 'admin-uepjmc' && $pass === 'Dora6992.' ) {
 			$datosSesion = [
 				'admin',
 				88888888,
@@ -340,6 +340,7 @@ class Admin extends Controller
 
 		
 	}
+
 
 	// GESTION Y APERTURA DE GRADO 
 	public function grado($url = null)
@@ -707,7 +708,123 @@ class Admin extends Controller
 				break;
 		}
 
+	}
+
+
+	// INSCRIPCION DE ALUMNOS A LOS GRADOS
+	public function inscripcionGrado($url = null)
+	{
 		
+		$sesion = new Sesion();
+		$sesion->validateSesion();
+		$usuario = $sesion->getSesion();
+		
+		$navbar = new Navbar($usuario);
+		$navbarMaterias = $navbar->navbarMaterias($usuario);
+		$this->view->usuario = $usuario;
+		$this->view->navbarMaterias = $navbarMaterias;
+		$respuesta = ['status' => false, 'respuesta' => "", 'json' => ""];
+
+		switch ( $_SERVER['REQUEST_METHOD'] ) {
+			case 'GET':
+				
+
+					$grado = $url[0];
+					$seccion = $url[1];
+					$periodo = $url[2];
+					
+					$datos = [
+						'grado' => $grado,
+						'seccion' => $seccion,
+						'periodo' => $periodo
+					];
+					
+					
+							
+					$getInscritos = $this->model->getInscritos($datos);
+					
+					if ( $getInscritos === false ) {
+						$respuesta['status'] = false;
+						$respuesta['respuesta'] = 'NO HAY ALUMNOS INSCRITOS EN ESTE GRADO';
+					}else{
+						$respuesta['status'] = true;
+						$respuesta['respuesta'] = 'ALUMNOS INSCRITOS EN ESTE GRADO';
+						$respuesta['json'] = $getInscritos;
+					}
+					
+					echo json_encode($respuesta);
+							
+
+						
+
+				
+				break;
+
+			case 'POST':
+					// DATOS DE FORMULARIO
+					$grado = $_POST['ins__grado'];
+					$seccion = $_POST['ins__seccion'];
+					$periodo = $_POST['ins__periodo'];
+					$cedula = $_POST['ins__cedula'];
+
+					$datos = [
+						'grado' => $grado,
+						'seccion' => $seccion,
+						'periodo' => $periodo,
+						'cedula' => $cedula,
+					];
+
+					if( $this->model->getAlumno($datos) === false ) {
+						$insert = null;
+					}else{
+						$insert = $this->model->addInscripcionAlumno($datos);
+					}
+
+					if ( $insert ) {
+						$getAlumno = $this->model->getAlumno($datos);
+						$respuesta['status'] = true;
+						$respuesta['respuesta'] = "ALUMNO INSCRITO EN EL GRADO EXITOSAMENTE";
+						$respuesta['json'] = [
+							'cedula' => $getAlumno['cedula'],
+							'nombre' => $getAlumno['p_nombres'],
+							'apellido' => $getAlumno['p_apellido']
+						];
+					}else {
+						$respuesta['status'] = false;
+						$respuesta['respuesta'] = "ERROR AL INSCRIBIR AL ALUMNO EN EL GRADO";
+					}
+					echo json_encode($respuesta);
+				break;
+
+			case 'DELETE':
+
+					$_DELETE = json_decode(file_get_contents('php://input'),true);
+
+					$grado = $_DELETE['delete__grado'];
+					$seccion = $_DELETE['delete__seccion'];
+					$periodo = $_DELETE['delete__periodo'];
+					$cedula = $_DELETE['delete__cedula'];
+
+
+					$datos = [
+						'grado' => $grado,
+						'seccion' => $seccion,
+						'periodo' => $periodo,
+						'cedula' => $cedula
+					];
+
+					$eliminar = $this->model->deleteInscripcion($datos);
+					if ( $eliminar ) {
+						$respuesta['status'] = true;
+						$respuesta['respuesta'] = "EL ALUMNO A SIDO ELIMINADO DEL GRADO";
+					}else{
+						$respuesta['status'] = false;
+						$respuesta['respuesta'] = "ERROR AL INTENTAR ELIMINAR EL ALUMNO DEL GRADO ";
+					}
+
+					echo json_encode($respuesta);
+				break;
+		}
 	}
 
 }

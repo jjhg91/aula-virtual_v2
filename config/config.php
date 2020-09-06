@@ -1,7 +1,7 @@
 <?php 
 
 // DIRECCION URL ESTATTICA
-// define('URL', 'http://localhost/MVC/');
+// define('URL', 'http://aula.uepjmc.com.ve/');
 define('URL', 'http://192.168.0.102/uepjmc/');
 
 

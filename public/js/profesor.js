@@ -3,7 +3,7 @@ class ValidarFormulario {
 		this.formulario = formulario;
 		this.inputs = document.querySelectorAll('#add__cedula, #add__nombre, #add__email, #add__tlf');
 		this.expresiones = {
-			cedula: /^[0-9]{1,10}$/, // numeros de 10 digitos
+			cedula: /^[0-9]{7,10}$/, // numeros de 10 digitos
 			nombre: /^[A-z .À-ÿ']{1,100}$/, // valida letras mayusculas y minusculas y punto(.) de 1 a 100 caracteres
 			email: /^([^@]+@[^@]+\.[a-zA-Z]{2,}){0,}$/, // valida los correos cualquier caracter + @  + caracteres + . caracteres
 			tlf: /^[0-9]{0,14}$/ //valida numeros de 12 digitos

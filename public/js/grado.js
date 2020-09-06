@@ -97,12 +97,12 @@ class ValidarFormulario {
 								<td class="grado">${datos.json.grado}</td>
 								<td class="seccion">${datos.json.seccion}</td>
 								<td class="periodo">${datos.json.periodo}</td>
-								<td class="td__btnEditar"></td>
-								<td class="td__btnEliminar"><button type="button" class="btnEliminar" data-grado="">ELIMINAR</button></
+								<td class="td__btnInscritos"><button type="button" class="btnAlumnosInscritos" data-grado="<?= $grado['id_profesorcursogrupo'] ?>">Alumnos Inscitos</button></td>
+								<td class="td__btnEliminar"><button type="button" class="btnEliminar" data-grado="">ELIMINAR</button></d>
 							`;
 							tbody.insertBefore(nuevo,errores.nextSibling)
 
-							
+
 							var mensajeError = document.querySelector('.mensaje__exito');
 							mensajeError.innerHTML = '<p>'+datos.respuesta+'</p>';
 							mensajeError.classList.add('mensaje__exito-activo');
@@ -185,7 +185,7 @@ class ValidarFormularioEditar  extends ValidarFormulario{
 
 			e.preventDefault();
 			if ( this.campos.cedula && this.campos.nombre && this.campos.email && this.campos.tlf ) {
-				console.log('aqui')
+
 				let btnSubmit = document.querySelector('#btn__edit');
 				btnSubmit.disabled = true;
 
@@ -255,77 +255,215 @@ class UI {
 
 
 	editContenido(e) {
-
-		const tr = e.target.parentNode.parentNode
-		const cedula = tr.querySelector('.cedula');
-		const nombre = tr.querySelector('.nombre');
-		const email = tr.querySelector('.email');
-		const tlf = tr.querySelector('.tlf');
-
-		const btnEditar = tr.querySelector('.td__btnEditar');
-		const btnEliminar = tr.querySelector('.td__btnEliminar');
-
-		let ci = cedula.innerHTML;
-		let n = nombre.innerHTML;
-		let em = email.innerHTML;
-		let t = tlf.innerHTML;
-
-
-		tr.innerHTML = `
-			<form id="edit__periodo" name="edit__periodo" enctype="multipart/form-data">
-				<td>
-					<div class="inputs">
-						<input id="edit__cedula" name="edit__cedula" type="text" placeholder="solo numeros" value="${ci}">
-						<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
-					</div>
-				</td>
-				<td>
-					<div class="inputs">
-						<input id="edit__nombre" name="edit__nombre" type="text" placeholder="Nombre y Apellido" value="${n}">
-						<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
-					</div>
-				</td>
-				<td>
-					<div class="inputs">
-						<input id="edit__email" name="edit__email" type="text" placeholder="ejemplo@email.com" value="${em}">
-						<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
-					</div>
-				</td>
-				<td>
-					<div class="inputs">
-						<input id="edit__tlf" name="edit__tlf" type="text" placeholder="04169300910" value="${t}">
-						<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
-					</div>
-				</td>
-				<td>
-					<button type="submit" form="edit__periodo" id="btn__edit">GUARDAR</button>
-				</td>
-				<td>
-					<button type="button" id="btn__cancelar">CANCELAR</button>
-				</td>
-			</form>
-		`;
-
 		
-		const editFormulario = document.getElementById('edit__periodo');
-		const validarFormularioEditar = new ValidarFormularioEditar(editFormulario);
+		const btnModalPreview = document.getElementById('btnModalPreview');
+		const btnCerrar = document.getElementById('btnCerrarPreview');
+		const btnInscribir = document.getElementById('btn__inscribir');
+		const flex = document.getElementById('flexPreview');
+		const modal = document.getElementById('modalPreview');
 
+	
+
+		const previewNumero = document.getElementById('preview__numero');
+		const previewArchivos = document.getElementById('preview__archivos');
+
+		var fila = e.target.parentNode.parentNode;
+		document.querySelector('#modal__grado').innerHTML = fila.querySelector('.grado').innerHTML;
+		document.querySelector('#modal__seccion').innerHTML = fila.querySelector('.seccion').innerHTML;
+		modal.style.display = 'block';
 		
+		const formulario = document.getElementById('ins__form');
+		const inputCedula = document.getElementById('ins__cedula');
+		inputCedula.value = "";
+		inputCedula.classList.remove('correcto');
+		inputCedula.classList.remove('incorrecto');
+		inputCedula.parentNode.querySelector('.formulario__input-error').classList.remove('formulario__input-error-activo');
 
-		let btnCancelar = tr.querySelector('#btn__cancelar');
-		let id = tr.dataset.profesor;
-		btnCancelar.addEventListener('click', () => {
-			tr.innerHTML = `
-				<td class="cedula">${ci}</td>
-				<td class="nombre">${n}</td>
-				<td class="email">${em}</td>
-				<td class="tlf">${t}</td>
-				<td class="td__btnEditar"><button type="submit" class="btnEditar" data-profesor="${id}">EDITAR</button></td>
-				<td class="td__btnEliminar"><button type="button" class="btnEliminar" data-profesor="${id}">ELIMINAR</button></td>
-			`;
+
+		let expresion = {
+			cedula: /^[0-9]{7,10}$/
+		}
+		let campos = {
+			cedula: false
+		}
+
+
+
+		let validar = () => {
+			if ( expresion.cedula.test(event.target.value) ) {
+				event.target.classList.remove('incorrecto');
+				event.target.classList.add('correcto');
+				let grupo = event.target.parentNode;
+				grupo.querySelector('.formulario__input-error').classList.remove('formulario__input-error-activo');
+				campos['cedula'] = true;
+			}else{
+				event.target.classList.remove('correcto');
+				event.target.classList.add('incorrecto');
+				let grupo = event.target.parentNode;
+				grupo.querySelector('.formulario__input-error').classList.add('formulario__input-error-activo');
+				campos['cedula'] = false;
+			}
+
+		}
+		inputCedula.addEventListener('keyup', validar);
+		
+		
+		let eliminarInscrito = () =>{
+			let eliminar = event.target.parentNode.parentNode;
+			let tbody = document.querySelector('#ins__tbody');
+			let grado = fila.querySelector('.grado').innerHTML;
+			let seccion = fila.querySelector('.seccion').innerHTML;
+			let periodo = fila.querySelector('.periodo').innerHTML;
+			let cedula = event.target.parentNode.parentNode.querySelector('.cedula').innerHTML;
+
+			// tbody.removeChild(event.target.parentNode.parentNode);
+			const formData = JSON.stringify({
+				delete__grado : grado,
+				delete__seccion : seccion,
+				delete__periodo : periodo,
+				delete__cedula : cedula
+			});
+
 			
+			let direccion = `${URL}admin/inscripcionGrado/`;
+			let xmlhttp = new XMLHttpRequest();
 
+			xmlhttp.onreadystatechange = function() {
+				if ( this.readyState == 4 && this.status == 200 ) {
+					let datos = JSON.parse(xmlhttp.response);
+					if ( datos.status ){
+						
+						tbody.removeChild(eliminar);
+					}
+				}
+			}
+			xmlhttp.open('DELETE', direccion);
+			xmlhttp.send(formData);
+		}
+
+		let cargarInscritos = () => {
+			let cargados = document.querySelectorAll('.cargados');
+			cargados.forEach(cargado => {
+				tbody.removeChild(cargado);
+			});
+
+
+			let grado = fila.querySelector('.grado').innerHTML;
+			let seccion = fila.querySelector('.seccion').innerHTML;
+			let periodo = fila.querySelector('.periodo').innerHTML;
+
+			let direccion = `${URL}admin/inscripcionGrado/${grado}/${seccion}/${periodo}/`;
+			// let direccion = `${URL}admin/inscripcionGrado/5`;
+			let xmlhttp = new XMLHttpRequest();
+
+			xmlhttp.onreadystatechange = function() {
+				if ( this.readyState == 4 && this.status == 200 ) {
+					
+					let datos = JSON.parse(xmlhttp.response);
+					let tbody = document.querySelector('#ins__tbody');
+					let trForm = document.querySelector('#ins__alumno');
+
+
+
+					datos.json.forEach(inscrito => {
+						let nuevo = document.createElement('tr');
+						nuevo.className = 'cargados';
+
+						nuevo.innerHTML += `
+							<td class="cedula">${inscrito.cedula}</td>
+							<td class="nombre">${inscrito.p_nombres}</td>
+							<td class="apellido">${inscrito.p_apellido}</td>
+							<td class="td__btnEliminar__ins"><button type="button" class="btnEliminar__ins" data-grado="${datos.json.cedula}">ELIMINAR</button></td>
+						`;
+						tbody.insertBefore(nuevo,trForm.nextSibling);
+					});
+
+					let btnEliminarGrado = document.querySelectorAll('.btnEliminar__ins');
+					btnEliminarGrado.forEach(element => {
+						element.addEventListener('click', eliminarInscrito );
+					});
+					
+					
+				}
+			}
+			xmlhttp.open('GET', direccion);
+			xmlhttp.send();
+		}
+		cargarInscritos();
+
+		
+
+
+		let enviarInscripcion = () => {
+			event.preventDefault();
+			if (campos.cedula){
+
+				let btnSubmit = document.querySelector('#btn__ins');
+				btnSubmit.disabled = true;
+				
+				const formData = new FormData();
+				formData.append('ins__cedula', inputCedula.value);
+				formData.append('ins__grado',fila.querySelector('.grado').innerHTML);
+				formData.append('ins__seccion',fila.querySelector('.seccion').innerHTML);
+				formData.append('ins__periodo',fila.querySelector('.periodo').innerHTML);
+
+				let direccion = `${URL}admin/inscripcionGrado`;
+				let xmlhttp = new XMLHttpRequest();
+				
+				xmlhttp.onreadystatechange = function() {
+					if ( this.readyState == 4 && this.status == 200 ) {
+						// TODO FUE CORRECTO
+						let datos = JSON.parse(xmlhttp.response);
+						if ( datos.status == true ) {
+
+
+							let tbody = document.querySelector('#ins__tbody');
+							let trForm = document.querySelector('#ins__alumno');
+							let nuevo = document.createElement('tr');
+							// nuevo.className = 'periodo';
+							// nuevo.dataset.profesor = datos.json.id;
+
+							nuevo.innerHTML += `
+								<td class="cedula">${datos.json.cedula}</td>
+								<td class="nombre">${datos.json.nombre}</td>
+								<td class="apellido">${datos.json.apellido}</td>
+								<td class="td__btnEliminar__ins"><button type="button" class="btnEliminar__ins" data-grado="${datos.json.cedula}">ELIMINAR</button></td>
+                            `;
+                            
+							tbody.insertBefore(nuevo,trForm.nextSibling);
+
+							
+							alert(datos.respuesta);
+						} else {
+							alert(datos.respuesta)
+						}
+						btnSubmit.disabled = false;
+					}
+				}
+
+				xmlhttp.open('POST', direccion);
+				xmlhttp.send(formData);
+
+				btnSubmit.disabled = false;
+			}
+		}
+
+		formulario.addEventListener('submit', enviarInscripcion);
+
+		btnCerrar.addEventListener('click', () => {
+			modal.style.display = 'none';
+			inputCedula.removeEventListener('keyup', validar);
+			formulario.removeEventListener('submit', enviarInscripcion);
 		});
+		flex.addEventListener('click', (e) => {
+			if ( e.target == flex) {
+				modal.style.display = 'none';
+				inputCedula.addEventListener('keyup', validar);
+				formulario.removeEventListener('submit', enviarInscripcion);
+			}
+		});
+
+	
 		
 
 	}
@@ -380,13 +518,14 @@ validarFormulario = new ValidarFormulario(addFormulario);
 
 
 periodos.addEventListener('click', (event) => {
-
 	switch (event.target.classList[0]) {
 		case 'btnEliminar':
 			ui.deleteContenido(event);
+			
 			break;
-		case 'btnEditar':
+		case 'btnAlumnosInscritos':
 			ui.editContenido(event);
+			
 			break;
 	}
 })

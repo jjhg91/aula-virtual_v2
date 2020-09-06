@@ -153,6 +153,61 @@
 						<?php endforeach ?>
 						</tbody>
 					</table>
+
+
+
+
+					<!-- SECCION DE PREVIEW MODAL -->
+
+					<div class="modal" id="modalPreview">
+							<div class="flex" id="flexPreview">
+								<div class="modal__contenido">
+									<div class="modal__header">
+										<h3><span id="modal__grado"></span> - Seccion <span id="modal__seccion"></span></h3>
+										<a id="btnCerrarPreview">&times;</a>
+									</div>
+									<div class="modal__preview">
+										<table>
+											<thead>
+												<tr>
+													<th>CEDULA</th>
+													<th>NOMBRE</th>
+													<th>APELLIDO</th>
+													<th>ELIMINAR</th>
+												</tr>
+											</thead>
+											
+											<tbody id="ins__tbody">
+											<tr id="ins__alumno">
+												<form id="ins__form" name="ins__form" enctype="multipart/form-data">
+													<td>
+														<div class="inputs">
+															<input id="ins__cedula" name="ins__cedula" type="text" placeholder="Cedula de Identidad">
+															<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
+														</div>
+													</td>
+													<td>
+														<button type="submit" id="btn__ins">INSCRIBIR</button>
+													</td>
+													<td>
+														<button type="button" id="btn__clear">LIMPIAR</button>
+													</td>
+												</form>
+											</tr>
+												<!-- <tr>
+													<td class="cedula">21151272</td>
+													<td class="nombre">JUAN</td>
+													<td class="apellido">HERRERA</td>
+													<td class="td__btnEliminar__ins"><button type="button" class="btnEliminar__ins" data-grado="<?= $grado['id_profesorcursogrupo'] ?>">ELIMINAR</button></td>
+												</tr> -->
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					<!-- /SECCION DE PREVIEW MODAL -->
 				</div>
 
 			</section>

@@ -266,13 +266,13 @@ class AdminModel extends Model
 			educacion.descripcion,
 			especialidad.especial,
 			seccion.seccion,
-			periodo.periodo 
+			periodo.periodo
 		FROM `profesorcursogrupo`
 		INNER JOIN pensum ON pensum.id_pensum = profesorcursogrupo.curso
 		INNER JOIN especialidad ON especialidad.id_especialidad = pensum.id_especialidad
 		INNER JOIN seccion ON seccion.id_seccion = profesorcursogrupo.seccion
 		INNER JOIN educacion on educacion.id_educacion = especialidad.educacion
-		INNER JOIN periodo ON periodo.id_periodo = profesorcursogrupo.periodo 
+		INNER JOIN periodo ON periodo.id_periodo = profesorcursogrupo.periodo
 		GROUP BY profesorcursogrupo.seccion, pensum.id_especialidad
 		ORDER BY especialidad.especial ASC, seccion.seccion ASC
 		LIMIT ".$pos.", ".$n."
@@ -384,6 +384,99 @@ class AdminModel extends Model
 		return true;
 	}
 
+
+	public function getInscritos($datos)
+	{
+		$query = $this->db->connect1()->prepare("
+			SELECT
+				inscripcion.id_inscripcion,
+				especialidad.especial,
+				pensum.descripcion,
+				periodo.periodo,
+				seccion.seccion,
+				estudiante.p_nombres,
+				estudiante.p_apellido,
+				estudiante.cedula
+			FROM
+				`inscripcion`
+			INNER JOIN profesorcursogrupo ON profesorcursogrupo.id_profesorcursogrupo = inscripcion.id_profesorcursogrupo
+			INNER JOIN pensum ON pensum.id_pensum = profesorcursogrupo.curso
+			INNER JOIN periodo ON periodo.id_periodo = profesorcursogrupo.periodo
+			INNER JOIN seccion ON seccion.id_seccion = profesorcursogrupo.seccion
+			INNER JOIN especialidad ON especialidad.id_especialidad = pensum.id_especialidad
+			INNER JOIN estudiante ON estudiante.id_estudia = inscripcion.id_estudia
+			WHERE
+				especialidad.especial = :grado AND seccion.seccion = :seccion AND periodo.periodo = :periodo
+			GROUP BY
+				especialidad.especial,
+				seccion.seccion,
+				periodo.periodo,
+				estudiante.id_estudia
+		");
+		$query->bindParam(':grado',$datos['grado']);
+		$query->bindParam(':seccion',$datos['seccion']);
+		$query->bindParam(':periodo',$datos['periodo']);
+		$query->execute();
+		$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+		return $resultado;
+	}
+
+	public function addInscripcionAlumno($datos)
+	{
+		$queryMaterias = $this->db->connect1()->prepare("
+			SELECT
+				profesorcursogrupo.id_profesorcursogrupo,
+				especialidad.especial,
+				pensum.descripcion,
+				periodo.periodo
+			FROM
+				profesorcursogrupo
+			INNER JOIN pensum ON pensum.id_pensum = profesorcursogrupo.curso
+			INNER JOIN especialidad ON especialidad.id_especialidad = pensum.id_especialidad
+			INNER JOIN seccion ON seccion.id_seccion = profesorcursogrupo.seccion
+			INNER JOIN periodo ON periodo.id_periodo = profesorcursogrupo.periodo
+			WHERE
+				especialidad.especial = :grado AND
+				seccion.seccion = :seccion AND
+				periodo.periodo = :periodo
+		");
+		$queryMaterias->bindParam(':grado',$datos['grado']);
+		$queryMaterias->bindParam(':seccion',$datos['seccion']);
+		$queryMaterias->bindParam(':periodo',$datos['periodo']);
+		$queryMaterias->execute();
+		$materias = $queryMaterias->fetchAll(PDO::FETCH_ASSOC);
+
+		$queryAlumno = $this->db->connect1()->prepare("
+			SELECT
+				*
+			FROM
+				estudiante
+			WHERE
+				cedula = :cedula
+		");
+		$queryAlumno->bindParam(':cedula',$datos['cedula']);
+		$queryAlumno->execute();
+		$alumno = $queryAlumno->fetch(PDO::FETCH_ASSOC);
+
+		foreach ($materias as $materia) {
+			$query =  $this->db->connect1()->prepare("
+				INSERT INTO inscripcion(
+					id_estudia,
+					id_profesorcursogrupo
+				)
+				VALUES(
+					:alumno,
+					:materia
+				)
+			");
+			$query->bindParam(':alumno', $alumno['id_estudia']);
+			$query->bindParam(':materia', $materia['id_profesorcursogrupo']);
+			$query->execute();
+		}
+
+		return true;
+	}
+
 	public function deleteGrado($datos)
 	{
 		$query = $this->db->connect1()->prepare("
@@ -401,6 +494,38 @@ class AdminModel extends Model
 		$query->bindParam(':grado', $datos['grado']);
 		$query->bindParam(':seccion', $datos['seccion']);
 		$query->bindParam(':periodo', $datos['periodo']);
+
+		if ( $query->execute() ) {
+			$respuesta = true;
+		}else {
+			$respuesta = false;
+		}
+		return $respuesta;
+	}
+
+	public function deleteInscripcion($datos)
+	{
+		$query = $this->db->connect1()->prepare("
+			DELETE
+				inscripcion
+			FROM
+				inscripcion
+			INNER JOIN profesorcursogrupo ON profesorcursogrupo.id_profesorcursogrupo = inscripcion.id_profesorcursogrupo
+			INNER JOIN pensum ON pensum.id_pensum = profesorcursogrupo.curso
+			INNER JOIN periodo ON periodo.id_periodo = profesorcursogrupo.periodo
+			INNER JOIN seccion ON seccion.id_seccion = profesorcursogrupo.seccion
+			INNER JOIN especialidad ON especialidad.id_especialidad = pensum.id_especialidad
+			INNER JOIN estudiante ON estudiante.id_estudia = inscripcion.id_estudia
+			WHERE
+				especialidad.especial = :grado AND
+				seccion.seccion = :seccion AND
+				periodo.periodo = :periodo AND
+				estudiante.cedula = :cedula
+		");
+		$query->bindParam(':grado', $datos['grado']);
+		$query->bindParam(':seccion', $datos['seccion']);
+		$query->bindParam(':periodo', $datos['periodo']);
+		$query->bindParam(':cedula', $datos['cedula']);
 
 		if ( $query->execute() ) {
 			$respuesta = true;

@@ -9,8 +9,8 @@ define('URL', 'http://192.168.0.102/uepjmc/');
 define('HOST', 'localhost');
 define('CHARSET', 'UTF8');
 define('USER', 'jmc_aula3');
-define('DB1', 'jmc');
-define('DB2', 'aula');
+define('DB1', 'uepjmc_jmc');
+define('DB2', 'uepjmc_aula');
 //define('PASSWORD', 'value');
 
 

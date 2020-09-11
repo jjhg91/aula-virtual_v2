@@ -12,7 +12,7 @@ class ValidarFormulario {
 		this.campos = {
 			tipo: false,
 			otros: true,
-			valor: false,
+			valor: true,
 			semana: false,
 			descripcion: true
 		}
@@ -399,10 +399,9 @@ class UI {
 
 		let objetivos = e.target.parentNode.parentNode.parentNode.parentNode;
 		let tipo = objetivos.querySelector('div.titulo div.titulo_izq h4').innerHTML;
-		let valor = objetivos.querySelector('div.contenido span.valor small span').innerHTML;
 		let semana = objetivos.querySelector('div.contenido span.semana small').innerHTML;
 
-		let eliminar = confirm(`Deseas eliminar del plan de evaluacion la evaluacion: ${tipo} de la ${semana} con el valor de ${valor}` );
+		let eliminar = confirm(`Deseas eliminar del plan de evaluacion la evaluacion: ${tipo} de la ${semana}` );
 		if( eliminar ) {
 			let planEliminar = e.target.parentNode.parentNode.parentNode.parentNode;
 			let direccion = `${URL}plan/delete/${materia}/${plan}`;

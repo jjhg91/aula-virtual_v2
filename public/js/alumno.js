@@ -3,7 +3,7 @@ class ValidarFormulario {
 		this.formulario = formulario;
 		this.inputs = document.querySelectorAll('#add__cedula, #add__nombre, #add__apellido, #add__email, #add__tlf, #add__representante');
 		this.expresiones = {
-			cedula: /^[0-9]{7,10}$/, // numeros de 10 digitos
+			cedula: /^[0-9]{7,20}$/, // numeros de 10 digitos
 			nombre: /^[A-z .À-ÿ']{1,100}$/, // valida letras mayusculas y minusculas y punto(.) de 1 a 100 caracteres
 			apellido: /^[A-z .À-ÿ']{1,100}$/, // valida letras mayusculas y minusculas y punto(.) de 1 a 100 caracteres
 			email: /^([^@]+@[^@]+\.[a-zA-Z]{2,}){0,}$/, // valida los correos cualquier caracter + @  + caracteres + . caracteres
@@ -35,6 +35,7 @@ class ValidarFormulario {
 	validarFormulario(e) {
 		switch (e.target.name) {
 			case "add__cedula":
+				console.log('hola')
 				this.validarCampo(this.expresiones.cedula, e.target, 'cedula');
 				break;
 			case "add__nombre":

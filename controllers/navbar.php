@@ -20,11 +20,14 @@ class Navbar extends Controller
 		$navbarmodel = new NavbarModel();
 		if ( $usuario['user'] == 'alumno') {
 			$respuesta = $navbarmodel->navbarMateriasAlumno($usuario['id']);
+			$_SESSION['nivel'] = $respuesta[0][6];
 		}elseif ( $usuario['user'] == 'profesor' ) {
 			$respuesta = $navbarmodel->navbarMateriasProfesor($usuario['id']);
+			$_SESSION['nivel'] = $respuesta[0][5];
 		}elseif ($usuario['user'] === 'admin') {
 			$respuesta = [];
 		}
+
 		return $respuesta;
 	}
 

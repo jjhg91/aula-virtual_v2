@@ -281,7 +281,7 @@ class UI {
 
 
 		let expresion = {
-			cedula: /^[0-9]{7,10}$/
+			cedula: /^[0-9]{7,20}$/
 		}
 		let campos = {
 			cedula: false
@@ -332,7 +332,7 @@ class UI {
 				if ( this.readyState == 4 && this.status == 200 ) {
 					let datos = JSON.parse(xmlhttp.response);
 					if ( datos.status ){
-						
+
 						tbody.removeChild(eliminar);
 					}
 				}
@@ -341,7 +341,8 @@ class UI {
 			xmlhttp.send(formData);
 		}
 
-		let cargarInscritos = () => {
+		const cargarInscritos = () => {
+			let tbody = document.querySelector('#ins__tbody');
 			let cargados = document.querySelectorAll('.cargados');
 			cargados.forEach(cargado => {
 				tbody.removeChild(cargado);
@@ -355,8 +356,9 @@ class UI {
 			let direccion = `${URL}admin/inscripcionGrado/${grado}/${seccion}/${periodo}/`;
 			// let direccion = `${URL}admin/inscripcionGrado/5`;
 			let xmlhttp = new XMLHttpRequest();
-
+			
 			xmlhttp.onreadystatechange = function() {
+				
 				if ( this.readyState == 4 && this.status == 200 ) {
 					
 					let datos = JSON.parse(xmlhttp.response);
@@ -379,6 +381,7 @@ class UI {
 					});
 
 					let btnEliminarGrado = document.querySelectorAll('.btnEliminar__ins');
+					
 					btnEliminarGrado.forEach(element => {
 						element.addEventListener('click', eliminarInscrito );
 					});
@@ -391,7 +394,6 @@ class UI {
 		}
 		cargarInscritos();
 
-		
 
 
 		let enviarInscripcion = () => {
@@ -525,7 +527,6 @@ periodos.addEventListener('click', (event) => {
 			break;
 		case 'btnAlumnosInscritos':
 			ui.editContenido(event);
-			
 			break;
 	}
 })

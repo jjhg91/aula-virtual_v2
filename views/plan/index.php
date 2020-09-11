@@ -98,9 +98,14 @@
 				<div class="contenido">
 					<span class="semana"><small><?= $plan[4] ?></small></span>
 					<br>
-					<span class="valor"><small><strong>Valor: </strong><span><?= $plan[3] ?> %</span></small></span>
-					<br>
-					<span><small><strong>Puntos: </strong><?= $plan[3] * 0.20 ?>pts</small></span>
+					<?php if ( $_SESSION['nivel'] === 'Preescolar' ): ?>
+					<?php elseif ($_SESSION['nivel'] === 'Primaria'):?>
+					<?php else: ?>
+						<span class="valor"><small><strong>Valor: </strong><span><?= $plan[3] ?> %</span></small></span>
+						<br>
+						<span><small><strong>Puntos: </strong><?= $plan[3] * 0.20 ?>pts</small></span>
+					<?php endif?>
+					
 
 					<?php if ($_SESSION['user'] == 'alumno'): ?>
 					<br>
@@ -152,17 +157,21 @@
 							<input class="otros" name="otros" type="text">
 							<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
 						</div>
-						<div class="grupo">
-							<label for="valor">Valor de evaluacion</label>
-							<select name="valor" id="valor_evaluacion" class="valor">
-								<?php foreach ($this->valores as $valor): ?>
-                                <option value="<?= $valor[0]; ?> ">
-									<?= $valor[1]; ?> %
-                                </option>
-                                <?php endforeach; ?>
-							</select>
-							<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
-						</div>
+						<?php if ( $_SESSION['nivel'] === 'Preescolar' ): ?>
+							<div class="grupo" style="display:none;">
+								<label for="valor">Valor de evaluacion</label>
+								<select name="valor" id="valor_evaluacion" class="valor">
+									<?php foreach ($this->valores as $valor): ?>
+									<option value="<?= $valor[0]; ?> ">
+										<?= $valor[1]; ?> %
+									</option>
+									<?php endforeach; ?>
+								</select>
+								<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
+							</div>
+						<?php elseif ($_SESSION['nivel'] === 'Primaria'):?>
+						<?php endif?>
+					
 
 						<div class="grupo">
 							<label for="semana">Semana de la evaluacion</label>

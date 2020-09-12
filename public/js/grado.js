@@ -402,6 +402,10 @@ class UI {
 
 				let btnSubmit = document.querySelector('#btn__ins');
 				btnSubmit.disabled = true;
+
+				btnSubmit.style.background = 'grey';
+				btnSubmit.style.cursor = 'none';
+
 				
 				const formData = new FormData();
 				formData.append('ins__cedula', inputCedula.value);
@@ -422,7 +426,7 @@ class UI {
 							let tbody = document.querySelector('#ins__tbody');
 							let trForm = document.querySelector('#ins__alumno');
 							let nuevo = document.createElement('tr');
-							// nuevo.className = 'periodo';
+							nuevo.className = 'cargados';
 							// nuevo.dataset.profesor = datos.json.id;
 
 							nuevo.innerHTML += `
@@ -440,6 +444,8 @@ class UI {
 							alert(datos.respuesta)
 						}
 						btnSubmit.disabled = false;
+						btnSubmit.style.background = '#1e8449';
+					btnSubmit.style.cursor = 'pointer';
 					}
 				}
 

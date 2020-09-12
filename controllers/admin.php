@@ -777,8 +777,18 @@ class Admin extends Controller
 					if( $this->model->getAlumno($datos) === false ) {
 						$insert = null;
 					}else{
-						$insert = $this->model->addInscripcionAlumno($datos);
+						if ( $this->model->getInscrito($datos) === false ) {
+							$insert = $this->model->addInscripcionAlumno($datos);
+						 }else {
+							$insert = null;
+							
+						 }
+						
 					}
+
+					// $aa = json_encode($insert);
+					// echo $aa;
+					// exit;
 
 					if ( $insert ) {
 						$getAlumno = $this->model->getAlumno($datos);
@@ -791,7 +801,7 @@ class Admin extends Controller
 						];
 					}else {
 						$respuesta['status'] = false;
-						$respuesta['respuesta'] = "ERROR AL INSCRIBIR AL ALUMNO EN EL GRADO";
+						$respuesta['respuesta'] = "ERROR AL INSCRIBIR AL ALUMNO EN EL GRADO O ALUMNO YA INSCRITO";
 					}
 					echo json_encode($respuesta);
 				break;

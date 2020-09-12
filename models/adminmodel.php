@@ -421,6 +421,46 @@ class AdminModel extends Model
 		return $resultado;
 	}
 
+	public function getInscrito($datos)
+	{
+		$query = $this->db->connect1()->prepare("
+			SELECT
+				inscripcion.id_inscripcion,
+				especialidad.especial,
+				pensum.descripcion,
+				periodo.periodo,
+				seccion.seccion,
+				estudiante.p_nombres,
+				estudiante.p_apellido,
+				estudiante.cedula
+			FROM
+				`inscripcion`
+			INNER JOIN profesorcursogrupo ON profesorcursogrupo.id_profesorcursogrupo = inscripcion.id_profesorcursogrupo
+			INNER JOIN pensum ON pensum.id_pensum = profesorcursogrupo.curso
+			INNER JOIN periodo ON periodo.id_periodo = profesorcursogrupo.periodo
+			INNER JOIN seccion ON seccion.id_seccion = profesorcursogrupo.seccion
+			INNER JOIN especialidad ON especialidad.id_especialidad = pensum.id_especialidad
+			INNER JOIN estudiante ON estudiante.id_estudia = inscripcion.id_estudia
+			WHERE
+				especialidad.especial = :grado AND 
+				seccion.seccion = :seccion AND 
+				periodo.periodo = :periodo AND 
+				estudiante.cedula = :cedula
+			GROUP BY
+				especialidad.especial,
+				seccion.seccion,
+				periodo.periodo,
+				estudiante.id_estudia
+		");
+		$query->bindParam(':grado',$datos['grado']);
+		$query->bindParam(':seccion',$datos['seccion']);
+		$query->bindParam(':periodo',$datos['periodo']);
+		$query->bindParam(':cedula',$datos['cedula']);
+		$query->execute();
+		$resultado = $query->fetch(PDO::FETCH_ASSOC);
+		return $resultado;
+	}
+
 	public function addInscripcionAlumno($datos)
 	{
 		$queryMaterias = $this->db->connect1()->prepare("

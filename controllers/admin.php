@@ -364,9 +364,9 @@ class Admin extends Controller
 				$resultadosPorPagina  = 10;
 				$indice = 0;
 
-				$nResultados = ($this->model->totalGrados() === true)? $this->model->totalGrados()['total'] : null ;
+				$nResultados = ($this->model->totalGrados() === false)? null : count($this->model->totalGrados()) ;
 
-			
+				
 				$totalPaginas = ceil($nResultados / $resultadosPorPagina);
 				
 				if ( !isset($url[0]) || $url[0] === '0' ) {

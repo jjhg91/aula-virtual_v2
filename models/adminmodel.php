@@ -247,14 +247,14 @@ class AdminModel extends Model
 	public function totalGrados()
 	{
 		$query = $this->db->connect1()->prepare("
-		SELECT COUNT(*) AS total FROM profesorcursogrupo 
-		INNER JOIN pensum ON pensum.id_pensum = profesorcursogrupo.curso
-		GROUP BY profesorcursogrupo.seccion, pensum.id_especialidad
+			SELECT COUNT(*) AS total FROM profesorcursogrupo 
+			INNER JOIN pensum ON pensum.id_pensum = profesorcursogrupo.curso
+			GROUP BY profesorcursogrupo.seccion, pensum.id_especialidad
 		");
 		// $query->bindParam('',$datos['']);
 		// $query->bindParam('',$datos['']);
 		$query->execute();
-		$resultado = $query->fetch(PDO::FETCH_ASSOC);
+		$resultado = $query->fetchAll(PDO::FETCH_ASSOC);
 		return $resultado;
 	}
 

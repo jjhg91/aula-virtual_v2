@@ -21,6 +21,7 @@ class Navbar extends Controller
 		if ( $usuario['user'] == 'alumno') {
 			$respuesta = $navbarmodel->navbarMateriasAlumno($usuario['id']);
 			$_SESSION['nivel'] = $respuesta[0][6];
+			
 		}elseif ( $usuario['user'] == 'profesor' ) {
 			$respuesta = $navbarmodel->navbarMateriasProfesor($usuario['id']);
 			$_SESSION['nivel'] = $respuesta[0][5];

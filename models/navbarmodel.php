@@ -20,7 +20,8 @@ class NavbarModel extends Model
 				especialidad.especial,
 				periodo.periodo,
 				periodo.status,
-                educacion.descripcion
+                educacion.descripcion,
+                seccion.seccion
 			FROM inscripcion
 			INNER JOIN profesorcursogrupo ON inscripcion.id_profesorcursogrupo = profesorcursogrupo.id_profesorcursogrupo
 			INNER JOIN pensum ON profesorcursogrupo.curso = pensum.id_pensum
@@ -28,6 +29,7 @@ class NavbarModel extends Model
             INNER JOIN estudiante ON estudiante.id_estudia = inscripcion.id_estudia
 			INNER JOIN periodo ON periodo.id_periodo = profesorcursogrupo.periodo
 			INNER JOIN educacion ON educacion.id_educacion = especialidad.educacion
+			INNER JOIN seccion ON seccion.id_seccion = profesorcursogrupo.seccion
 			WHERE
 			estudiante.id_estudia = :id
 			AND
@@ -51,12 +53,14 @@ class NavbarModel extends Model
 				profesorcursogrupo.id_profesorcursogrupo,
 				especialidad.especial,
 				periodo.periodo,
-                educacion.descripcion
+                educacion.descripcion,
+                seccion.seccion
             FROM profesorcursogrupo
 			INNER JOIN pensum ON profesorcursogrupo.curso = pensum.id_pensum
 			INNER JOIN especialidad ON pensum.id_especialidad = especialidad.id_especialidad
 			INNER JOIN periodo ON periodo.id_periodo = profesorcursogrupo.periodo
 			INNER JOIN educacion ON educacion.id_educacion = especialidad.educacion
+			INNER JOIN seccion ON seccion.id_seccion = profesorcursogrupo.seccion
 			WHERE
 				personal = :id AND
 				periodo.status = 1

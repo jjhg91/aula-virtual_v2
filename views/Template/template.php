@@ -11,7 +11,7 @@
 	<!-- LOADER
 	PANTALLA PARA MOSTRAR HASTA QUE CARGUE LA PAGINA -->
 	<div class="loader">
-		<img src="public/media/logo.jpg" alt="" width="200">
+		<img src="public/media/LogoIUTJMC.png" alt="" width="200">
 		<span>Cargando...</span>
 	</div>
 	<!-- /LOADER -->
@@ -86,7 +86,13 @@
 				<li class="submenu">
 					<a href="<?= constant('URL') ?>main">Inicio</a>
 				</li>
-			
+
+				<?php if ( $usuario['user'] === 'profesor' && ($_SESSION['nivel'] === 'Primaria' || $_SESSION['nivel'] === 'Preescolar') ): ?>
+					<li class="submenu">
+						<a href="<?= constant('URL') ?>mensajeInicio">Mensajes de Inicio</a>
+					</li>
+				<?php endif ?>
+				
 				<?php if ( $usuario['user'] === 'admin' ): ?>
 					<li class="submenu">
 						<a href="<?= constant('URL') ?>admin/profesor">Profesores</a>

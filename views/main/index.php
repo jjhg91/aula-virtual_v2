@@ -25,6 +25,10 @@
 	<!-- /CUSTOM CSS -->
 	<script src="<?= constant('URL') ?>public/js/jquery/jquery-3.5.0.min.js"></script>
 	<script src="<?= constant('URL') ?>public/js/jquery/jquery.cookie.js"></script>
+
+	<!-- Theme included stylesheets -->
+	<link href="<?= constant('URL') ?>public/quill/quill.snow.css" rel="stylesheet">
+	<link href="<?= constant('URL') ?>public/quill/quill.bubble.css" rel="stylesheet">
 	
 
 </head>
@@ -132,10 +136,22 @@
 	
 
 
+	<!-- Main Quill library -->
+	<script src="<?= constant('URL') ?>public/quill/quill.min.js"></script>
 
 	<!-- JS -->
 	<script src="<?= constant('URL') ?>public/js/menu.js"></script>
 	<!-- /JS -->
+
+	<script>
+		var contenidoDescripcion = document.querySelectorAll('.contenido__qe');
+		contenidoDescripcion.forEach( contenidos => {
+			var quill3 = new Quill(contenidos,{
+				readOnly: true,
+				theme: 'bubble'
+			});
+		});
+	</script>
 
 </body>
 </html>

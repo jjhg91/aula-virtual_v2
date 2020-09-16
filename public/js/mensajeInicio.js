@@ -64,7 +64,7 @@ class ValidarFormulario {
 				message.innerHTML = editarDescripcion.innerHTML;
 
 				const formData = new FormData(e.currentTarget);
-				let direccion = `${URL}MensajeInicio/mensajes`;
+				let direccion = `${URL}mensajeInicio/mensajes/`;
 				let xmlhttp = new XMLHttpRequest();
 
 				xmlhttp.onreadystatechange = function() {
@@ -315,7 +315,7 @@ class UI {
 		let eliminar = confirm('Deseas eliminar el mensaje?');
 		if( eliminar ) {
 			
-			let direccion = `${URL}MensajeInicio/mensajes/${foro}`;
+			let direccion = `${URL}mensajeInicio/mensajes/${foro}`;
 			let xmlhttp = new XMLHttpRequest();
 			
 			xmlhttp.onreadystatechange = function() {

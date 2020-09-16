@@ -89,7 +89,7 @@
 
 				<?php if ( $usuario['user'] === 'profesor' && ($_SESSION['nivel'] === 'Primaria' || $_SESSION['nivel'] === 'Preescolar') && $navbarMaterias[0][3] === $navbarMaterias[1][3] && $navbarMaterias[0][4] === $navbarMaterias[1][4] && $navbarMaterias[0][6] === $navbarMaterias[1][6] ): ?>
 					<li class="submenu">
-						<a href="<?= constant('URL') ?>mensajeInicio">Mensajes de Inicio</a>
+						<a href="<?= constant('URL') ?>mensajeInicio/mensajes">Mensajes de Inicio</a>
 					</li>
 				<?php endif ?>
 				

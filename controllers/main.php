@@ -1,5 +1,6 @@
 <?php 
 require_once 'navbar.php';
+require_once 'mensajeInicio.php';
 /**
  * 
  */
@@ -21,6 +22,26 @@ class Main extends Controller
 		$navbarMaterias = $navbar->navbarMaterias($usuario);
 		$this->view->usuario = $usuario;
 		$this->view->navbarMaterias = $navbarMaterias;
+
+
+		if ($usuario['user'] === 'profesor' ){
+			$datos = [
+				'periodo' => $navbarMaterias[0][4],
+				'educacion' => $navbarMaterias[0][5],
+				'grado' => $navbarMaterias[0][3],
+				'seccion' =>$navbarMaterias[0][6]
+			];
+		}elseif ($usuario['user'] === 'alumno') {
+			$datos = [
+				'periodo' => $navbarMaterias[0][4],
+				'educacion' => $navbarMaterias[0][6],
+				'grado' => $navbarMaterias[0][3],
+				'seccion' =>$navbarMaterias[0][7]
+			];
+		}
+
+		$mensajes = $this->model->getMensajes($datos);
+		$this->view->mensajes = $mensajes;
 
 		$this->view->render('main/index');
 	}

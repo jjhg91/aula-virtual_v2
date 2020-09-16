@@ -40,43 +40,35 @@
 
 		<main class="main_completo">
 
-			<?php TarjetaInformativa('FOROS', $this->barMateria); ?>
-
+			<!-- SECTION 
+	TARJETA INFORMATIVA NOMRE DE LA PAGINA 
+	NOMRES DE LA CARRERA, MATERIA, PROFESOR Y PERIODO -->
+	<section class="tarjeta_informacion">
+		<hgroup class="hgroup_izq"	>
+		</hgroup>
 			
-			<!-- FORO GENERAL -->
-			<section class="foro">
-				<div class="titulo">
-					<div class="titulo_izq">
-						<h4>GENERAL</h4>
-					</div>
+		<hgroup class="hgroup_der">
+						<h3>MENSAJES EN EL INICIO</h3>
+		</hgroup>
+		
+	</section>
+	<!-- /SECTION -->
 
-
-				</div>
-				<div class="contenido">
-
-					<p><strong>Descripcion: </strong></p>
-					<div class="contenido__qe"> DISCUSIONES GENERALES DE LA MATERIA</div>
-					<br>
-					<a href="<?= constant('URL') ?>foro/detail/<?= $this->barMateria[2] ?>/0">INGRESAR AL FORO</a>
-
-
-				</div>
-			</section>
-			<!-- /FORO GENERAL -->
 
 			<div id="foros">
-			<?php foreach ($this->temas as $tema): ?>
-			<section class="foro" data-foro="<?= $tema[0]?>">
+
+			<?php foreach ($this->mensajes as $mensaje): ?>
+			<section class="foro" data-foro="<?= $mensaje['id_mensaje_inicio']?>">
 				<div class="titulo">
 					<div class="titulo_izq">
-						<h4 class="title"><?= ucfirst($tema[2]) ?></h4>
+						<h4 class="title"><?= $mensaje['titulo'] ?></h4>
 					</div>
 
 					<?php if ($_SESSION['user'] == 'profesor'): ?>
 					<div class="titulo_der">
 						<div class="enlaces">
-							<button title="Editar" class="btnModalEditar item icon-pencil btnInfo" type="button" data-foro="<?= $tema[0] ?>"></button>
-							<button title="Eliminar" class="btnEliminar icon-bin btnInfo" data-materia="<?= $tema[1] ?>" data-foro="<?= $tema[0] ?>" type="button" ></button>
+							<!-- <button title="Editar" class="btnModalEditar item icon-pencil btnInfo" type="button" data-foro="<?= $tema[0] ?>"></button> -->
+							<button title="Eliminar" class="btnEliminar icon-bin btnInfo" data-materia="<?= $mensaje['id_mensaje_inicio']?>" data-foro="<?= $mensaje['id_mensaje_inicio']?>" type="button" ></button>
 						</div>
 					</div>
 					<?php endif ?>
@@ -85,16 +77,13 @@
 				<div class="contenido">
 
 					<p><strong>Descripcion: </strong></p>
-					<div class="contenido__qe"><?= $tema[3]?></div>
-					<br>
-					<a href="<?= constant('URL') ?>foro/detail/<?= $this->barMateria[2] . "/" . $tema[0] ?>">INGRESAR AL FORO </a>
-
-
+					<div class="contenido__qe"><?= $mensaje['mensaje']?></div>
 
 				</div>
 			</section>
 			<?php endforeach; ?>
-			</div>
+
+			</div> 
 
 			<?php if ($_SESSION['user'] === 'profesor'): ?>
 			<section class="section_agregar">
@@ -117,7 +106,10 @@
 
 
 						<div class="grupo_oculto">
-							<input type="text" name="materia" style="display: none;" value="<?= $this->barMateria[2] ?>">
+							<input type="text" name="add__periodo" style="display: none;" value="<?= $this->navbarMaterias[0][4] ?>">
+							<input type="text" name="add__educacion" style="display: none;" value="<?= $this->navbarMaterias[0][5] ?>">
+							<input type="text" name="add__grado" style="display: none;" value="<?= $this->navbarMaterias[0][3] ?>">
+							<input type="text" name="add__seccion" style="display: none;" value="<?= $this->navbarMaterias[0][6] ?>">
 						</div>
 
 
@@ -231,7 +223,7 @@
 	<!-- JS -->
 	<script src="<?= constant('URL') ?>public/js/config.js"></script>
 	<script src="<?= constant('URL') ?>public/js/menu.js"></script>
-	<script src="<?= constant('URL') ?>public/js/foro.js"></script>
+	<script src="<?= constant('URL') ?>public/js/mensajeInicio.js"></script>
 	<!-- /JS -->
 
 </body>

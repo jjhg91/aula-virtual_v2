@@ -39,6 +39,25 @@
 		<?php Navbar($this->usuario, $this->navbarMaterias); ?>
 
 		<main class="main_completo">
+
+			<!-- MENSAJES INICIO -->
+				<div id="foros">
+					<?php foreach ($this->mensajes as $mensaje): ?>
+					<section class="foro" data-foro="<?= $mensaje['id_mensaje_inicio']?>">
+						<div class="titulo">
+							<div class="titulo_izq">
+								<h4 class="title"><?= $mensaje['titulo'] ?></h4>
+							</div>
+						</div>
+						<div class="contenido">
+							<div class="contenido__qe"><?= $mensaje['mensaje']?></div>
+						</div>
+					</section>
+					<?php endforeach; ?>
+				</div> 
+			<!-- /MENSAJES INICIO -->
+
+
 			<section>
 				<div class="contenido">
 

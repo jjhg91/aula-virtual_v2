@@ -50,6 +50,25 @@ class Sesion
 		$datos = $this->getSesion();
 		$fecha = date("d-m-y h:i:s",time());
 		if (isset($datos['loggedin']) && $datos['loggedin'] == true) {
+			if($datos['user'] === 'alumno'){
+				$fecha = date("d-m-y h:i:s",time());
+				$db = new Database();
+				$query = $db->connect2()->prepare("
+					INSERT INTO alumnos (
+						id_estudiante,
+						fecha)
+					VALUES(
+						:alumno,
+						:fecha)
+				");
+				$query->bindParam(':alumno',$datos['id']);
+				$query->bindParam(':fecha',$fecha);
+				$query->execute();
+				
+
+				// $ins = $myPDO2->prepare("INSERT INTO alumnos (id_estudiante, fecha) VALUES($id, '$fecha');");
+	  			// $ins->execute();
+			}
 			$respuesta = true;
 		}else{
 			$respuesta = false;

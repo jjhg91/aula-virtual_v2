@@ -34,6 +34,7 @@ class Alumno extends Controller
 			if ($barMateria) {
 				$this->view->barMateria = $barMateria;
 				$alumnos = $this->model->getAlumnos($materia[0]);
+
 				$this->view->alumnos = $alumnos;
 				$this->view->render('alumno/index');
 

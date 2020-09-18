@@ -170,6 +170,17 @@
 								<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
 							</div>
 						<?php elseif ($_SESSION['nivel'] === 'Primaria'):?>
+							<div class="grupo" style="display:none;">
+								<label for="valor">Valor de evaluacion</label>
+								<select name="valor" id="valor_evaluacion" class="valor">
+									<?php foreach ($this->valores as $valor): ?>
+									<option value="<?= $valor[0]; ?> ">
+										<?= $valor[1]; ?> %
+									</option>
+									<?php endforeach; ?>
+								</select>
+								<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
+							</div>
 						<?php endif?>
 					
 

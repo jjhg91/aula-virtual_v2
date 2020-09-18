@@ -94,7 +94,8 @@ class ValidarFormulario {
 
 							let tipo = formulario.querySelector('.tipo').options[formulario.querySelector('.tipo').selectedIndex].text;
 							let otros = formulario.querySelector('.otros').value;
-							let valor = formulario.querySelector('.valor').options[formulario.querySelector('.valor').selectedIndex].text;
+							let valor = formulario.querySelector('.valor') != null ? formulario.querySelector('.valor').options[formulario.querySelector('.valor').selectedIndex].text : null ;
+							console.log(`valor es igual a: ${valor}`);
 							let tit = (tipo === 'otros') ? otros: tipo;
 							
 							planes.innerHTML += `

@@ -114,7 +114,7 @@ class ValidarFormulario {
 												<button
 													title="Eliminar"
 													class="btnEliminar icon-bin btnInfo"
-													data-materia="7729"
+													data-materia="${datos.materia}"
 													data-plan="${datos.idPlan}"
 													type="button"></button>
 											</div>

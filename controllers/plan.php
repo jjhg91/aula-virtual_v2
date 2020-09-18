@@ -146,6 +146,7 @@ class Plan extends Controller
 					$respuesta['status'] = true;
 					$respuesta['respuesta'] = "LA EVALUACION FUE AGREGADA EXITOSAMENTE AL PLAN DE EVALUACION";
 					$respuesta['idPlan'] = $idPlan;
+					$respuesta['materia'] = $datos['materia'];
 					
 					
 					

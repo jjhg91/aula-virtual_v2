@@ -122,7 +122,7 @@ class Plan extends Controller
 
 			if ($barMateria) {
 				// DATOS DE FORMULARIO
-				$valor = (int)$_POST['valor'];
+				$valor = 1;
 				$tipo = (int)$_POST['tipo'];
 				$semana = $_POST['semana'];
 				$descripcion = $_POST['descripcion'];

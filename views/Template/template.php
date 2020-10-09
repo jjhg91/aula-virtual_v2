@@ -126,6 +126,11 @@
 						<div>
 							<span><?= $row[0] ?></span><br>
 							<span class="carrera"><small><?= $row[3] ?></small></span>
+							<?php if ($usuario['user'] === 'alumno' ): ?>
+								<span class="carrera"><small><small>seccion <?= $row[7] ?></small></small></span>
+							<?php elseif ($usuario['user'] === 'profesor'): ?>
+							<span class="carrera"><small><small>seccion <?= $row[6] ?></small></small></span>
+							<?php endif ?>
 						</div>
 						
 					</a>

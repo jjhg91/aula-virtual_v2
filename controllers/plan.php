@@ -186,7 +186,7 @@ class Plan extends Controller
 			$barMateria = $navbar->barMateria($usuario,$materia);
 			if ($barMateria) {
 				// DATOS DEL FORMULARIO
-				$valor = (int)$_POST['valor'];
+				$valor = 1;
 				$tipo = (int)$_POST['tipo'];
 				$semana = $_POST['semana'];
 				$descripcion = $_POST['descripcion'];

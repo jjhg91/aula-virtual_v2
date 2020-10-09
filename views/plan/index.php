@@ -101,9 +101,8 @@
 					<?php if ( $_SESSION['nivel'] === 'Preescolar' ): ?>
 					<?php elseif ($_SESSION['nivel'] === 'Primaria'):?>
 					<?php else: ?>
-						<span class="valor"><small><strong>Valor: </strong><span><?= $plan[3] ?> %</span></small></span>
-						<br>
-						<span><small><strong>Puntos: </strong><?= $plan[3] * 0.20 ?>pts</small></span>
+						<span class="valor"><small><strong>Valor: </strong><span>20pts</span></small></span>
+						
 					<?php endif?>
 					
 
@@ -230,7 +229,7 @@
 									<div class="modal__preview">
 										<div id="preview__tipo"></div>
 										<div id="preview__semana" ></div>
-										<div id="preview__valor"></div>
+										<!-- <div id="preview__valor"></div> -->
 										<div id="preview__puntos"></div>
 										<div id="preview__descripcion2"></div>
 										<div id="preview__descripcion"></div>
@@ -273,20 +272,7 @@
 			* Este campo debe llenarse obligatoriamente
 		</p>
 	</div>
-	<div class="grupo">
-		<label for="valor">Valor de evaluacion</label>
-		<select name="valor" class="valor">
-			<?php foreach ($this->valores as $valor): ?>
-			<option value="<?= $valor[0]; ?> ">
-				<?= $valor[1]; ?>
-				%
-			</option>
-			<?php endforeach; ?>
-		</select>
-		<p class="formulario__input-error">
-			* Este campo debe llenarse obligatoriamente
-		</p>
-	</div>
+
 
 	<div class="grupo">
 		<label for="semana">Semana de la evaluacion</label>

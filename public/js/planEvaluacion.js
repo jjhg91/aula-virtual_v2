@@ -123,7 +123,7 @@ class ValidarFormulario {
 									<div class="contenido">
 										<span class="semana"><small>Semana 2</small></span>
 										<br/>
-										<span class="valor"><small><strong>Valor: </strong><span>${valor}</span></small></span>
+										<span class="valor"><small><strong>Valor: </strong><span>20pts</span></small></span>
 										<br/>
 										<br/>
 										<p><strong>Descripcion: </strong><p>
@@ -249,7 +249,7 @@ class ValidarFormularioEditar  extends ValidarFormulario{
 							conten.innerHTML = `
 								<span class="semana"><small>Semana 0</small></span>
 								<br>
-								<span class="valor"><small><strong>Valor: </strong><span>0 %</span></small></span>
+								<span class="valor"><small><strong>Valor: </strong><span>20pts</span></small></span>
 								<br>
 								<br>
 								<p><strong>Descripcion: </strong></p>
@@ -328,7 +328,7 @@ class UI {
 		const section = e.target.parentNode.parentNode.parentNode.parentNode;
 
 		const tipo = section.querySelector('.titulo > .titulo_izq > h4').innerHTML;
-		const valor = section.querySelector('.valor > small > span').innerHTML;
+		// const valor = section.querySelector('.valor > small > span').innerHTML;
 		const semana = section.querySelector('.semana > small').innerHTML;
 		const descripcion = section.querySelector('.contenido > .descripcion > .ql-editor').innerHTML;
 		
@@ -356,13 +356,13 @@ class UI {
 					}
 					
 					break;
-				case 'valor':
-					for ( let option of input.options ) {
-						if ( option.text == valor ){
-							option.selected = true;
-						}
-					}
-					break;
+				// case 'valor':
+				// 	for ( let option of input.options ) {
+				// 		if ( option.text == valor ){
+				// 			option.selected = true;
+				// 		}
+				// 	}
+				// 	break;
 				case 'semana':
 					for ( let option of input.options ) {
 						if ( option.text == semana ){

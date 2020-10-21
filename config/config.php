@@ -3,6 +3,8 @@
 // DIRECCION URL ESTATTICA
 define('URL', 'http://aula.uepjmc.com.ve/');
 // define('URL', 'http://192.168.0.102/uepjmc/');
+// define('URL', 'http://localhost/uepjmc/');
+
 
 
 // CONSTANTE DE LA BASE DE DATOS

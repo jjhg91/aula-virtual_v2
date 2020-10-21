@@ -837,6 +837,50 @@ class Admin extends Controller
 		}
 	}
 
+
+
+
+
+
+
+	// BUSQUEDA DE ALUMNOS
+	public function buscarAlumnos($url = null)
+	{
+		$sesion = new Sesion();
+		$sesion->validateSesion();
+		$usuario = $sesion->getSesion();
+
+		$navbar = new Navbar($usuario);
+		$navbarMaterias = $navbar->navbarMaterias($usuario);
+		$this->view->usuario = $usuario;
+		$this->view->navbarMaterias = $navbarMaterias;
+		$respuesta = ['status' => false, 'respuesta' => "", 'json' => ""];
+
+		switch ( $_SERVER['REQUEST_METHOD'] ) {
+			case 'GET':
+
+					$busqueda = '%'.$url[0].'%';
+
+					$buscarAlumnos = $this->model->buscar_alumnos($busqueda);
+
+					if ( $buscarAlumnos === false ) {
+						$respuesta['status'] = false;
+						$respuesta['respuesta'] = 'NINGUN ALUMNO COINCIDE CON LA BUSQUEDA';
+					}else{
+						$respuesta['status'] = true;
+						$respuesta['respuesta'] = 'ALUMNOS QUE CONSIDEN CON LA BUSQUEDA';
+						$respuesta['json'] = $buscarAlumnos;
+					}
+					echo json_encode($respuesta);
+
+				break;
+		}
+	}
+
+
+
+
+
 }
 
 ?>

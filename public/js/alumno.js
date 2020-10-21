@@ -432,3 +432,71 @@ periodos.addEventListener('click', (event) => {
 			break;
 	}
 })
+
+
+
+
+
+
+const formBuscar = document.getElementById('buscador__alumnos');
+const buscar = (formulario) =>{
+	
+	formulario.addEventListener('submit', (e) => {
+		e.preventDefault();
+	
+		let btnSubmit = formulario.querySelector('#btn__buscar');
+		let inputBusqueda = formulario.querySelector('#busqueda');
+		btnSubmit.disabled = true;
+		btnSubmit.style.backgroundColor = 'grey';
+		btnSubmit.style.cursor = 'progress';
+		// inputBusqueda.disabled = true;
+		
+		const formData = new FormData(e.currentTarget);
+
+
+		let direccion = `${URL}admin/buscarAlumnos/${formData.get('busqueda')}`;
+		let xmlhttp = new XMLHttpRequest();
+
+		xmlhttp.onreadystatechange = function() {
+			if ( this.readyState == 4 && this.status == 200 ) {
+			// TODO FUE CORRECTO
+				let datos = JSON.parse(xmlhttp.response);
+				console.log(datos.json[0]);
+
+				if ( datos.status == true ) {
+					let tableBusqueda = document.querySelector('#resultado__busqueda > table > tbody');
+					tableBusqueda.innerHTML = '';
+					datos.json.forEach(alumno => {
+						tableBusqueda.innerHTML += `
+							<tr class="periodo" data-alumno="${alumno['id_estudia']}">
+								<td class="cedula">${alumno['cedula']}</td>
+								<td class="nombre">${alumno['p_nombres']}</td>
+								<td class="apellido">${alumno['p_apellido']}</td>
+								<td class="email">${alumno['email']}</td>
+								<td class="tlf">${alumno['tlf1']}</td>
+								<td class="representante">${alumno['representante']}</td>
+								<td class="td__btnEditar"><button type="submit" class="btnEditar" data-alumno="${alumno['id_estudia']}">EDITAR</button></td>
+								<td class="td__btnEliminar"><button type="button" class="btnEliminar" data-alumno="${alumno['id_estudia']}">ELIMINAR</button></td>
+							</tr>
+						`;	
+					});
+					
+					
+				} else {
+				}
+			}else{
+
+			}
+			
+			btnSubmit.disabled = false;
+			btnSubmit.style.backgroundColor = '#1e8449';
+			btnSubmit.style.cursor = 'pointer';
+			inputBusqueda.disabled = false;
+		}
+		xmlhttp.open('GET', direccion);
+		xmlhttp.send(formData);
+
+	});
+
+}
+buscar(formBuscar);

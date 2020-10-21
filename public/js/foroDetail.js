@@ -49,7 +49,6 @@ class ValidarFormulario {
 		
 		const formulario = this.formulario;
 		formulario.addEventListener('submit', (e) => {
-			debugger
 			e.preventDefault();
 			if ( this.campos.message ) {
 				let btnSubmit = formulario.querySelector('#btnSubmit');
@@ -86,8 +85,9 @@ class ValidarFormulario {
 								
 									</div>
 									<div class="contenido">
-									<div class="message__qe">${formData.get('message')}</div>
+										<div class="message__qe">${formData.get('message')}</div>
 									</div>
+									
 								</section>
 							`;
 
@@ -167,7 +167,7 @@ class ValidarFormularioResponder  extends ValidarFormulario{
 						let datos = JSON.parse(xmlhttp.response);
 						if ( datos.status == true ) {
 							let nombre = document.getElementById('nombre__usuario').innerHTML;
-							let respuestas = section.querySelector('.respuestas > .mensaje__qe');
+							let respuestas = section.querySelector('.respuestas');
 							respuestas.innerHTML += `
 								<div class="respuesta">
 									<p class="nombreHora"><b>${nombre} <small>(${datos.fecha})</small>:</b></p>
@@ -177,8 +177,7 @@ class ValidarFormularioResponder  extends ValidarFormulario{
 							`;
 
 							
-							let aa = section.querySelector('.respuestas').lastElementChild;
-
+							let aa = section.querySelector('.respuestas').lastElementChild.querySelector('.mensaje__qe ');
 							var quill3 = new Quill(aa,{
 								readOnly: true,
 								theme: 'bubble'

@@ -69,8 +69,7 @@
 				</div>
 				<div class="contenido">
 					<p><strong>Fecha limite: </strong><?= $this->actividad[4] ?></p>
-					<p><strong>Valor: </strong><?= $this->actividad[1] ?>%</p>
-					<p><strong>Punto: </strong><?= $this->actividad[1] * 0.20 ?>pts</p>
+					<p><strong>Valor: </strong>20pts</p>
 					<br>
 
 					<p><strong>Descripcion: </strong><?= nl2br($this->actividad[5]) ?></p>

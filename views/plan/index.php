@@ -55,8 +55,6 @@
 						<br>
 						<p>Por favor cargue el plan de evaluación que se impartirá en esta asignatura, recuerde que sin el plan de evaluación no podrá crear una evaluación para ser entregada por este medio, como tampoco podrá cargar las notas</p>
 						<br>
-						<p>* El plan de evaluacion consta de 6 evaluaciones maximo</p>
-						<p>* El valor mínimo es de 5% y el máximo 30% por cada evaluación</p>
 
 					<?php endif ?>
 
@@ -84,9 +82,7 @@
 					<?php if($_SESSION['user'] == 'profesor'): ?>
 					<div class="titulo_der">
 						<div class="enlaces">
-							<!-- <a title="Editar" href="#ModalEditar<?= $plan[0] ?>" ><span class="icon-pencil"></span></a>
-							<a title="Eliminar" href="<?= constant('URL') ?>plan/delete/<?= $plan[1] ?>/<?= $plan[0] ?>" ><span class="icon-bin"></span></a> -->
-							
+
 							<button title="Editar" class="btnModalEditar item icon-pencil btnInfo" type="button" data-plan="<?= $plan[0] ?>"></button>
 							<button title="Eliminar" class="btnEliminar icon-bin btnInfo" data-materia="<?= $plan[1] ?>" data-plan="<?= $plan[0] ?>" type="button" ></button>
 							
@@ -98,9 +94,7 @@
 				<div class="contenido">
 					<span class="semana"><small><?= $plan[4] ?></small></span>
 					<br>
-					<?php if ( $_SESSION['nivel'] === 'Preescolar' ): ?>
-					<?php elseif ($_SESSION['nivel'] === 'Primaria'):?>
-					<?php else: ?>
+					<?php if ( $this->barMateria[5] === 'Bachillerato' ): ?>
 						<span class="valor"><small><strong>Valor: </strong><span>20pts</span></small></span>
 						
 					<?php endif?>

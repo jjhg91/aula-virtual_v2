@@ -80,12 +80,14 @@ class NavbarModel extends Model
 				especialidad.descripcion,
 				profesorcursogrupo.id_profesorcursogrupo,
 				personal.nombres,
-				especialidad.especial
+				especialidad.especial,
+				educacion.descripcion
             FROM inscripcion
             INNER JOIN profesorcursogrupo ON inscripcion.id_profesorcursogrupo = profesorcursogrupo.id_profesorcursogrupo
             INNER JOIN pensum ON profesorcursogrupo.curso = pensum.id_pensum
             INNER JOIN especialidad ON pensum.id_especialidad = especialidad.id_especialidad
-            INNER JOIN personal ON profesorcursogrupo.personal = personal.id_personal
+			INNER JOIN personal ON profesorcursogrupo.personal = personal.id_personal
+			INNER JOIN educacion ON educacion.id_educacion = especialidad.educacion
             WHERE
 				id_estudia = :usuario AND
 				profesorcursogrupo.id_profesorcursogrupo = :materia
@@ -94,7 +96,7 @@ class NavbarModel extends Model
 		$query->bindParam(':materia', $materia);
         $query->execute();
         $resultado = $query->fetch();
-
+		
         return $resultado;
 	}
 
@@ -106,11 +108,13 @@ class NavbarModel extends Model
 				especialidad.descripcion,
 				profesorcursogrupo.id_profesorcursogrupo,
 				personal.nombres,
-				especialidad.especial
+				especialidad.especial,
+				educacion.descripcion
 			FROM profesorcursogrupo
 			INNER JOIN pensum ON profesorcursogrupo.curso = pensum.id_pensum
 			INNER JOIN especialidad ON pensum.id_especialidad = especialidad.id_especialidad
 			INNER JOIN personal ON profesorcursogrupo.personal = personal.id_personal
+			INNER JOIN educacion ON educacion.id_educacion = especialidad.educacion
 			WHERE
 			personal = :id AND
 			profesorcursogrupo.id_profesorcursogrupo = :materia
@@ -119,6 +123,7 @@ class NavbarModel extends Model
 		$query->bindParam(':materia', $materia);
 		$query->execute();
 		$respuesta = $query->fetch();
+
 
 		return $respuesta;
 	}

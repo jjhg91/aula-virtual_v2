@@ -91,9 +91,8 @@
 				</div>
 				<div class="contenido">
 					<p><strong>Fecha limite: </strong><span class="fecha"><?= $actividad[4] ?></span></p>
-					<p><strong>Valor: </strong><span class="valor"><?= $actividad[1] ?>%</span></p>
-					<p><strong>Punto: </strong><?= $actividad[1] * 0.20 ?>pts</p>
-					<p><strong>Plan: </strong><p><div class="plan"><?= $actividad[14] ?></div>
+					<p><strong>Valor: </strong><span class="valor">20pts</span></p>
+					<!-- <p><strong>Plan: </strong><p><div class="plan"><?= $actividad[14] ?></div> -->
 					<br>
 					<p><strong>Descripcion: </strong></p>
 					<div class="editor__qe"><?= nl2br($actividad[5]) ?></div>
@@ -163,9 +162,9 @@
 							<select name="plan" id="plan_evaluacion" class="plan">
 								<?php foreach ($this->planes as $plan): ?>
 									<?php if ($plan[4] != 8): ?>
-										<option value="<?= $plan[0] ?>"><?= $plan[1].": ".$plan[2]."% - ".$plan[3] ?></option>
+										<option value="<?= $plan[0] ?>"><?= $plan[1].": ".$plan[3] ?></option>
 									<?php else: ?>
-										<option value="<?= $plan[0] ?>"><?= ucfirst($plan[5]).": ".$plan[2]."% - ".$plan[3] ?></option>
+										<option value="<?= $plan[0] ?>"><?= ucfirst($plan[5]).": ".$plan[3] ?></option>
 									<?php endif ?>
 								<?php endforeach; ?>
 							</select>
@@ -273,9 +272,9 @@
 		<select name="plan" class="plan">
 			<?php foreach ($this->planes as $plan): ?>
 				<?php if ($plan[4] != 8): ?>
-					<option value="<?= $plan[0] ?>"><?= $plan[1].": ".$plan[2]."% - ".$plan[3] ?></option>
+					<option value="<?= $plan[0] ?>"><?= $plan[1].": ".$plan[3] ?></option>
 				<?php else: ?>
-					<option value="<?= $plan[0] ?>"><?= ucfirst($plan[5]).": ".$plan[2]."% - ".$plan[3] ?></option>
+					<option value="<?= $plan[0] ?>"><?= ucfirst($plan[5]).": ".$plan[3] ?></option>
 				<?php endif ?>
 			<?php endforeach; ?>
 		</select>

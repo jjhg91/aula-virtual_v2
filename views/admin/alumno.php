@@ -47,7 +47,7 @@
 
 			<section class="tabla">
 				<div class="contenido">
-					<!-- <button>BUSCAR</button> -->
+					
 				</div>
 
 				<div class="paginas">
@@ -64,6 +64,23 @@
 				</div>
 
 				<div class="contenido">
+
+				<form id="buscador__alumnos" name="buscador__alumno">
+						<div class="grupo" style="display: inline-block; margin-bottom:20px;">
+							<input id="busqueda" name="busqueda" type="text" placeholder="Buscar alumno por uno solo de estos campos (cedula,nombres,apellidos)">
+						</div>
+						<div class="grupo botones" style="display: inline-block;">
+							<button id="btn__buscar" type="submit">BUSCAR</button>
+						</div>
+					</form>
+					<div id="resultado__busqueda">
+						<table class="table" style="border-collapse: collapse; display: block; margin-bottom:20px;">
+							<tbody>
+								
+							</tbody>
+						</table>
+					</div>
+
 					<table class="table" style="border-collapse: collapse; display: block;">
 						<thead>
 							<tr>

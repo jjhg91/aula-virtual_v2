@@ -329,6 +329,7 @@ class ValidarFormularioEditar  extends ValidarFormulario{
 				let plan = this.inputs[0].options[this.inputs[0].selectedIndex].text.split(':');
 				let tipo = plan[0];
 				let valor = plan[1].split('-')[0];
+				console.log(valor)
 
 				
 
@@ -402,8 +403,10 @@ class ValidarFormularioEditar  extends ValidarFormulario{
 							conten.classList.add('contendio');
 							conten.innerHTML = `
 								<p><strong>Fecha limite: </strong><span class="fecha">${fecha}</span></p>
-								<p><strong>Valor: </strong><span class="valor">${valor}</span></p>
-								<br>
+								<p><strong>Valor: </strong><span class="valor">20pts</span></p>
+								
+								<p><strong>Plan:</strong></p>
+								<div class="plan"><p>${valor}</p></div>
 								<p><strong>Descripcion: </strong></p>
 								<div class="editor__qe">${formData.get('descripcion')}</div>
 							`;
@@ -493,7 +496,7 @@ class UI {
 			switch (input.name) {
 				case 'plan':
 					console.log(section)
-					input.innerHTML += `<option value="${idPlan}" selected>${tipo}: ${valor} - ${plan}</option>`;
+					input.innerHTML += `<option value="${idPlan}" selected>${tipo}: ${plan}</option>`;
 					break;
 				case 'fecha':
 					input.value = fecha;

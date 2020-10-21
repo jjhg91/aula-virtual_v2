@@ -790,6 +790,27 @@ class AdminModel extends Model
 		return $respuesta;
 	}
 
+	// BUSQUEDA ALUMNO 
+	public function buscar_alumnos($busqueda)
+	{
+		$query = $this->db->connect1()->prepare("
+			SELECT
+				*
+			FROM
+				estudiante
+			WHERE
+				p_nombres LIKE :busqueda OR
+				p_apellido LIKE :busqueda OR
+				cedula LIKE :busqueda
+			LIMIT 5
+		");
+		$query->bindParam(':busqueda',$busqueda);
+		$query->execute();
+		$respuesta = $query->fetchAll(PDO::FETCH_ASSOC);
+
+		return $respuesta;
+	}
+
 
 }
 

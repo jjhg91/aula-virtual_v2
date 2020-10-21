@@ -204,7 +204,6 @@ class ValidarFormularioEditar  extends ValidarFormulario{
 				grupo.classList.remove('formulario__input-error-activo');
 			}
 		});
-		
 	}
 
 	sendFormulario() {
@@ -232,10 +231,14 @@ class ValidarFormularioEditar  extends ValidarFormulario{
 						if ( datos.status == true ) {
 							let editado = document.querySelector('section.plan_evaluacion[data-plan="'+formData.get('plan')+'"]');
 							let titulo = document.createElement('div');
+
+							let tipoo = formulario.querySelector('select[name="tipo"]').options[formData.get('tipo') - 1 ].innerHTML;
+							
+
 							titulo.classList.add('titulo');
 							titulo.innerHTML = `
 								<div class="titulo_izq">
-									<h4>${(formData.get('tipo') == 8)? formData.get('otros'):formData.get('tipos')}</h4>
+									<h4>${(formData.get('tipo') == 8)? formData.get('otros'):tipoo}</h4>
 								</div>
 									<div class="titulo_der">
 									<div class="enlaces">
@@ -247,7 +250,7 @@ class ValidarFormularioEditar  extends ValidarFormulario{
 							let conten = document.createElement('div');
 							conten.classList.add('contenido');
 							conten.innerHTML = `
-								<span class="semana"><small>Semana 0</small></span>
+								<span class="semana"><small>Semana ${formData.get('semana')}</small></span>
 								<br>
 								<span class="valor"><small><strong>Valor: </strong><span>20pts</span></small></span>
 								<br>

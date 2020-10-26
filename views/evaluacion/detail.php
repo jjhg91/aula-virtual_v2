@@ -190,70 +190,70 @@
 
 
 		<div id="trabajos__cargados">
-		<?php foreach ($this->evaluacionesEntregadas as $actividad): ?>
-		<section class="trabajo__cargado" data-alumno="<?= $actividad[3] ?>">
+		<?php foreach ($this->evaluacionesEntregadas as $evaluacionEntregada): ?>
+		<section class="trabajo__cargado" data-alumno="<?= $evaluacionEntregada[3] ?>">
 				<div class="titulo">
 					<div class="titulo_izq">
-						<h4 class="nombre"><?= $actividad[29]." ".$actividad[30]  ?></h4>
+						<h4 class="nombre"><?= $evaluacionEntregada[29]." ".$evaluacionEntregada[30]  ?></h4>
 					</div>
 					<div class="titulo_der">
 						<div class="enlaces">
 
-							<!-- <a title="Corregir Evaluación" href="#OpenModal<?= $actividad[3] ?>"><span class="icon-pencil"></span></a> -->
-							<button title="Editar" class="btnModalEditar item icon-pencil btnInfo" type="button" data-alumno="<?= $actividad[3] ?>"></button>
+							<!-- <a title="Corregir Evaluación" href="#OpenModal<?= $evaluacionEntregada[3] ?>"><span class="icon-pencil"></span></a> -->
+							<button title="Editar" class="btnModalEditar item icon-pencil btnInfo" type="button" data-alumno="<?= $evaluacionEntregada[3] ?>"></button>
 						</div>
 					</div>
 				</div>
 				<div class="contenido">
 
-					<span class="cedula"><small><strong>C.I: </strong><?= $actividad[28] ?></small></span>
+					<span class="cedula"><small><strong>C.I: </strong><?= $evaluacionEntregada[28] ?></small></span>
 					<br>
-					<span><small><strong>Fecha de Entrega: </strong><?= $actividad[4]  ?></small></span>
+					<span><small><strong>Fecha de Entrega: </strong><?= $evaluacionEntregada[4]  ?></small></span>
 					<br>
 					<br>
 					
 					<div class="correciones">
-					<?php if( !isset($actividad[31]) ): ?>
+					<?php if( !isset($evaluacionEntregada[31]) ): ?>
 					<span><strong>Estatus: </strong>SIN CORREGIR</span>
 					<?php else: ?>
 					<span><strong>Estatus: </strong>CORREGIDO</span>
 					<br>
-					<span><strong>Nota: </strong><span class="valor__nota"><?= $actividad[31] ?></span></span>
+					<span><strong>Nota: </strong><span class="valor__nota"><?= $evaluacionEntregada[31] ?></span></span>
 					<br>
 					<span><strong>Observacion: </strong></span>
-					<div class="observacion__qe"><?= $actividad[32] ?></div>
+					<div class="observacion__qe"><?= $evaluacionEntregada[32] ?></div>
 
 
 					<!-- MOSTRAR CORRECIONES -->
 
 
-						<?php if ($actividad[33] or $actividad[34] or $actividad[35] or $actividad[36]): ?>
+						<?php if ($evaluacionEntregada[33] or $evaluacionEntregada[34] or $evaluacionEntregada[35] or $evaluacionEntregada[36]): ?>
 						<br>
 						<br>
 						<h4>Descargar Correcciones</h4>
 						<br>
 						<?php endif ?>
 
-						<?php if ($actividad[33]): ?>
-						<a class="link1" href="<?= constant('URL') ?>public/upload/correcciones/<?= $actividad[1] ?>/<?= $actividad[2] ?>/<?= $actividad[33] ?>" download>Material 1</a>
+						<?php if ($evaluacionEntregada[33]): ?>
+						<a class="link1" href="<?= constant('URL') ?>public/upload/correcciones/<?= $evaluacionEntregada[1] ?>/<?= $evaluacionEntregada[2] ?>/<?= $evaluacionEntregada[33] ?>" download>Material 1</a>
 						<br>
 						<br>
 						<?php endif ?>
 
-						<?php if ($actividad[34]): ?>
-						<a class="link2" href="<?= constant('URL') ?>public/upload/correcciones/<?= $actividad[1] ?>/<?= $actividad[2] ?>/<?= $actividad[34] ?>" download>Material 2</a>
+						<?php if ($evaluacionEntregada[34]): ?>
+						<a class="link2" href="<?= constant('URL') ?>public/upload/correcciones/<?= $evaluacionEntregada[1] ?>/<?= $evaluacionEntregada[2] ?>/<?= $evaluacionEntregada[34] ?>" download>Material 2</a>
 						<br>
 						<br>
 						<?php endif ?>
 
-						<?php if ($actividad[35]): ?>
-						<a class="link3" href="<?= constant('URL') ?>public/upload/correcciones/<?= $actividad[1] ?>/<?= $actividad[2] ?>/<?= $actividad[35] ?>" download>Material 3</a>
+						<?php if ($evaluacionEntregada[35]): ?>
+						<a class="link3" href="<?= constant('URL') ?>public/upload/correcciones/<?= $evaluacionEntregada[1] ?>/<?= $evaluacionEntregada[2] ?>/<?= $evaluacionEntregada[35] ?>" download>Material 3</a>
 						<br>
 						<br>
 						<?php endif ?>
 
-						<?php if ($actividad[36]): ?>
-						<a class="link4" href="<?= constant('URL') ?>public/upload/correcciones/<?= $actividad[1] ?>/<?= $actividad[2] ?>/<?= $actividad[36] ?>" download>Material 4</a>
+						<?php if ($evaluacionEntregada[36]): ?>
+						<a class="link4" href="<?= constant('URL') ?>public/upload/correcciones/<?= $evaluacionEntregada[1] ?>/<?= $evaluacionEntregada[2] ?>/<?= $evaluacionEntregada[36] ?>" download>Material 4</a>
 						<br>
 						<br>
 						<?php endif ?>
@@ -273,10 +273,10 @@
 					<h3>DATOS ENVIADOS POR EL ESTUDIANTE</h3>
 					
 
-					<?php if ($actividad[27]): ?>
+					<?php if ($evaluacionEntregada[27]): ?>
 					<h4>Descripcion:</h4>
 					<br>
-					<p><?= nl2br($actividad[27]); ?></p>
+					<p><?= nl2br($evaluacionEntregada[27]); ?></p>
 					<?php endif ?>
 
 				</div>
@@ -288,33 +288,33 @@
 				<!-- ARCHIVOS ENTREGADOS POR EL ESTUDIANTE -->
 					<div class="trabajos">
 
-						<?php if ($actividad[5] or $actividad[6] or $actividad[7] or $actividad[8]): ?>
+						<?php if ($evaluacionEntregada[5] or $evaluacionEntregada[6] or $evaluacionEntregada[7] or $evaluacionEntregada[8]): ?>
 						<br>
 						<br>
 						<h4>Archivos</h4>
 						<br>
 						<?php endif ?>
 
-						<?php if ($actividad[5]): ?>
-						<a href="<?= constant('URL') ?>public/upload/evaluacion/<?= $actividad[1].'/'.$actividad[0].'/'.$actividad[5] ?>" download>Archivo 1</a>
+						<?php if ($evaluacionEntregada[5]): ?>
+						<a href="<?= constant('URL') ?>public/upload/evaluacion/<?= $evaluacionEntregada[1].'/'.$evaluacionEntregada[0].'/'.$evaluacionEntregada[5] ?>" download>Archivo 1</a>
 						<br>
 						<br>
 						<?php endif ?>
 
-						<?php if ($actividad[6]): ?>
-						<a href="<?= constant('URL') ?>public/upload/evaluacion/<?= $actividad[1].'/'.$actividad[0].'/'.$actividad[6] ?>" download>Archivo 2</a>
+						<?php if ($evaluacionEntregada[6]): ?>
+						<a href="<?= constant('URL') ?>public/upload/evaluacion/<?= $evaluacionEntregada[1].'/'.$evaluacionEntregada[0].'/'.$evaluacionEntregada[6] ?>" download>Archivo 2</a>
 						<br>
 						<br>
 						<?php endif ?>
 
-						<?php if ($actividad[7]): ?>
-						<a href="<?= constant('URL') ?>public/upload/evaluacion/<?= $actividad[1].'/'.$actividad[0].'/'.$actividad[7] ?>" download>Archivo 3</a>
+						<?php if ($evaluacionEntregada[7]): ?>
+						<a href="<?= constant('URL') ?>public/upload/evaluacion/<?= $evaluacionEntregada[1].'/'.$evaluacionEntregada[0].'/'.$evaluacionEntregada[7] ?>" download>Archivo 3</a>
 						<br>
 						<br>
 						<?php endif ?>
 
-						<?php if ($actividad[8]): ?>
-						<a href="<?= constant('URL') ?>public/upload/evaluacion/<?= $actividad[1].'/'.$actividad[0].'/'.$actividad[8] ?>" download>Archivo 4</a>
+						<?php if ($evaluacionEntregada[8]): ?>
+						<a href="<?= constant('URL') ?>public/upload/evaluacion/<?= $evaluacionEntregada[1].'/'.$evaluacionEntregada[0].'/'.$evaluacionEntregada[8] ?>" download>Archivo 4</a>
 						<?php endif ?>
 					</div>
 				<!-- /ARCHIVOS ENTREGADOS POR EL ESTUDIANTE -->

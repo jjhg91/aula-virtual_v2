@@ -3,7 +3,7 @@ class ValidarFormulario {
 		this.formulario = formulario;
 		this.inputs = this.formulario.querySelectorAll(' input , textarea, select');
 		this.expresiones = {
-			nota: /^\d{1,4}$/, // 7 a 14 numeros.
+			nota: /^[\w ]{1,10}$/, // 7 a 14 numeros.
 			observacion: /^[\s\S]{1,100000}$/, // cualquier caracter de tamaño 1 a 20
 			archivo: /(.pdf|.doc|.docx|.xlsx|.xls|.txt|.pptx|.ppt|.pub|.jpg|.jpeg|.gif|.png|.ai|.svg|.git|.psd|.raw|.mp4|.m4v|.mov|.mpg|.mpeg|.swf|.zip|.rar|.mp3|.wav|.opus|.PDF|.DOC|.DOCX|.XLSX|.XLS|.TXT|.PPTX|.PPT|.PUB|.JPG|.JPEG|.GIF|.PNG|.AI|.SVG|.GIT|.PSD|.RAW|.MP4|.M4V|.MOV|.MPG|.MPEG|.SWF|.ZIP|.RAR|.MP3|.WAV|.OPUS|.Pdf|.Doc|.Docx|.Xlsx|.Xls|.Txt|.Pptx|.Ppt|.Pub|.Jpg|.Jpeg|.Gif|.Png|.Ai|.Svg|.Git|.Psd|.Raw|.Mp4|.M4V|.Mov|.Mpg|.Mpeg|.Swf|.Zip|.Rar|.Mp3|.Wav|.Opus)$/i,
 			size: ( 20 * 1024 ) * 1024

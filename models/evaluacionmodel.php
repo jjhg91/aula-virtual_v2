@@ -140,8 +140,8 @@ class EvaluacionModel extends Model
 			actividades_estudiante.file3,
 			actividades_estudiante.file4,
 			actividades_estudiante.corregido,
-			notas.nota,
-			notas.observacion,
+			(SELECT notas.nota FROM notas WHERE notas.id_estudiante = actividades_estudiante.id_estudiante AND notas.id_plan_evaluacion = actividades.id_plan_evaluacion) as nota,
+			(SELECT notas.observacion FROM notas WHERE notas.id_estudiante = actividades_estudiante.id_estudiante AND notas.id_plan_evaluacion = actividades.id_plan_evaluacion) as observacion,
 			actividades_estudiante.id_actividades_estudiante,
 			actividades.nlink1,
 			actividades.nlink2,
@@ -240,8 +240,7 @@ class EvaluacionModel extends Model
 				p_apellido
 				FROM estudiante
 				WHERE
-				id_estudia = :alumno AND
-				regimen_estudio = 2
+				id_estudia = :alumno 
 			");
 			$query2->bindParam(':alumno',$alumno[3]);
 			$query2->execute();

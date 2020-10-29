@@ -738,8 +738,9 @@
 										<!-- FORMULARIO AGREGAR Y EDITAR NOTAS -->
 <form id="set__nota" enctype="multipart/form-data" method="post" >
 	<div class="grupo">
-		<label for="nota">Nota</label>
+		<label for="nota">Nota </label>
 		<select name="nota" id="nota">
+		<?php if ($this->barMateria[5] === 'Bachillerato'): ?>
 			<option value="" selected="selected">Sin cargar notas</option>
 			<option value="1">1</option>
 			<option value="2">2</option>
@@ -761,6 +762,18 @@
 			<option value="18">18</option>
 			<option value="19">19</option>
 			<option value="20">20</option>
+			<?php elseif ( $this->barMateria[5] === 'Primaria'): ?>
+			<option value="A">A</option>
+			<option value="B">B</option>
+			<option value="C">C</option>
+			<option value="D">D</option>
+			<option value="E">E</option>
+			<option value="F">F</option>
+			<?php elseif ( $this->barMateria[5] === 'Preescolar'): ?>
+				<option value="EXCELENTE">EXCELENTE</option>
+				<option value="MUY BIEN">MUY BIEN</option>
+				<option value="BIEN">BIEN</option>
+			<?php endif ?>
 		</select>
 		<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
 	</div>

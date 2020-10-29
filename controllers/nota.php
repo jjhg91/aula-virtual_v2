@@ -110,7 +110,7 @@ class Nota extends Controller
 			if ($barMateria) {
 				//DATOS DEL FORMULARIO
 				$alumno = (int)$_POST['alumno'];
-				$nota = (int)$_POST['nota'];
+				$nota = $_POST['nota'];
 				$observacion = $_POST['observacion'];
 
 				$datos = [

@@ -1,5 +1,7 @@
 <?php
 require_once 'navbar.php';
+
+
 /**
  *
  */
@@ -101,7 +103,7 @@ class Nota extends Controller
 
 		$this->view->usuario = $usuario;
 		$this->view->navbarMaterias = $navbarMaterias;
-		$respuesta = ['status' => false, 'respuesta' => ""];
+		$respuesta = ['status' => false, 'respuesta' => "", 'json' => ''];
 
 
 		if ( ctype_digit($materia) && ctype_digit($plan) ) {
@@ -112,15 +114,19 @@ class Nota extends Controller
 				$alumno = (int)$_POST['alumno'];
 				$nota = $_POST['nota'];
 				$observacion = $_POST['observacion'];
+				$evaluacion = $_POST['evaluacion'];
+				$corregir = $_POST['corregir'];
 
 				$datos = [
 					'materia' => $materia,
 					'plan' => $plan,
 					'alumno' => $alumno,
 					'nota' => $nota,
-					'observacion' => $observacion
+					'observacion' => $observacion,
+					'evaluacion' => $evaluacion
 				];
-
+				
+				
 				$agregarNota = $this->model->addNota($datos);
 				
 				$respuesta['status'] = true;
@@ -170,6 +176,9 @@ class Nota extends Controller
 
 						}
 
+					}
+					if( $corregir === 'true'){
+						$respuesta['json'] = $this->model->getEvaluacionEntregada($datos);
 					}
 				}else {
 					$respuesta['status'] = false;

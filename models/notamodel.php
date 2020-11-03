@@ -191,6 +191,68 @@ class NotaModel extends Model
 
 		return $respuesta;
 	}
+
+	public function getEvaluacionEntregada($datos)
+	{
+		$query = $this->db->connect2()->prepare("
+		SELECT
+			actividades.id_actividades,
+			actividades.id_profesorcursogrupo,
+			actividades.id_plan_evaluacion,
+			actividades_estudiante.id_estudiante,
+			actividades_estudiante.fecha,
+			actividades_estudiante.file1,
+			actividades_estudiante.file2,
+			actividades_estudiante.file3,
+			actividades_estudiante.file4,
+			actividades_estudiante.corregido,
+			actividades_estudiante.id_actividades_estudiante,
+			actividades.nlink1,
+			actividades.nlink2,
+			actividades.nlink3,
+			actividades.nlink4,
+			actividades.link1,
+			actividades.link2,
+			actividades.link3,
+			actividades.link4,
+			actividades_estudiante.nlink1,
+			actividades_estudiante.nlink2,
+			actividades_estudiante.nlink3,
+			actividades_estudiante.nlink4,
+			actividades_estudiante.link1,
+			actividades_estudiante.link2,
+			actividades_estudiante.link3,
+			actividades_estudiante.link4,
+			actividades_estudiante.descripcion,
+			(SELECT notas.nota FROM notas WHERE notas.id_estudiante = actividades_estudiante.id_estudiante AND notas.id_plan_evaluacion = actividades.id_plan_evaluacion) as nota,
+			(SELECT notas.observacion FROM notas WHERE notas.id_estudiante = actividades_estudiante.id_estudiante AND notas.id_plan_evaluacion = actividades.id_plan_evaluacion) as observacion,
+			(SELECT notas.file1 FROM notas WHERE notas.id_estudiante = actividades_estudiante.id_estudiante AND notas.id_plan_evaluacion = actividades.id_plan_evaluacion) as correccion1,
+			(SELECT notas.file2 FROM notas WHERE notas.id_estudiante = actividades_estudiante.id_estudiante AND notas.id_plan_evaluacion = actividades.id_plan_evaluacion) as correccion2,
+			(SELECT notas.file3 FROM notas WHERE notas.id_estudiante = actividades_estudiante.id_estudiante AND notas.id_plan_evaluacion = actividades.id_plan_evaluacion) as correccion3,
+			(SELECT notas.file4 FROM notas WHERE notas.id_estudiante = actividades_estudiante.id_estudiante AND notas.id_plan_evaluacion = actividades.id_plan_evaluacion) as correccion4
+		FROM actividades
+		INNER JOIN plan_evaluacion ON actividades.id_plan_evaluacion = plan_evaluacion.id_plan_evaluacion
+		INNER JOIN tipo_evaluacion ON plan_evaluacion.tipo_evaluacion = tipo_evaluacion.id_tipo_evaluacion
+		INNER JOIN valor ON plan_evaluacion.valor = valor.id_valor
+		INNER JOIN actividades_estudiante ON actividades_estudiante.id_actividades = actividades.id_actividades
+		WHERE
+			actividades.id_actividades = :evaluacion AND
+			actividades_estudiante.id_estudiante = :alumno
+
+		");
+		$query->bindParam(':evaluacion', $datos['evaluacion']);
+		$query->bindParam(':alumno', $datos['alumno']);
+		$query->execute();
+		$respuesta = $query->fetch(PDO::FETCH_ASSOC);
+
+		return  $respuesta;
+	}
+
+
+
+
+
+
 }
 
 

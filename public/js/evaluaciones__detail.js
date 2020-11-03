@@ -162,6 +162,43 @@ class ValidarFormulario {
 								<p><strong>OBSERVACION: </strong></p>
 								<div class="observacion__qe">${formData.get('observacion')}</div>
 							`;
+							
+							if ( datos.json['correccion1'] || datos.json['correccion2'] || datos.json['correccion3'] || datos.json['correccion4'] ){
+								notaContenido.innerHTML += `
+									<br>
+									<br>
+									<h4>Descargar Correcciones</h4>
+									<br>
+								`;
+							}
+							if ( datos.json['correccion1'] ){
+								notaContenido.innerHTML += `
+									<a class="link1" href="${URL}public/upload/correcciones/${formData.get('materia')}/${formData.get('plan')}/${datos.json['correccion1']}" download>Corrección 1</a>
+									<br>
+									<br>
+								`;
+							}
+							if ( datos.json['correccion2'] ){
+								notaContenido.innerHTML += `
+									<a class="link1" href="${URL}public/upload/correcciones/${formData.get('materia')}/${formData.get('plan')}/${datos.json['correccion2']}" download>Corrección 2</a>
+									<br>
+									<br>
+								`;
+							}
+							if ( datos.json['correccion3'] ){
+								notaContenido.innerHTML += `
+									<a class="link1" href="${URL}public/upload/correcciones/${formData.get('materia')}/${formData.get('plan')}/${datos.json['correccion3']}" download>Corrección 3</a>
+									<br>
+									<br>
+								`;
+							}
+							if ( datos.json['correccion4'] ){
+								notaContenido.innerHTML += `
+									<a class="link1" href="${URL}public/upload/correcciones/${formData.get('materia')}/${formData.get('plan')}/${datos.json['correccion4']}" download>Corrección 4</a>
+									<br>
+									<br>
+								`;
+							}
 
 
 							

@@ -235,25 +235,25 @@
 						<?php endif ?>
 
 						<?php if ($evaluacionEntregada[33]): ?>
-						<a class="link1" href="<?= constant('URL') ?>public/upload/correcciones/<?= $evaluacionEntregada[1] ?>/<?= $evaluacionEntregada[2] ?>/<?= $evaluacionEntregada[33] ?>" download>Material 1</a>
+						<a class="link1" href="<?= constant('URL') ?>public/upload/correcciones/<?= $evaluacionEntregada[1] ?>/<?= $evaluacionEntregada[2] ?>/<?= $evaluacionEntregada[33] ?>" download>Corrección 1</a>
 						<br>
 						<br>
 						<?php endif ?>
 
 						<?php if ($evaluacionEntregada[34]): ?>
-						<a class="link2" href="<?= constant('URL') ?>public/upload/correcciones/<?= $evaluacionEntregada[1] ?>/<?= $evaluacionEntregada[2] ?>/<?= $evaluacionEntregada[34] ?>" download>Material 2</a>
+						<a class="link2" href="<?= constant('URL') ?>public/upload/correcciones/<?= $evaluacionEntregada[1] ?>/<?= $evaluacionEntregada[2] ?>/<?= $evaluacionEntregada[34] ?>" download>Corrección 2</a>
 						<br>
 						<br>
 						<?php endif ?>
 
 						<?php if ($evaluacionEntregada[35]): ?>
-						<a class="link3" href="<?= constant('URL') ?>public/upload/correcciones/<?= $evaluacionEntregada[1] ?>/<?= $evaluacionEntregada[2] ?>/<?= $evaluacionEntregada[35] ?>" download>Material 3</a>
+						<a class="link3" href="<?= constant('URL') ?>public/upload/correcciones/<?= $evaluacionEntregada[1] ?>/<?= $evaluacionEntregada[2] ?>/<?= $evaluacionEntregada[35] ?>" download>Corrección 3</a>
 						<br>
 						<br>
 						<?php endif ?>
 
 						<?php if ($evaluacionEntregada[36]): ?>
-						<a class="link4" href="<?= constant('URL') ?>public/upload/correcciones/<?= $evaluacionEntregada[1] ?>/<?= $evaluacionEntregada[2] ?>/<?= $evaluacionEntregada[36] ?>" download>Material 4</a>
+						<a class="link4" href="<?= constant('URL') ?>public/upload/correcciones/<?= $evaluacionEntregada[1] ?>/<?= $evaluacionEntregada[2] ?>/<?= $evaluacionEntregada[36] ?>" download>Corrección 4</a>
 						<br>
 						<br>
 						<?php endif ?>
@@ -813,11 +813,12 @@
 
 	<!-- /SECCION DE AGREGAR ARCHIVOS -->
 
-
 	<div class="grupo_oculto">
 		<input type="text" name="materia" value="<?= $this->actividad[10] ?>" style="display: none;">
 		<input type="text" name="plan" value="<?= $this->actividad[22] ?>" style="display: none;">
 		<input type="text" name="alumno" value="" style="display: none;">
+		<input type="text" name="evaluacion" value="<?= $this->actividad[0] ?>" style="display: none;">
+		<input type="text" name="corregir" value="true" style="display: none;">
 	</div>
 
 	<div class="grupo">

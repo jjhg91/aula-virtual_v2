@@ -282,7 +282,40 @@
 				</div>
 				<!-- /DESCRIPCION ENTRAGADA POR EL ESTUDIANTE -->
 
+				<!-- LINKS ENTREGADOS POR EL ESTUDIANE -->
+				<div class="trabajos">
+						<?php if ($evaluacionEntregada[23] or $evaluacionEntregada[24] or $evaluacionEntregada[25] or $evaluacionEntregada[26]): ?>
+						<br>
+						<br>
+						<h4>Links</h4>
+						<br>
+						<?php endif ?>
 
+						<?php if ($evaluacionEntregada[23]): ?>
+						<a href="<?= $evaluacionEntregada[23] ?>"><?= $evaluacionEntregada[19] ?></a>
+						<br>
+						<br>
+						<?php endif ?>
+
+						<?php if ($evaluacionEntregada[24]): ?>
+						<a href="<?= $evaluacionEntregada[24] ?>"><?= $evaluacionEntregada[20] ?></a>
+						<br>
+						<br>
+						<?php endif ?>
+
+						<?php if ($evaluacionEntregada[25]): ?>
+						<a href="<?= $evaluacionEntregada[25] ?>"><?= $evaluacionEntregada[21] ?></a>
+						<br>
+						<br>
+						<?php endif ?>
+
+						<?php if ($evaluacionEntregada[26]): ?>
+						<a href="<?= $evaluacionEntregada[26] ?>"><?= $evaluacionEntregada[22] ?></a>
+						<br>
+						<br>
+						<?php endif ?>
+					</div>
+				<!-- /LINKS ENTREGADOS POR EL ESTUDIANE -->
 
 
 				<!-- ARCHIVOS ENTREGADOS POR EL ESTUDIANTE -->
@@ -434,6 +467,40 @@
 
 
 
+		<!-- LINKS ENTREGADOS POR EL ESTUDIANE -->
+		<div class="trabajos">
+						<?php if ($this->actividadAlumno[23] or $this->actividadAlumno[24] or $this->actividadAlumno[25] or $this->actividadAlumno[26]): ?>
+						<br>
+						<br>
+						<h4>Links</h4>
+						<br>
+						<?php endif ?>
+
+						<?php if ($this->actividadAlumno[23]): ?>
+						<a href="<?= $this->actividadAlumno[23] ?>"><?= $this->actividadAlumno[19] ?></a>
+						<br>
+						<br>
+						<?php endif ?>
+
+						<?php if ($this->actividadAlumno[24]): ?>
+						<a href="<?= $this->actividadAlumno[24] ?>"><?= $this->actividadAlumno[20] ?></a>
+						<br>
+						<br>
+						<?php endif ?>
+
+						<?php if ($this->actividadAlumno[25]): ?>
+						<a href="<?= $this->actividadAlumno[25] ?>"><?= $this->actividadAlumno[21] ?></a>
+						<br>
+						<br>
+						<?php endif ?>
+
+						<?php if ($this->actividadAlumno[26]): ?>
+						<a href="<?= $this->actividadAlumno[26] ?>"><?= $this->actividadAlumno[22] ?></a>
+						<br>
+						<br>
+						<?php endif ?>
+					</div>
+				<!-- /LINKS ENTREGADOS POR EL ESTUDIANE -->
 
 		<!-- ARCHIVOS ENTREGADOS POR EL ESTUDIANTE -->
 			<?php if ($this->actividadAlumno[5] or $this->actividadAlumno[6] or $this->actividadAlumno[7] or $this->actividadAlumno[8]): ?>

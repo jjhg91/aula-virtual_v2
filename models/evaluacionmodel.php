@@ -25,8 +25,7 @@ class EvaluacionModel extends Model
 			INNER JOIN valor ON plan_evaluacion.valor = valor.id_valor
 			LEFT JOIN actividades ON plan_evaluacion.id_plan_evaluacion = actividades.id_plan_evaluacion
 			WHERE
-			plan_evaluacion.id_profesorcursogrupo = :materia AND
-			actividades.id_actividades IS NULL
+			plan_evaluacion.id_profesorcursogrupo = :materia 
 		");
 		$query->bindParam(':materia',$materia);
 		$query->execute();
@@ -197,7 +196,6 @@ class EvaluacionModel extends Model
 			actividades_estudiante.file3,
 			actividades_estudiante.file4,
 			actividades_estudiante.corregido,
-		
 			actividades_estudiante.id_actividades_estudiante,
 			actividades.nlink1,
 			actividades.nlink2,

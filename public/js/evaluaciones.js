@@ -174,7 +174,12 @@ class ValidarFormulario {
 							let pp = formulario.querySelectorAll('input[type="file"]');
 							pp.forEach(element => {
 								if ( element.value ) {
-
+									divArchivos += `
+										<br>
+										<br>
+										<h4>Descarga de Materiales</h4>
+										<br></br>
+									`;
 									switch (element.classList[0]) {
 										case 'file1':
 														divArchivos += `
@@ -350,14 +355,14 @@ class ValidarFormularioEditar  extends ValidarFormulario{
 							let pp = formulario.querySelectorAll('input[type="file"]');
 							pp.forEach(element => {
 								if ( element.value ) {
-
+									
 									switch (element.classList[0]) {
 										case 'file1':
-														divArchivos += `
-															<a class="link1" href="${window.URL.createObjectURL(element.files[0])}" download>Material 1</a>
-															<br>
-															<br>
-														`;
+											divArchivos += `
+												<a class="link1" href="${window.URL.createObjectURL(element.files[0])}" download>Material 1</a>
+												<br>
+												<br>
+											`;
 											break;
 										case 'file2':
 											divArchivos += `
@@ -404,11 +409,19 @@ class ValidarFormularioEditar  extends ValidarFormulario{
 							conten.innerHTML = `
 								<p><strong>Fecha limite: </strong><span class="fecha">${fecha}</span></p>
 								<p><strong>Valor: </strong><span class="valor">20pts</span></p>
+								<br>
 								
-								<p><strong>Plan:</strong></p>
-								<div class="plan"><p>${valor}</p></div>
 								<p><strong>Descripcion: </strong></p>
 								<div class="editor__qe">${formData.get('descripcion')}</div>
+								<br>
+								<br>
+								<br>
+								<h4>Descarga de Materiales</h4>
+								<br>
+								<p><small>Para visualizar los archivos cargados anteriormente debe refrescar la ventana</small></p>
+								<br>
+								<br>
+								<a href="${URL}evaluacion/detail/${formData.get('materia')}/${datos.idEvaluacion}">Detalles</a>
 							`;
 
 
@@ -481,7 +494,7 @@ class UI {
 		const section = e.target.parentNode.parentNode.parentNode.parentNode;
 		const tipo = section.querySelector('.tipo').innerHTML;
 		const idPlan = section.dataset.plan;
-		const plan = section.querySelector('.plan').innerHTML;
+		// const plan = section.querySelector('.plan').innerHTML;
 		const fechaArray = section.querySelector('.fecha').innerHTML.split('-');
 		const fecha = `${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}`;
 		const valor = section.querySelector('.valor').innerHTML;
@@ -494,10 +507,10 @@ class UI {
 		
 		validarFormularioEditar.inputs.forEach( input => {
 			switch (input.name) {
-				case 'plan':
-					console.log(section)
-					input.innerHTML += `<option value="${idPlan}" selected>${tipo}: ${plan}</option>`;
-					break;
+				// case 'plan':
+				// 	console.log(section)
+				// 	input.innerHTML += `<option value="${idPlan}" selected>${tipo}: ${plan}</option>`;
+				// 	break;
 				case 'fecha':
 					input.value = fecha;
 					break;

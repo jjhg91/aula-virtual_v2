@@ -146,7 +146,6 @@ class AdminModel extends Model
 		$query = $this->db->connect1()->prepare("
 			SELECT * FROM personal 
 			ORDER BY id_personal DESC
-			LIMIT ".$pos.", ".$n."
 		");
 		$query->execute();
 		$resultado = $query->fetchAll(PDO::FETCH_ASSOC);

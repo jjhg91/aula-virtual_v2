@@ -62,8 +62,10 @@ class NavbarModel extends Model
 			INNER JOIN educacion ON educacion.id_educacion = especialidad.educacion
 			INNER JOIN seccion ON seccion.id_seccion = profesorcursogrupo.seccion
 			WHERE
-				personal = :id AND
-				periodo.status = 1
+				( personal = :id AND
+				periodo.status = 1 ) OR 
+				( :id IN (290,289)  AND 
+				educacion.descripcion = 'Bachillerato') 
 		");
 		$query->bindParam(':id', $args);
 		$query->execute();
@@ -116,8 +118,10 @@ class NavbarModel extends Model
 			INNER JOIN personal ON profesorcursogrupo.personal = personal.id_personal
 			INNER JOIN educacion ON educacion.id_educacion = especialidad.educacion
 			WHERE
-			personal = :id AND
-			profesorcursogrupo.id_profesorcursogrupo = :materia
+				( personal = :id AND
+				profesorcursogrupo.id_profesorcursogrupo = :materia ) OR 
+				( :id IN (290,289) AND 
+				educacion.descripcion = 'Bachillerato' AND profesorcursogrupo.id_profesorcursogrupo = :materia)  
 		");
 		$query->bindParam(':id', $usuario);
 		$query->bindParam(':materia', $materia);

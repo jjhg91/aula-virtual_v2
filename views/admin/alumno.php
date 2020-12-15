@@ -84,6 +84,7 @@
 					<table class="table" style="border-collapse: collapse; display: block;">
 						<thead>
 							<tr>
+								<th>BLOQ</th>
 								<th>CEDULA</th>
 								<th>NOMBRE</th>
 								<th>APELLIDO</th>
@@ -97,6 +98,7 @@
 						<div id="adds"></div>
 						<tr class="add__periodo">
 							<form id="add__periodo" name="add__periodo" enctype="multipart/form-data">
+								<td></td>
 								<td>
 									<div class="inputs">
 										<input id="add__cedula" name="add__cedula" type="text" placeholder="cedula(solo numeros)" >
@@ -158,6 +160,9 @@
 						<tbody id="periodos">
 						<?php foreach ($this->alumnos as $alumno): ?>
 						<tr class="periodo" data-alumno="<?= $alumno['id_estudia'] ?>">
+							<td class="td__bloqueo">
+								<input class="bloqueo" type="checkbox" <?= $alumno['bloqueo']==0 ? 'value="0"': 'value="1" checked' ?>/>
+							</td>
 							<td class="cedula"><?= $alumno['cedula'] ?></td>
 							<td class="nombre"><?= $alumno['p_nombres'] ?></td>
 							<td class="apellido"><?= $alumno['p_apellido'] ?></td>
@@ -187,7 +192,7 @@
 	<!-- JS -->
 	<script src="<?= constant('URL') ?>public/js/config.js"></script>
 	<script src="<?= constant('URL') ?>public/js/menu.js"></script>
-	<script src="<?= constant('URL') ?>public/js/alumno.js"></script>
+	<script src="<?= constant('URL') ?>public/js/alumno.js?v=1.01"></script>
 	<!-- /JS -->
 
 </body>

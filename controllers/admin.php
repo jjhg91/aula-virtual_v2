@@ -880,6 +880,49 @@ class Admin extends Controller
 
 
 
+	// BLOQUEO DE ALUMNOS
+	public function bloqueoAlumno($url = null)
+	{
+		$sesion = new Sesion();
+		$sesion->validateSesion();
+		$usuario = $sesion->getSesion();
+
+		$navbar = new Navbar($usuario);
+		$navbarMaterias = $navbar->navbarMaterias($usuario);
+		$this->view->usuario = $usuario;
+		$this->view->navbarMaterias = $navbarMaterias;
+		$respuesta = ['status' => false, 'respuesta' => ""];
+
+		switch ( $_SERVER['REQUEST_METHOD'] ) {
+			case 'PUT':
+					$_PUT = json_decode(file_get_contents('php://input'),true);
+					$a = gettype($_PUT);
+
+					$alumno = $_PUT['edit__alumno'];
+					$bloqueo = $_PUT['edit__bloqueo'];
+
+					$datos = [
+						'alumno' => $alumno,
+						'bloqueo' => $bloqueo
+					];
+
+					$bloqueoAlumno = $this->model->bloqueo_alumno($datos);
+
+					if ( $bloqueoAlumno === false ) {
+						$respuesta['status'] = false;
+						$respuesta['respuesta'] = 'NINGUN ALUMNO COINCIDE CON EL BLOQUEO';
+					}else{
+						$respuesta['status'] = true;
+						$respuesta['respuesta'] = 'ALUMNOS BLOQUEADO';
+					}
+					echo json_encode($respuesta);
+				break;
+		}
+	}
+
+
+
+
 
 }
 

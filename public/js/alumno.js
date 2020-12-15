@@ -282,16 +282,57 @@ class UI {
 
 	}
 
+	bloqueo(e){
+		const tr = e.target.parentNode.parentNode;
+		const alumno = tr.dataset.alumno;
+		const checkbox = e.target;
+		checkbox.value = checkbox.value == 0 ? 1:0;
+		checkbox.disabled = true;
+
+		const formData = JSON.stringify({
+			edit__alumno : alumno,
+			edit__bloqueo : checkbox.value,
+		});
+
+		let direccion = `${URL}admin/bloqueoAlumno/${alumno}`;
+		
+		let xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function() {
+			if ( this.readyState == 4 && this.status == 200 ) {
+				// TODO FUE CORRECTO
+				let datos = JSON.parse(xmlhttp.response);
+				if ( datos.status == true ) {
+					console.log(datos.respuesta);	
+				}
+				
+			}
+		}
+		xmlhttp.upload.addEventListener('progress', (e) => {
+			let procentaje = Math.round((e.loaded / e.total) * 100);
+			console.log (procentaje);
+		});
+
+		xmlhttp.addEventListener('load', () => {
+			console.log('completado');
+		});
+
+		xmlhttp.open('PUT', direccion);
+		xmlhttp.send(formData);
+
+		checkbox.disabled = false;
+
+	}
 
 	editContenido(e) {
 
-		const tr = e.target.parentNode.parentNode
+		const tr = e.target.parentNode.parentNode;
 		const cedula = tr.querySelector('.cedula');
 		const nombre = tr.querySelector('.nombre');
 		const apellido = tr.querySelector('.apellido');
 		const email = tr.querySelector('.email');
 		const tlf = tr.querySelector('.tlf');
 		const representante = tr.querySelector('.representante');
+		const bloqueo = tr.querySelector('.bloqueo');
 
 		const btnEditar = tr.querySelector('.td__btnEditar');
 		const btnEliminar = tr.querySelector('.td__btnEliminar');
@@ -361,6 +402,9 @@ class UI {
 		let id = tr.dataset.profesor;
 		btnCancelar.addEventListener('click', () => {
 			tr.innerHTML = `
+				<td class="td__bloqueo">
+					<input class="bloqueo" type="checkbox" ${bloqueo.value == 0 ? 'value="0"':'value="1" checked' }/>
+				</td>
 				<td class="cedula">${ci}</td>
 				<td class="nombre">${n}</td>
 				<td class="apellido">${a}</td>
@@ -416,13 +460,11 @@ const ui = new UI();
 // const validarFormularioEditar = new ValidarFormularioEditar(editFormulario);
 
 const addFormulario = document.getElementById('add__periodo');
-const periodos = document.querySelector('.table');
-
+const periodos = document.querySelectorAll('.table')[1];
 validarFormulario = new ValidarFormulario(addFormulario);
 
 
 periodos.addEventListener('click', (event) => {
-
 	switch (event.target.classList[0]) {
 		case 'btnEliminar':
 			ui.deleteContenido(event);
@@ -430,8 +472,28 @@ periodos.addEventListener('click', (event) => {
 		case 'btnEditar':
 			ui.editContenido(event);
 			break;
+		case 'bloqueo':
+			ui.bloqueo(event);
+			break;
 	}
 })
+
+
+const periodos0 = document.querySelectorAll('.table')[0];
+periodos0.addEventListener('click', (event) => {
+	switch (event.target.classList[0]) {
+		case 'btnEliminar':
+			ui.deleteContenido(event);
+			break;
+		case 'btnEditar':
+			ui.editContenido(event);
+			break;
+		case 'bloqueo':
+			ui.bloqueo(event);
+			break;
+	}
+})
+
 
 
 
@@ -469,6 +531,9 @@ const buscar = (formulario) =>{
 					datos.json.forEach(alumno => {
 						tableBusqueda.innerHTML += `
 							<tr class="periodo" data-alumno="${alumno['id_estudia']}">
+								<td class="td__bloqueo">
+									<input class="bloqueo" type="checkbox" ${alumno['bloqueo'] == 0 ? 'value="0"':'value="1" checked' }/>
+								</td>
 								<td class="cedula">${alumno['cedula']}</td>
 								<td class="nombre">${alumno['p_nombres']}</td>
 								<td class="apellido">${alumno['p_apellido']}</td>
@@ -500,3 +565,6 @@ const buscar = (formulario) =>{
 
 }
 buscar(formBuscar);
+
+
+

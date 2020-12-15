@@ -20,7 +20,8 @@ class IndexModel extends Model
 			cedula, 
 			p_nombres, 
 			p_apellido, 
-			genero 
+			genero,
+			bloqueo 
 			FROM estudiante 
 			WHERE 
 			cedula = :user AND 

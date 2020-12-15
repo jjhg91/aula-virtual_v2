@@ -811,6 +811,26 @@ class AdminModel extends Model
 	}
 
 
+	// BLOQUEOALUMNO 
+	public function bloqueo_alumno($datos)
+	{
+		$query = $this->db->connect1()->prepare("
+			UPDATE estudiante 
+			SET bloqueo = :bloqueo 
+			WHERE estudiante.id_estudia = :alumno
+		");
+		$query->bindParam(':alumno',$datos['alumno']);
+		$query->bindParam(':bloqueo',$datos['bloqueo']);
+		if ( $query->execute() ) {
+			$respuesta = true;
+		}else {
+			$respuesta = false;
+		}
+
+		return $respuesta;
+	}
+
+
 }
 
 

@@ -31,18 +31,28 @@ class Index extends Controller
 		if($level == 'alumno'){
 			 $alumno = $this->model->loginAlumno($datosModel);
 			 if ( $alumno ) {
-			 	$datosSesion = [
-			 		'alumno',
-			 		$alumno[0],
-			 		$alumno[1],
-			 		ucwords(strtolower($alumno[2] . " " . $alumno[3])),
+
+			 	if ($alumno[5] == 0) {
+			 		$datosSesion = [
+				 		'alumno',
+				 		$alumno[0],
+				 		$alumno[1],
+				 		ucwords(strtolower($alumno[2] . " " . $alumno[3])),
 			 		$alumno[4]
-			 	];
-			 	$sesion->setSesion($datosSesion);
+				 	];
+				 	$sesion->setSesion($datosSesion);
+				 	
+				 	header("location: " . constant('URL') . 'main');
+
+
+
+			 	} else {
+			 		echo 'USUARIO BLOQUEADO, POR FAVOR COMUNICARSE CON LA INSTITUCION  <b>U.E.P "JOSÉ MARIA CARREÑO"</b>';
+			 	}
 			 	
-			 	header("location: " . constant('URL') . 'main');
+			 	
 			 }else{
-			 	echo "ERROR AL HACER LOGIN ALUMNO";
+			 	echo "ERROR AL HACER LOGIN ALUMNO, USUARIO Y CLAVE INCORRECTOS";
 			 }
 		}elseif ($level == 'profesor') {
 			$profesor = $this->model->loginProfesor($datosModel);

@@ -1,5 +1,6 @@
 <?php
 require_once('views/Template/template.php');
+require_once('layout/contenidos.php');
     //require_once('../../src/controller/contenido.php');
 ?>
 
@@ -8,15 +9,11 @@ require_once('views/Template/template.php');
 <head>
 	<meta charset="UTF-8">
 
-
 	<!-- PROBANDO RESPOSNIVE DESIGN -->
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- /PROBANDO RESPOSNIVE DESIGN -->
-
-
-
 
 	<link rel="Shortcut Icon" type="image/x-icon" href="<?= constant('URL') ?>public/media/logo.ico" />
 	<title>UEPJMC</title>
@@ -46,7 +43,7 @@ require_once('views/Template/template.php');
 
 	<div class="contenido">
 
-		<?php Navbar($this->usuario, $this->navbarMaterias); ?>
+		<?php Navbar($this->usuario, $this->navbarMaterias, $this->periodo); ?>
 
 		<main class="main_completo">
 
@@ -71,123 +68,15 @@ require_once('views/Template/template.php');
 		<!-- /MOSTART SI CONTENIDO NO EXISTE -->
 
 
-
 		<!-- MOSTAR CONTENIDO -->
-		<div id="contenido">
-			<?php foreach ($this->contenidos as $contenido): ?>
-			<section class="contenido" data-contenido="<?= $contenido[0] ?>">
-				<div class="titulo">
-					<div class="titulo_izq">
-						<h4>Objetivo <span class="objetivo__numero"><?= $contenido[2] ?></span></h4>
-
-					</div>
-
-					<?php if($_SESSION['user'] == 'profesor'): ?>
-					<div class="titulo_der ">
-						<div class="enlaces">
-							<button title="Editar" class="btnModalEditar item icon-pencil btnInfo" type="button" data-contenido="<?= $contenido[0] ?>"></button>
-							<button title="Eliminar" class="btnEliminar icon-bin btnInfo" data-materia="<?= $contenido[1] ?>" data-contenido="<?= $contenido[0] ?>" data-objetivo="<?= $contenido[2] ?>" type="button" ></button>
-						</div>
-					</div>
-					<?php endif; ?>
-
-				</div>
-				<div class="contenido ">
-					<div class="contenido__descripcion">
-					<?= $contenido[3] ?>
-					</div>
-					<!-- <p> <?= nl2br(ucfirst($contenido[3])) ?> </p> -->
-
-				<!-- MOSTAR LINKS -->
-					<div class="trabajos">
-						<?php if ($contenido[8] or $contenido[9] or $contenido[10] or $contenido[11]): ?>
-						<br>
-						<br>
-						<h4>Links</h4>
-						<br>
-						<?php endif ?>
-
-						<?php if ($contenido[8]): ?>
-						<a href="<?= $contenido[12] ?>"><?= $contenido[8] ?></a>
-						<br>
-						<br>
-						<?php endif ?>
-
-						<?php if ($contenido[9]): ?>
-						<a href="<?= $contenido[13] ?>"><?= $contenido[9] ?></a>
-						<br>
-						<br>
-						<?php endif ?>
-
-						<?php if ($contenido[10]): ?>
-						<a href="<?= $contenido[14] ?>"><?= $contenido[10] ?></a>
-						<br>
-						<br>
-						<?php endif ?>
-
-						<?php if ($contenido[11]): ?>
-						<a href="<?= $contenido[15] ?>"><?= $contenido[11] ?></a>
-						<br>
-						<br>
-						<?php endif ?>
-					</div>
-				<!-- /MOSTAR LINKS -->
-
-				<!-- MOSTRAR ARCHIVOS  -->
-					<div class="trabajos mostrar_archivos">
-						<?php if ($contenido[4] or $contenido[5] or $contenido[6] or $contenido[7]): ?>
-						<br>
-						<br>
-						<h4>Descarga de Materiales</h4>
-						<br>
-						<?php endif ?>
-
-						<?php if ($contenido[4]): ?>
-						<a class="link1" href="<?= constant('URL') ?>public/upload/contenido/<?= $contenido[1]?>/<?= $contenido[0] ?>/<?= $contenido[4] ?>" download>Material 1</a>
-						<br>
-						<br>
-						<?php endif ?>
-
-						<?php if ($contenido[5]): ?>
-						<a class="link2" href="<?= constant('URL') ?>public/upload/contenido/<?= $contenido[1]?>/<?= $contenido[0] ?>/<?= $contenido[5] ?>" download>Material 2</a>
-						<br>
-						<br>
-						<?php endif ?>
-
-						<?php if ($contenido[6]): ?>
-						<a class="link3" href="<?= constant('URL') ?>public/upload/contenido/<?= $contenido[1]?>/<?= $contenido[0] ?>/<?= $contenido[6] ?>" download>Material 3</a>
-						<br>
-						<br>
-						<?php endif ?>
-
-						<?php if ($contenido[7]): ?>
-						<a class="link4" href="<?= constant('URL') ?>public/upload/contenido/<?= $contenido[1]?>/<?= $contenido[0] ?>/<?= $contenido[7] ?>" download>Material 4</a>
-						<br>
-						<br>
-						<?php endif ?>
-					</div>
-				<!-- /MOSTART ARCHIVOS  -->
-
-
-
-
-			<!-- MODAL EDITAR CONTENIDO -->
-
-				<?php if ($_SESSION['user'] === 'profesor'): ?>
-					
-
-
-
-				<?php endif ?>
-			<!-- /MODAL EDITAR CONTENIDO-->
-
-
-
-				</div>
-
-			</section>
-			<?php endforeach ?>
-			</div>
+		<div id="contenido" class="acordion">
+			<?php 
+				$contenidosLayout = new Contenidos();
+				$contenidosLayout->showContenidos($this->contenidos,$this->periodo->lapso,'1');
+				$contenidosLayout->showContenidos($this->contenidos,$this->periodo->lapso,'2');
+				$contenidosLayout->showContenidos($this->contenidos,$this->periodo->lapso,'3');
+			?>
+		</div>
 		<!-- /MOSTART CONTENIDO -->
 
 
@@ -209,6 +98,23 @@ require_once('views/Template/template.php');
 							<input id="numero" name="numero" type="number" placeholder="Numero de Objetivo">
 							<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente, Los Numeros de objetivo se deben representar con numeros enteros del 1 al 9999 </p>
 						</div>
+
+						<div class="grupo">
+							<label for="lapso-form">Lapso</label>
+							<select name="lapso-form" id="lapso-form">
+								<?php
+								for ($i=1; $i <= 3 ; $i++) { 
+									if($this->periodo->lapso === (string)$i){
+										echo "<option value='$i' selected>$i</option>";
+									}else {
+										echo "<option value='$i'>$i</option>";
+									}
+								}
+								?>
+							</select>
+							<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente, Debe selecionar un lapso </p>
+						</div>
+
 
 						<div class="grupo">
 							<label for="message">Contenido</label>
@@ -245,9 +151,6 @@ require_once('views/Template/template.php');
 						</div>
 
 					<!-- /SECCION DE AGREGAR ARCHIVOS -->
-
-
-
 						<div class="grupo">
 							<div class="mensaje__error">
 								<p>No se puedo guardar, por favor revise todo los campos y verifique que no tengan ningun error.</p>
@@ -394,8 +297,17 @@ require_once('views/Template/template.php');
 	<!-- JS -->
 	<script src="<?= constant('URL') ?>public/js/config.js"></script>
 	<script src="<?= constant('URL') ?>public/js/menu.js"></script>
-	<script src="<?= constant('URL') ?>public/js/contenido.js"></script>
+	<script type="module" src="<?= constant('URL') ?>public/js/contenido.js"></script>
 
+	<script>
+		const acordion = document.querySelectorAll('.box-label');
+		acordion.forEach(element => {
+			element.addEventListener('click', event => {
+				const boxLapso = event.target.parentElement;
+				boxLapso.classList.toggle('active');
+			})
+		});		
+	</script>
 
 	<!-- /JS -->
 

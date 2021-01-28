@@ -1,5 +1,6 @@
 <?php 
 require_once 'navbar.php';
+
 /**
  * 
  */
@@ -54,6 +55,7 @@ class Admin extends Controller
 		
 		$navbar = new Navbar($usuario);
 		$navbarMaterias = $navbar->navbarMaterias($usuario);
+		
 		$this->view->usuario = $usuario;
 		$this->view->navbarMaterias = $navbarMaterias;
 

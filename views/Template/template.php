@@ -43,7 +43,7 @@
 	<!-- /HEADER -->
 <?php } ?>
 
-<?php function Navbar($usuario, $navbarMaterias){ ?>
+<?php function Navbar($usuario, $navbarMaterias, $periodo){ ?>
 	<!-- NAV
 	MUESTRA LOS DATOS DEL USUARIO Y MENU DE
 	MATERIAS INSCRITAS DONDE -->
@@ -73,7 +73,9 @@
 				
 			
 			<!-- <span><small>2020-2</small></span>	 -->
-			<span><small>2020-2021</small></span>
+			<span><small>Periodo Actual: <?= $periodo->periodo ?></small></span>
+			<span><small>Lapso en curso: <?= $periodo->lapso ?></small></span>
+
 		</div>
 		<!-- /DATOS PERSONALES DEL USUARIO -->
 		
@@ -82,11 +84,12 @@
 		<!-- MENU 
 		MUESTRA LOS MENU DE INICIO Y DE CADA MATERIA -->
 		<div class="menu">
-			<ul>				
+			<ul>		
+				<?php if($usuario['user'] != 'admin'): ?>		
 				<li class="submenu">
 					<a href="<?= constant('URL') ?>main">Inicio</a>
 				</li>
-
+				<?php endif ?>
 				<?php if ( $usuario['user'] === 'profesor' && ($_SESSION['nivel'] === 'Primaria' || $_SESSION['nivel'] === 'Preescolar') && $navbarMaterias[0][3] === $navbarMaterias[1][3] && $navbarMaterias[0][4] === $navbarMaterias[1][4] && $navbarMaterias[0][6] === $navbarMaterias[1][6] ): ?>
 					<li class="submenu">
 						<a href="<?= constant('URL') ?>mensajeInicio/mensajes">Mensajes de Inicio</a>
@@ -94,6 +97,9 @@
 				<?php endif ?>
 				
 				<?php if ( $usuario['user'] === 'admin' ): ?>
+					<li class="submenu">
+						<a href="<?= constant('URL') ?>admin/inicio">Inicio</a>
+					</li>
 					<li class="submenu">
 						<a href="<?= constant('URL') ?>admin/profesor">Profesores</a>
 					</li>

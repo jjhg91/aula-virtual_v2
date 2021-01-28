@@ -128,6 +128,17 @@ class NavbarModel extends Model
 		$query->execute();
 		$respuesta = $query->fetch();
 
+		return $respuesta;
+	}
+
+	public function periodoActivo()
+	{
+		$query = $this->db->connect1()->prepare("
+			SELECT * FROM periodo
+			WHERE status = true
+		");
+		$query->execute();
+		$respuesta = $query->fetch(PDO::FETCH_OBJ);
 
 		return $respuesta;
 	}

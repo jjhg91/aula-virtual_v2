@@ -19,7 +19,7 @@ class BlogModel extends Model
 		");
 		$query->bindParam(':materia', $materia);
 		$query->execute();
-		$respuesta = $query->fetchAll();
+		$respuesta = $query->fetchAll(PDO::FETCH_OBJ);
 
 		return $respuesta;
 	}

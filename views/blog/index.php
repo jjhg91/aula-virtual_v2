@@ -1,4 +1,7 @@
-<?php require_once('views/Template/template.php'); ?>
+<?php 
+require_once('views/Template/template.php'); 
+require_once('layout/posts.php'); 
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -36,7 +39,7 @@
 
 	<div class="contenido">
 
-		<?php Navbar($this->usuario, $this->navbarMaterias); ?>
+		<?php Navbar($this->usuario, $this->navbarMaterias, $this->periodo); ?>
 
 		<main class="main_completo">
 
@@ -62,113 +65,14 @@
 			</section>
 			<?php endif ?>
 
-			<div id="blogs">
-			<?php foreach ($this->posts as $post): ?>
-			<section class="blog" data-blog="<?= $post[0]?>">
-				<div class="titulo">
-					<div class="titulo_izq">
-						<h4><?= ucfirst($post[4]) ?></h4>
-						<span><small><small>Fecha: <?= $post[2] ?></small></small></span>
-					</div>
-
-					<?php if ($_SESSION['user'] == 'profesor'): ?>
-					<div class="titulo_der">
-						<div class="enlaces">
-							<button title="Editar" class="btnModalEditar item icon-pencil btnInfo" type="button" data-blog="<?= $post[0] ?>"></button>
-							<button title="Eliminar" class="btnEliminar icon-bin btnInfo" data-materia="<?= $post[1] ?>" data-blog="<?= $post[0] ?>" type="button" ></button>
-						</div>
-					</div>
-					<?php endif ?>
-				</div>
-				<div class="contenido">
-					<div class="descripcion__qe"><?= nl2br($post[3]); ?></div>
-					
-
-
-
-					<div class="trabajos">
-
-						<?php if ($post[9] or $post[10] or $post[11] or $post[12]): ?>
-						<br>
-						<br>
-						<h4>Links</h4>
-						<br>
-						<?php endif ?>
-
-						<?php if ($post[9]): ?>
-						<a href="<?= $post[13] ?>"><?= $post[9] ?></a>
-						<br>
-						<br>
-						<?php endif ?>
-
-						<?php if ($post[10]): ?>
-						<a href="<?= $post[14] ?>"><?= $post[10] ?></a>
-						<br>
-						<br>
-						<?php endif ?>
-
-						<?php if ($post[11]): ?>
-						<a href="<?= $post[15] ?>"><?= $post[11] ?></a>
-						<br>
-						<br>
-						<?php endif ?>
-
-						<?php if ($post[12]): ?>
-						<a href="<?= $post[16] ?>"><?= $post[12] ?></a>
-						<br>
-						<br>
-						<?php endif ?>
-
-					</div>
-
-
-
-
-
-
-
-
-
-
-					
-					<div class="trabajos">
-
-						<?php if ($post[5] or $post[6] or $post[7] or $post[8]): ?>
-						<br>
-						<br>
-						<h4>Descarga de Materiales</h4>
-						<br>
-						<?php endif ?>
-
-						<?php if ($post[5]): ?>
-						<a class="link1" href="<?= constant('URL')?>public/upload/blog/<?= $post[1]?>/<?= $post[0] ?>/<?= $post[5] ?>" download>Material 1</a>
-						<br>
-						<br>
-						<?php endif ?>
-
-						<?php if ($post[6]): ?>
-						<a class="link2" href="<?= constant('URL')?>public/upload/blog/<?= $post[1]?>/<?= $post[0] ?>/<?= $post[6] ?>" download>Material 2</a>
-						<br>
-						<br>
-						<?php endif ?>
-
-						<?php if ($post[7]): ?>
-						<a class="link3" href="<?= constant('URL')?>public/upload/blog/<?= $post[1]?>/<?= $post[0] ?>/<?= $post[7] ?>" download>Material 3</a>
-						<br>
-						<br>
-						<?php endif ?>
-
-						<?php if ($post[8]): ?>
-						<a class="link4" href="<?= constant('URL')?>public/upload/blog/<?= $post[1]?>/<?= $post[0] ?>/<?= $post[8] ?>" download>Material 4</a>
-						<br>
-						<br>
-						<?php endif ?>
-
-					</div>
-
-				</div>
-			</section>	
-			<?php endforeach; ?>
+			<div id="blogs" class="acordion">
+			<?php 
+				$postsLapso = new PostsLapso();
+				$postsLapso->showPosts($this->posts, $this->periodo->lapso, '1');
+				$postsLapso->showPosts($this->posts, $this->periodo->lapso, '2');
+				$postsLapso->showPosts($this->posts, $this->periodo->lapso, '3');
+				
+			?>
 			</div>
 
 		<!-- SECCION AGREGAR CONTENIDO AL BLOG -->
@@ -346,6 +250,16 @@
 	<script src="<?= constant('URL') ?>public/js/config.js"></script>
 	<script src="<?= constant('URL') ?>public/js/menu.js"></script>
 	<script src="<?= constant('URL') ?>public/js/blog.js"></script>
+
+	<script>
+		const acordion = document.querySelectorAll('.box-label');
+		acordion.forEach(element => {
+			element.addEventListener('click', event => {
+				const boxLapso = event.target.parentElement;
+				boxLapso.classList.toggle('active');
+			})
+		});		
+	</script>
 	<!-- /JS -->
 
 </body>

@@ -1,4 +1,8 @@
-<?php require_once('views/Template/template.php'); ?>
+<?php 
+require_once('views/Template/template.php'); 
+require_once('layout/planes.php');
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -40,7 +44,7 @@
 
 	<div class="contenido">
 
-		<?php Navbar($this->usuario, $this->navbarMaterias); ?>
+		<?php Navbar($this->usuario, $this->navbarMaterias, $this->periodo); ?>
 
 		<main class="main_completo">
 
@@ -62,68 +66,17 @@
 			</section>
 			<?php endif ?>
 
-			<div id="planes">
+			<div id="planes" class="acordion">
 			<?php 
 			if ($this->planes !== false) {
 			
-			foreach ($this->planes as $plan): ?>
-			<section class="plan_evaluacion" data-plan="<?= $plan[0] ?>">
-				<div class="titulo">
-					<div class="titulo_izq">
-						<?php if ($plan[6] != 8): ?>
-							<h4><?= $plan[2] ?></h4>
-						<?php else: ?>
-							<h4><?= ucfirst($plan[7]) ?></h4>
-						<?php endif ?>
+				$planesEvaluacionesLayout = new PlanesEvaluaciones();
+				$planesEvaluacionesLayout->showPlanesEvaluaciones($this->planes,$this->periodo->lapso,'1',$this->barMateria);
+				$planesEvaluacionesLayout->showPlanesEvaluaciones($this->planes,$this->periodo->lapso,'2',$this->barMateria);
+				$planesEvaluacionesLayout->showPlanesEvaluaciones($this->planes,$this->periodo->lapso,'3',$this->barMateria);
 
-
-					</div>
-
-					<?php if($_SESSION['user'] == 'profesor'): ?>
-					<div class="titulo_der">
-						<div class="enlaces">
-
-							<button title="Editar" class="btnModalEditar item icon-pencil btnInfo" type="button" data-plan="<?= $plan[0] ?>"></button>
-							<button title="Eliminar" class="btnEliminar icon-bin btnInfo" data-materia="<?= $plan[1] ?>" data-plan="<?= $plan[0] ?>" type="button" ></button>
-							
-						</div>
-					</div>
-					<?php endif; ?>
-
-				</div>
-				<div class="contenido">
-					<span class="semana"><small><?= $plan[4] ?></small></span>
-					<br>
-					<?php if ( $this->barMateria[5] === 'Bachillerato' ): ?>
-						<span class="valor"><small><strong>Valor: </strong><span>20pts</span></small></span>
-						
-					<?php endif?>
-					
-
-					<?php if ($_SESSION['user'] == 'alumno'): ?>
-					<br>
-					<br>
-					<?php if (isset($nota[0])): ?>
-						<span><small><strong>Nota: </strong><?= $nota[4] ?></small></span>
-						<br>
-						<span><small><strong>Observacion: </strong><?= $nota[5] ?></small></span>
-					<?php else: ?>
-						<span><small><strong>Nota: </strong>SIN CORREGIR</small></span>
-					<?php endif ?>
-					<?php endif ?>
-
-					<br>
-					<br>
-					<p><strong>Descripcion: </strong></p>
-					<div class="descripcion">
-						<?= nl2br($plan[5]) ?>
-					</div>
-					
-
-
-				</div>
-			</section>
-			<?php endforeach; };?>
+			};?>
+			
 			</div>
 
 			<?php if ($_SESSION['user'] === 'profesor'): ?>
@@ -352,6 +305,21 @@
 	<script src="<?= constant('URL') ?>public/js/config.js"></script>
 	<script src="<?= constant('URL') ?>public/js/menu.js"></script>
 	<script src="<?= constant('URL') ?>public/js/planEvaluacion.js"></script>
+	
+	<script>
+
+
+		const acordion = document.querySelectorAll('.box-label');
+		acordion.forEach(element => {
+			element.addEventListener('click', event => {
+				const boxLapso = event.target.parentElement;
+				boxLapso.classList.toggle('active');
+			})
+		});
+
+	</script>
+	
+	
 	<!-- /JS -->
 
 

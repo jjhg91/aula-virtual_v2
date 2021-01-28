@@ -16,12 +16,13 @@ class NotaModel extends Model
 			SELECT
 			id_plan_evaluacion,
 			id_profesorcursogrupo,
-			tipo_evaluacion.descripcion,
-			valor.descripcion,
-			semana.descripcion,
+			tipo_evaluacion.descripcion as tipo_evaluacion,
+			valor.descripcion as valor,
+			semana.descripcion as semana,
 			plan_evaluacion.descripcion,
 			tipo_evaluacion.id_tipo_evaluacion,
-			plan_evaluacion.otros
+			plan_evaluacion.otros,
+			lapso
 			FROM plan_evaluacion
 			INNER JOIN tipo_evaluacion ON plan_evaluacion.tipo_evaluacion = tipo_evaluacion.id_tipo_evaluacion
 			INNER JOIN valor ON plan_evaluacion.valor = valor.id_valor
@@ -31,7 +32,7 @@ class NotaModel extends Model
 		");
 		$query->bindParam(':materia',$materia);
 		$query->execute();
-		$respuesta = $query->fetchAll();
+		$respuesta = $query->fetchAll(PDO::FETCH_OBJ);
 
 		return $respuesta;
 	}

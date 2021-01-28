@@ -67,8 +67,13 @@ div.enlaces a:hover {
 
 @media (max-width: 700px) {
   body div.contenido main section.tarjeta_informacion {
-    flex-direction: column;
-    align-items: flex-start;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
   }
   body div.contenido main section.tarjeta_informacion hgroup.hgroup_der {
     text-align: center !important;
@@ -106,10 +111,19 @@ body div.loader {
   height: 100%;
   z-index: 999;
   background-color: white;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
 body div.loader span {
@@ -125,12 +139,21 @@ body header {
 }
 
 body header div.padre {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   height: 50px;
   width: 100%;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 body header div.padre button.menuPadre {
@@ -179,9 +202,16 @@ body div.contenido nav {
 }
 
 body div.contenido nav div.datos_personales {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   color: #d4d4d4;
 }
 
@@ -222,6 +252,7 @@ body div.contenido nav div.menu ul li a span.carrera {
 
 body div.contenido nav div.menu ul li a:hover {
   background: #145a32;
+  -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
 }
 
@@ -234,10 +265,12 @@ body div.contenido nav div.menu ul li ul.children {
   background: rgba(0, 0, 0, 0.2);
   width: 100%;
   z-index: 1000;
+  -webkit-transition: all 3.3s ease;
   transition: all 3.3s ease;
 }
 
 body div.contenido nav div.menu ul li ul.children li {
+  -webkit-transition: all 3.3s ease;
   transition: all 3.3s ease;
 }
 
@@ -248,17 +281,20 @@ body div.contenido nav div.menu ul li ul.children li a {
 
 body div.contenido nav div.menu ul li ul.children li a:hover {
   background: #145a32;
+  -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
 }
 
 body div.contenido nav div.menu ul li ul.open {
   display: block;
+  -webkit-transition: all 3.3s ease;
   transition: all 3.3s ease;
 }
 
 body div.contenido nav.nav_oculto {
   left: -250px;
   display: none;
+  -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
 
@@ -271,6 +307,7 @@ body div.contenido main {
 
 body div.contenido main.main_completo {
   margin-left: 0px;
+  -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
 
@@ -279,9 +316,14 @@ body div.contenido main section.tarjeta_informacion {
   margin-top: 20px;
   background: white;
   border-radius: 10px;
-  box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.3);
+          box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.3);
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 body div.contenido main section.tarjeta_informacion hgroup {
@@ -299,7 +341,8 @@ body main section {
   margin-top: 20px;
   background: white;
   border-radius: 10px;
-  box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.3);
+          box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.3);
   padding: 20px 0px;
 }
 
@@ -310,8 +353,12 @@ body main section div {
 body main section div.titulo {
   padding-bottom: 10px;
   border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 body main section div.titulo div {
@@ -337,9 +384,16 @@ body main section div.contenido div.editar {
 }
 
 body main form#set__nota {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   padding: 0px 20px;
 }
 
@@ -478,29 +532,47 @@ body main div.modal {
 }
 
 body main div.modal div.flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   width: 100%;
   height: 100vh;
-  justify-content: space-between;
-  align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 body main div.modal div.flex div.modal__contenido {
   position: relative;
   margin: auto;
   width: 70%;
-  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.4);
-  animation-name: modal;
-  animation-duration: .5s;
+  -webkit-box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.4);
+          box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.4);
+  -webkit-animation-name: modal;
+          animation-name: modal;
+  -webkit-animation-duration: .5s;
+          animation-duration: .5s;
   padding: 0;
 }
 
 body main div.modal div.flex div.modal__contenido div.modal__header {
   margin: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   padding: 10px;
   background-color: #145a32;
 }
@@ -530,6 +602,17 @@ body main div.modal div.flex div.modal__contenido div.modal__preview {
   max-height: 60vh;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+@-webkit-keyframes modal {
+  0% {
+    top: -200%;
+    opacity: 0;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+  }
 }
 
 @keyframes modal {

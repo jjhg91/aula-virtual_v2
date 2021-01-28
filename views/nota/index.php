@@ -1,7 +1,6 @@
 <?php
-    //require_once('../../src/controller/cargarNota.php');
-
 	require_once('views/Template/template.php');
+	require_once('layout/planes.php');
 ?>
 
 <?php if ($_SESSION['user'] == 'profesor'): ?>
@@ -40,14 +39,11 @@
 
 	<div class="contenido">
 
-		<?php Navbar($this->usuario, $this->navbarMaterias); ?>
+		<?php Navbar($this->usuario, $this->navbarMaterias, $this->periodo); ?>
 
 		<main class="main_completo">
 
 			<?php TarjetaInformativa('CARGAR NOTA', $this->barMateria); ?>
-
-
-
 
 
 			<?php if ( empty($this->planes) ): ?>
@@ -58,39 +54,14 @@
 			</section>
 			<?php endif ?>
 
-			<?php foreach ($this->planes as $plan): ?>
-			<section class="plan_evaluacion">
-				<div class="titulo">
-					<div class="titulo_izq">
-						<?php if ($plan[6] != 8 ): ?>
-							<h4><?= $plan[2] ?></h4>
-						<?php else: ?>
-							<h4><?= ucfirst($plan[7]) ?></h4>
-						<?php endif ?>
-
-						<span><small><?= $plan[4] ?></small></span>
-					</div>
-					<div class="titulo_der">
-						<div class="enlaces">
-						<a href="<?= constant('URL') ?>nota/cargar/<?= $plan[1] ?>/<?= $plan[0] ?>"><span class="icon-plus"></span></a>
-
-
-					</div>
-					</div>
-
-				</div>
-				<div class="contenido">
-					<span><small>Valor: <?= $plan[3] ?>%</small></span>
-					<br>
-					<span><small>Punto: <?= $plan[3] * 0.20 ?>pts</small></span>
-					<br>
-					<br>
-					<p> <?= $plan[5] ?> </p>
-
-
-				</div>
-			</section>
-			<?php endforeach; ?>
+			<div class="acordion">
+				<?php 
+					$planesLapso = new Planes();
+					$planesLapso->showPlanes($this->planes, $this->periodo->lapso,'1');
+					$planesLapso->showPlanes($this->planes, $this->periodo->lapso,'2');
+					$planesLapso->showPlanes($this->planes, $this->periodo->lapso,'3');
+				?>
+			</div>
 
 
 		</main>
@@ -109,6 +80,17 @@
 
 	<!-- JS -->
 	<script src="<?= constant('URL') ?>public/js/menu.js"></script>
+	
+	<script>
+		const acordion = document.querySelectorAll('.box-label');
+		acordion.forEach(element => {
+			element.addEventListener('click', event => {
+				const boxLapso = event.target.parentElement;
+				boxLapso.classList.toggle('active');
+			})
+		});		
+	</script>
+
 	<!-- /JS -->
 
 </body>

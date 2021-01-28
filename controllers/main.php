@@ -20,8 +20,11 @@ class Main extends Controller
 		
 		$navbar = new Navbar($usuario);
 		$navbarMaterias = $navbar->navbarMaterias($usuario);
+		$periodo = $navbar->periodoActivo();
+
 		$this->view->usuario = $usuario;
 		$this->view->navbarMaterias = $navbarMaterias;
+		$this->view->periodo = $periodo;
 
 
 		if ($usuario['user'] === 'profesor' ){

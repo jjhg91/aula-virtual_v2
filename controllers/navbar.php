@@ -42,5 +42,12 @@ class Navbar extends Controller
 		}
 		return $respuesta;
 	}
+
+	public function periodoActivo()
+	{
+		$navbarmodel = new NavbarModel();
+		$respuesta = $navbarmodel->periodoActivo();
+		return $respuesta;
+	}
 }
 ?>

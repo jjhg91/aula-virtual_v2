@@ -39,8 +39,8 @@ class EvaluacionModel extends Model
 		$query = $this->db->connect2()->prepare("
 			SELECT
 			actividades.id_actividades,
-			valor.descripcion,
-			tipo_evaluacion.descripcion,
+			valor.descripcion as valor,
+			tipo_evaluacion.descripcion as tipo_evaluacion,
 			actividades.publicacion,
 			actividades.fecha,
 			actividades.descripcion,
@@ -52,7 +52,8 @@ class EvaluacionModel extends Model
 			actividades.file3,
 			actividades.file4,
 			actividades.id_plan_evaluacion,
-			LEFT(plan_evaluacion.descripcion,200) AS plan
+			LEFT(plan_evaluacion.descripcion,200) AS plan,
+			actividades.lapso
 			FROM actividades
 			INNER JOIN plan_evaluacion ON actividades.id_plan_evaluacion = plan_evaluacion.id_plan_evaluacion
 			INNER JOIN tipo_evaluacion  ON plan_evaluacion.tipo_evaluacion = tipo_evaluacion.id_tipo_evaluacion
@@ -65,7 +66,7 @@ class EvaluacionModel extends Model
 		");
 		$query->bindParam(':materia', $materia);
 		$query->execute();
-		$respuesta = $query->fetchAll();
+		$respuesta = $query->fetchAll(PDO::FETCH_OBJ);
 
 		return $respuesta;
 	}

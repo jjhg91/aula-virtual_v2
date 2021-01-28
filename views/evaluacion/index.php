@@ -1,4 +1,8 @@
-<?php require_once('views/Template/template.php'); ?>
+<?php 
+require_once('views/Template/template.php'); 
+require_once('layout/evaluaciones.php'); 
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +42,7 @@
 
 	<div class="contenido">
 
-		<?php Navbar($this->usuario, $this->navbarMaterias); ?>
+		<?php Navbar($this->usuario, $this->navbarMaterias, $this->periodo); ?>
 
 		<main class="main_completo">
 
@@ -65,86 +69,13 @@
 			</section>
 			<?php endif ?>
 
-			<div id="evaluaciones">
-			<?php
-			$i = 1;
-			foreach ($this->actividades as $actividad): ?>
-			<section class="evaluacion" data-evaluacion="<?= $actividad[0] ?>" data-plan="<?= $actividad[13] ?>">
-				<div class="titulo">
-					<div class="titulo_izq">
-						<?php if ( $actividad[6] != 8 ): ?>
-							<h4 class="tipo"><?= $actividad[2] ?></h4>
-						<?php else: ?>
-							<h4><?= ucfirst($actividad[7]) ?></h4>
-						<?php endif ?>
-					</div>
-
-					<?php if ($_SESSION['user'] == 'profesor'): ?>
-					<div class="titulo_der">
-						<div class="enlaces">
-							<button title="Editar" class="btnModalEditar item icon-pencil btnInfo" type="button" data-evaluacion="<?= $actividad[0] ?>"></button>
-							<button title="Eliminar" class="btnEliminar icon-bin btnInfo" data-materia="<?= $this->barMateria[2] ?>" data-evaluacion="<?= $actividad[0] ?>" type="button" ></button>
-						</div>
-					</div>
-					<?php endif ?>
-
-				</div>
-				<div class="contenido">
-					<p><strong>Fecha limite: </strong><span class="fecha"><?= $actividad[4] ?></span></p>
-					<p><strong>Valor: </strong><span class="valor">20pts</span></p>
-					<!-- <p><strong>Plan: </strong><p><div class="plan"><?= $actividad[14] ?></div> -->
-					<br>
-					<p><strong>Descripcion: </strong></p>
-					<div class="editor__qe"><?= nl2br($actividad[5]) ?></div>
-					<div class="trabajos mostrar_archivos">
-
-						<?php if ($actividad[9] or $actividad[10] or $actividad[11] or $actividad[12]): ?>
-						<br>
-						<br>
-						<h4>Descarga de Materiales</h4>
-						<br>
-						<?php endif ?>
-
-						<?php if ($actividad[9]): ?>
-						<a class="link1" href="<?= constant('URL')?>public/upload/actividad/<?= $this->barMateria[2]?>/<?= $actividad[0] ?>/<?= $actividad[9] ?>" download>Material 1</a>
-						<br>
-						<br>
-						<?php endif ?>
-
-						<?php if ($actividad[10]): ?>
-						<a class="link2" href="<?= constant('URL')?>public/upload/actividad/<?= $this->barMateria[2]?>/<?= $actividad[0] ?>/<?= $actividad[10] ?>" download>Material 2</a>
-						<br>
-						<br>
-						<?php endif ?>
-
-						<?php if ($actividad[11]): ?>
-						<a class="link3" href="<?= constant('URL')?>public/upload/actividad/<?= $this->barMateria[2]?>/<?= $actividad[0] ?>/<?= $actividad[11] ?>" download>Material 3</a>
-						<br>
-						<br>
-						<?php endif ?>
-
-						<?php if ($actividad[12]): ?>
-						<a class="link4" href="<?= constant('URL')?>public/upload/actividad/<?= $this->barMateria[2]?>/<?= $actividad[0] ?>/<?= $actividad[12] ?>" download>Material 4</a>
-						<br>
-						<br>
-						<?php endif ?>
-
-					</div>
-					<br>
-					<a href="<?= constant('URL') . 'evaluacion/detail/' . $this->barMateria[2] . '/' . $actividad[0]?>">Detalles</a>
-
-
-					<?php if ($this->usuario['user'] == 'profesor'): ?>
-					<br>
-					<br>
-					<a href="<?= constant('URL') . 'evaluacion/detail/' . $this->barMateria[2] . '/' . $actividad[0]?>#Entregadas">Actividades entregadas (<?= $actividad[8] .  " / " . $this->totalAlumnos[0] ?>)</a>
-					<?php $i = $i + 1  ?>
-					<?php endif ?>
-
-
-				</div>
-			</section>
-			<?php endforeach; ?>
+			<div id="evaluaciones" class="acordion">
+				<?php
+					$evaluacionesLapso = new Evaluaciones();
+					$evaluacionesLapso->showEvaluaciones($this->evaluaciones,$this->periodo->lapso,'1',$this->usuario,$this->barMateria,$this->totalAlumnos);
+					$evaluacionesLapso->showEvaluaciones($this->evaluaciones,$this->periodo->lapso,'2',$this->usuario,$this->barMateria,$this->totalAlumnos);
+					$evaluacionesLapso->showEvaluaciones($this->evaluaciones,$this->periodo->lapso,'3',$this->usuario,$this->barMateria,$this->totalAlumnos);
+				?>
 			</div>
 
 			
@@ -366,6 +297,16 @@
 	<script src="<?= constant('URL') ?>public/js/config.js"></script>
 	<script src="<?= constant('URL') ?>public/js/menu.js"></script>
 	<script src="<?= constant('URL') ?>public/js/evaluaciones.js"></script>
+
+	<script>
+		const acordion = document.querySelectorAll('.box-label');
+		acordion.forEach(element => {
+			element.addEventListener('click', event => {
+				const boxLapso = event.target.parentElement;
+				boxLapso.classList.toggle('active');
+			})
+		});		
+	</script>
 	<!-- /JS -->
 
 </body>

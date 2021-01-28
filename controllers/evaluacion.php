@@ -26,17 +26,18 @@ class Evaluacion extends Controller
 
 		$navbar = new Navbar($usuario);
 		$navbarMaterias = $navbar->navbarMaterias($usuario);
+		$periodo = $navbar->periodoActivo();
 
 		$this->view->usuario = $usuario;
 		$this->view->navbarMaterias = $navbarMaterias;
-
+		$this->view->periodo = $periodo;
 
 		if (  ctype_digit($materia) ) {
 			$barMateria = $navbar->barMateria($usuario,$materia);
 			if ($barMateria) {
 				$this->view->barMateria  = $barMateria;
 				$actividades             = $this->model->getEvaluaciones($materia);
-				$this->view->actividades = $actividades;
+				$this->view->evaluaciones = $actividades;
 
 				if ( $usuario['user'] == 'profesor' ) {
 					$planes                    = $this->model->getPlanes($materia);
@@ -68,10 +69,11 @@ class Evaluacion extends Controller
 
 		$navbar = new Navbar($usuario);
 		$navbarMaterias = $navbar->navbarMaterias($usuario);
+		$periodo = $navbar->periodoActivo();
 
 		$this->view->usuario = $usuario;
 		$this->view->navbarMaterias = $navbarMaterias;
-
+		$this->view->periodo = $periodo;
 
 		if (  ctype_digit($materia) && ctype_digit($evaluacion) ) {
 			$barMateria = $navbar->barMateria($usuario,$materia);

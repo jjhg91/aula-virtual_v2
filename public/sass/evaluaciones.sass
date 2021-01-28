@@ -269,3 +269,36 @@ body
 						
 
 
+.acordion
+	.box-lapso
+		position: relative 
+		margin: 20px 0px
+		.box-label 
+			position: relative
+			padding: 10px
+			background: #1e8449
+			cursor: pointer
+			border-radius: 6px
+			color: white
+			box-shadow: 0 0 6px 0 rgba(0,0,0,0.4)
+			&::before
+				content: '+'
+				position: absolute 
+				top: 50%
+				right: 20px 
+				transform: translateY(-50%)
+				font-size: 1.53em
+		.box-contenidos-lapso
+			position: relative
+			background: rgba(255,255,255,0.8)
+			transition: 0.5s
+			height: 0
+			overflow: hidden
+			overflow-y: auto
+		&.active
+			.box-contenidos-lapso
+				height: auto
+				padding: 0px 10px
+			.box-label 
+				&::before
+					content: '-'

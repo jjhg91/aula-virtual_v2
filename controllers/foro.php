@@ -24,10 +24,11 @@ class Foro extends Controller
 
 		$navbar = new Navbar($usuario);
 		$navbarMaterias = $navbar->navbarMaterias($usuario);
+		$periodo = $navbar->periodoActivo();
 
 		$this->view->usuario = $usuario;
 		$this->view->navbarMaterias = $navbarMaterias;
-
+		$this->view->periodo = $periodo;
 
 		if (  ctype_digit($materia[0]) ) {
 
@@ -57,10 +58,11 @@ class Foro extends Controller
 
 		$navbar = new Navbar($usuario);
 		$navbarMaterias = $navbar->navbarMaterias($usuario);
+		$periodo = $navbar->periodoActivo();
 
 		$this->view->usuario = $usuario;
 		$this->view->navbarMaterias = $navbarMaterias;
-
+		$this->view->periodo = $periodo;
 
 		if (  ctype_digit($url[0]) && ctype_digit($url[1]) ) {
 

@@ -100,8 +100,8 @@ require_once('layout/contenidos.php');
 						</div>
 
 						<div class="grupo">
-							<label for="lapso-form">Lapso</label>
-							<select name="lapso-form" id="lapso-form">
+							<label for="lapso_form">Lapso</label>
+							<select name="lapso_form" id="lapso_form">
 								<?php
 								for ($i=1; $i <= 3 ; $i++) { 
 									if($this->periodo->lapso === (string)$i){

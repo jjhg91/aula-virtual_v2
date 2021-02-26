@@ -7,7 +7,7 @@ class Contenidos
     {
         ?>
         <!-- LAPSO <?= $lapso?> -->
-        <div class="box-lapso <?= $lapsoActivo === $lapso? 'active': '' ?>">
+        <div class="box-lapso <?= $lapsoActivo === $lapso? 'active': '' ?> <?= 'lapso-'.$lapso?>">
 				<div class="box-label"> Lapso <?= $lapso ?></div>
 				<div class="box-contenidos-lapso">
 					<?php foreach ($contenidos as $contenido): ?>

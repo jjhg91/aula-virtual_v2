@@ -1,26 +1,32 @@
 class ValidarFormulario {
 	constructor(formulario){
 		this.formulario = formulario;
-		this.inputs = this.formulario.querySelectorAll('#add_contenido input , #add_contenido textarea');
+		this.inputs = this.formulario.querySelectorAll(`
+			#add_contenido input,
+			#add_contenido textarea,
+			#add_contenido select#lapso_form
+		`);
 		this.expresiones = {
 			numero: /^\d{1,4}$/, // 7 a 14 numeros.
 			message: /^[\s\S]{1,100000}$/, // cualquier caracter de tamaño 1 a 20
 			archivo: /(.pdf|.doc|.docx|.xlsx|.xls|.txt|.pptx|.ppt|.pub|.jpg|.jpeg|.gif|.png|.ai|.svg|.git|.psd|.raw|.mp4|.m4v|.mov|.mpg|.mpeg|.swf|.zip|.rar|.mp3|.wav|.opus|.PDF|.DOC|.DOCX|.XLSX|.XLS|.TXT|.PPTX|.PPT|.PUB|.JPG|.JPEG|.GIF|.PNG|.AI|.SVG|.GIT|.PSD|.RAW|.MP4|.M4V|.MOV|.MPG|.MPEG|.SWF|.ZIP|.RAR|.MP3|.WAV|.OPUS|.Pdf|.Doc|.Docx|.Xlsx|.Xls|.Txt|.Pptx|.Ppt|.Pub|.Jpg|.Jpeg|.Gif|.Png|.Ai|.Svg|.Git|.Psd|.Raw|.Mp4|.M4V|.Mov|.Mpg|.Mpeg|.Swf|.Zip|.Rar|.Mp3|.Wav|.Opus)$/i,
-			size: ( 20 * 1024 ) * 1024
+			size: ( 20 * 1024 ) * 1024,
+			lapso_form: /^(1|2|3)$/i
 		}
 		this.campos = {
 			numero: false,
 			message: true,
+			lapso_form: true,
 			file1: true,
 			file2: true,
 			file3: true,
 			file4: true
 		}
-
-		
-
 		this.recorreInputs();
 		this.sendFormulario();
+
+		let contenidos = document.querySelector(`#contenido .lapso-${2} .box-contenidos-lapso`); 
+	
 	}
 
 	recorreInputs() {
@@ -35,14 +41,19 @@ class ValidarFormulario {
 	}
 
 	validarFormulario(e) {
-		switch (e.target.name) {
-			case "numero":
-				this.validarCampo(this.expresiones.numero, e.target, 'numero');
-				break;
-			case "message":
-				this.validarCampo(this.expresiones.message, e.target, 'message');
-				break;
+		for( const campo in this.campos) {
+			if(e.target.name === campo){
+				this.validarCampo(this.expresiones[campo], e.target, campo);
+			} 
 		}
+		// switch (e.target.name) {
+		// 	case "numero":
+		// 		this.validarCampo(this.expresiones.numero, e.target, 'numero');
+		// 		break;
+		// 	case "message":
+		// 		this.validarCampo(this.expresiones.message, e.target, 'message');
+		// 		break;
+		// }
 	}
 
 	validarCampo(expresion, input, campo) {
@@ -95,7 +106,7 @@ class ValidarFormulario {
 				let error = input.nextElementSibling;
 				error.innerHTML = '<span>* El archivo excede el tamaño permitido 20mb.</span><br>';
 				error.classList.add('formulario__input-error-activo');
-				
+		
 				this.campos[campo] = false;
 				
 			}
@@ -131,7 +142,7 @@ class ValidarFormulario {
 	sendFormulario(){
 		const formulario = this.formulario;
 		formulario.addEventListener('submit', (e) => {
-			
+	
 			e.preventDefault();
 			if (this.campos.numero && this.campos.message && this.campos.file1 && this.campos.file2 && this.campos.file2 && this.campos.file4 ) {
 				let btnSubmit = formulario.querySelector('#btnSubmit');
@@ -157,32 +168,32 @@ class ValidarFormulario {
 
 									switch (element.classList[0]) {
 										case 'file1':
-														divArchivos += `
-															<a class="link1" href="${window.URL.createObjectURL(element.files[0])}" download>Material 1</a>
-															<br>
-															<br>
-														`;
+											divArchivos += `
+												<a class="link1" href="${window.URL.createObjectURL(element.files[0])}" download>Material 1</a>
+												<br>
+												<br>
+											`;
 											break;
 										case 'file2':
 											divArchivos += `
-													<a class="link2" href="${window.URL.createObjectURL(element.files[0])}" download>Material 2</a>
-													<br>
-													<br>
-												`;
+												<a class="link2" href="${window.URL.createObjectURL(element.files[0])}" download>Material 2</a>
+												<br>
+												<br>
+											`;
 											break;
 										case 'file3':
 											divArchivos += `
-													<a class="link3" href="${window.URL.createObjectURL(element.files[0])}" download>Material 3</a>
-													<br>
-													<br>
-												`;
+												<a class="link3" href="${window.URL.createObjectURL(element.files[0])}" download>Material 3</a>
+												<br>
+												<br>
+											`;
 											break;
 										case 'file4':
 											divArchivos += `
-													<a class="link4" href="${window.URL.createObjectURL(element.files[0])}" download>Material 4</a>
-													<br>
-													<br>
-												`;
+												<a class="link4" href="${window.URL.createObjectURL(element.files[0])}" download>Material 4</a>
+												<br>
+												<br>
+											`;
 											break;
 									}
 								}
@@ -193,6 +204,7 @@ class ValidarFormulario {
 
 							//let contenidos = document.getElementById('contenido').innerHTML += datos.html;
 							let contenidos = document.getElementById('contenido');
+							
 							contenidos.innerHTML += `
 							<section class="contenido" data-contenido=${datos.idContenido}>
 								<div class="titulo">

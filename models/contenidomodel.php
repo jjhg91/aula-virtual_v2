@@ -48,15 +48,18 @@ class ContenidoModel extends Model
 			INSERT INTO contenido(
 				id_profesorcursogrupo,
 				numero,
-				descripcion)
+				descripcion,
+				lapso)
 			VALUES(
 				:materia,
 				:numero,
-				:descripcion)
+				:descripcion,
+				:lapso)
 		");
 		$query->bindParam(':materia',$datos['materia']);
 		$query->bindParam(':numero',$datos['numero']);
 		$query->bindParam(':descripcion',$datos['descripcion']);
+		$query->bindParam(':lapso',$datos['lapso']);
 
 		if ( $query->execute() ) {
 			$respuesta = true;

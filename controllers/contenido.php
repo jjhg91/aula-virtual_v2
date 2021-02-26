@@ -108,12 +108,14 @@ class Contenido extends Controller
 				
 				// DATOS DE FORMULARIO
 				$numero = (int)$_POST['numero'];
+				$lapso = (int)$_POST['lapso_form'];
 				$descripcion = $_POST['message'];
 
 				$datos = [
 					'materia' => $materia,
 					'numero' => $numero,
 					'descripcion' => $descripcion,
+					'lapso' => $lapso
 				];
 
 				$insert = $this->model->addContenido($datos);

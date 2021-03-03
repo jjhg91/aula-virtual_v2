@@ -31,13 +31,14 @@ class AlumnoModel extends Model
 			periodo.status = 1
 			ORDER BY estudiante.p_apellido ASC, estudiante.p_nombres ASC
 		");
+		
 		$query->bindParam(':materia',$materia);
 		$query->execute();
 		$respu = $query->fetchAll();
 		$respuesta = [];
 		foreach ($respu as $alumno) {
 			//APARTIR DE 6
-			$query2 = $this->db->connect2()->query("SELECT fecha FROM alumnos WHERE id_estudiante = $alumno[0]");
+			$query2 = $this->db->connect2()->query("SELECT fecha FROM alumnos WHERE id_estudiante = $alumno[0] ORDER BY fecha DESC LIMIT 1");
 			$fech = $query2->fetch();
 
 			$fecha = (is_array($fech)) ? $fech : ['fecha' => '', '0' => ''];
@@ -45,6 +46,7 @@ class AlumnoModel extends Model
 			$respu2 = array_merge($alumno,$fecha);
 			array_push($respuesta, $respu2);
 		}
+
 
 		return $respuesta;
 	}

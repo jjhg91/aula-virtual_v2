@@ -25,7 +25,6 @@ class ValidarFormulario {
 		this.recorreInputs();
 		this.sendFormulario();
 
-		let contenidos = document.querySelector(`#contenido .lapso-${2} .box-contenidos-lapso`); 
 	
 	}
 
@@ -203,7 +202,8 @@ class ValidarFormulario {
 						
 
 							//let contenidos = document.getElementById('contenido').innerHTML += datos.html;
-							let contenidos = document.getElementById('contenido');
+							let contenidos = document.querySelector(`#contenido .lapso-${formData.get('lapso_form')} .box-contenidos-lapso`); 
+							// let contenidos = document.getElementById('contenido');
 							
 							contenidos.innerHTML += `
 							<section class="contenido" data-contenido=${datos.idContenido}>

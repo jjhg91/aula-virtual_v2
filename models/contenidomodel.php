@@ -116,12 +116,14 @@ class ContenidoModel extends Model
 			UPDATE contenido SET
 			id_profesorcursogrupo = :materia,
 			numero = :numero,
-			descripcion = :descripcion
+			descripcion = :descripcion,
+			lapso = :lapso
 			WHERE id_contenido = :contenido;
 		");
 		$query->bindParam(':materia',$datos['materia']);
 		$query->bindParam(':numero',$datos['numero']);
 		$query->bindParam(':descripcion',$datos['descripcion']);
+		$query->bindParam(':lapso',$datos['lapso']);
 		$query->bindParam(':contenido',$datos['contenido']);
 
 

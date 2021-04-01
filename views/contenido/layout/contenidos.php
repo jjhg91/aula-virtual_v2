@@ -10,13 +10,13 @@ class Contenidos
         <div class="box-lapso <?= $lapsoActivo === $lapso? 'active': '' ?> <?= 'lapso-'.$lapso?>">
 				<div class="box-label"> Lapso <?= $lapso ?></div>
 				<div class="box-contenidos-lapso">
-					<?php foreach ($contenidos as $contenido): ?>
-						<?php 
-							if( $contenido->lapso === $lapso ){
-								$this->showContenido($contenido);
-							}
-						?>
-					<?php endforeach ?>
+					<!-- <?php // foreach ($contenidos as $contenido): ?> -->
+						<!-- <?php 
+							// if( $contenido->lapso === $lapso ){
+							// 	$this->showContenido($contenido, $lapso);
+							// }
+						?> -->
+					<!-- <?php // endforeach ?> -->
 				</div>
 			</div>
             <!-- /LAPSO <?= $lapso?> -->
@@ -24,11 +24,11 @@ class Contenidos
     }
 
 
-    public function showContenido($contenido)
+    public function showContenido($contenido, $lapso)
     {
     ?>
     
-        <section class="contenido" data-contenido="<?= $contenido->id_contenido ?>">
+        <section class="contenido" data-contenido="<?= $contenido->id_contenido ?>" data-lapso="<?=$lapso?>">
             <div class="titulo">
                 <div class="titulo_izq">
                     <h4>Objetivo <span class="objetivo__numero"><?= $contenido->numero ?></span></h4>

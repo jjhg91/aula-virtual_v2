@@ -1,17 +1,23 @@
 import ValidarFormulario from "./validarFormulario.js";
 
 class ValidarFormularioEditar  extends ValidarFormulario{
-	constructor(formulario) {
-		super(formulario)
-		this.inputs = this.formulario.querySelectorAll('#editar_contenido input , #editar_contenido textarea');
-		this.campos = {
-			numero: true,
-			message: true,
-			file1: true,
-			file2: true,
-			file3: true,
-			file4: true
-		}
+	constructor(formulario, showData, campos, url) {
+		super(formulario,showData,campos,url);
+
+		// this.inputs = this.formulario.querySelectorAll(`
+		// 	#editar_contenido input,
+		// 	#editar_contenido textarea
+		// 	#add_contenido select#lapso_form
+		// `);
+		// this.campos = {
+		// 	numero: true,
+		// 	message: true,
+		// 	file1: true,
+		// 	file2: true,
+		// 	file3: true,
+		// 	file4: true,
+		// 	lapso_form: true,
+		// }
 		this.setiarFormulario();
 	}
 
@@ -36,18 +42,35 @@ class ValidarFormularioEditar  extends ValidarFormulario{
 
 	sendFormulario() {
 		const formulario = this.formulario;
+		const url = this.url;
+		const showData = this.showData;
+		const campos = this.campos; 
 		formulario.addEventListener('submit', (e) => {
 			e.preventDefault();
-			if (this.campos.numero && this.campos.message && this.campos.file1 && this.campos.file2 && this.campos.file2 && this.campos.file4 ) {
+			
+			let validar = true;
+			for( const campo in this.campos) {
+				if(campos[campo] === false){
+					validar = false;
+				}
+			}
+
+			if (validar === true) {
 				let btnSubmit = formulario.querySelector('#btnSubmitEditar');
 				btnSubmit.disabled = true;
 
 				let editarDescripcion = formulario.querySelector('#editar__descripcion .ql-editor');
-				let message = formulario.querySelector('#message__editar');
-				message.innerHTML = editarDescripcion.innerHTML;
+				let descripcion = formulario.querySelector('#descripcion__editar');
+				descripcion.innerHTML = editarDescripcion.innerHTML;
+				console.log(editarDescripcion);
+				console.log('----aaaa-----');
+				console.log(descripcion)
 
 				const formData = new FormData(e.currentTarget);
-				let direccion = URL+'contenido/edit/'+formData.get('materia');
+				console.log(e.currentTarget);
+
+				// let direccion = URL+'contenido/edit/'+formData.get('materia');
+				let direccion = url;
 				let xmlhttp = new XMLHttpRequest();
 
 				xmlhttp.onreadystatechange = function() {
@@ -56,85 +79,12 @@ class ValidarFormularioEditar  extends ValidarFormulario{
 						let datos = JSON.parse(xmlhttp.response);
 						if ( datos.status == true ) {
 							
-							let editado = document.querySelector('section.contenido[data-contenido="'+formData.get('contenido')+'"]');
-							editado.querySelector('.objetivo__numero').innerHTML = formData.get('numero');
-							editado.querySelector('.contenido__descripcion').innerHTML = formData.get('message');
-							
-							let pp = formulario.querySelectorAll('#grupo_archivos_editar > input');
-							pp.forEach(element => {
-								if ( element.value ) {
-
-									switch (element.classList[0]) {
-										case 'file1':
-													if ( editado.querySelector('.link1') ) {
-														console.log(element.files[0]);
-														console.log();
-														editado.querySelector('.link1').href = window.URL.createObjectURL(element.files[0]);
-													}else {
-														editado.querySelector('.mostrar_archivos').innerHTML += `
-															<a class="link1" href="${window.URL.createObjectURL(element.files[0])}" download>Material 1</a>
-															<br>
-															<br>
-														`;
-													}
-
-											break;
-										case 'file2':
-											if ( editado.querySelector('.link2') ) {
-												console.log(element.files[0]);
-												console.log();
-												editado.querySelector('.link2').href = window.URL.createObjectURL(element.files[0]);
-											}else {
-												editado.querySelector('.mostrar_archivos').innerHTML += `
-													<a class="link2" href="${window.URL.createObjectURL(element.files[0])}" download>Material 2</a>
-													<br>
-													<br>
-												`;
-											}
-											break;
-										case 'file3':
-											if ( editado.querySelector('.link3') ) {
-												console.log(element.files[0]);
-												console.log();
-												editado.querySelector('.link3').href = window.URL.createObjectURL(element.files[0]);
-											}else {
-												editado.querySelector('.mostrar_archivos').innerHTML += `
-													<a class="link3" href="${window.URL.createObjectURL(element.files[0])}" download>Material 3</a>
-													<br>
-													<br>
-												`;
-											}
-											break;
-										case 'file4':
-											if ( editado.querySelector('.link4') ) {
-												console.log(element.files[0]);
-												console.log();
-												editado.querySelector('.link4').href = window.URL.createObjectURL(element.files[0]);
-											}else {
-												editado.querySelector('.mostrar_archivos').innerHTML += `
-													<a class="link4" href="${window.URL.createObjectURL(element.files[0])}" download>Material 4</a>
-													<br>
-													<br>
-												`;
-											}
-											break;
-									
-									}
-								}
-							});
+							showData(formData.get('materia'));
 							
 							let mensajeError = formulario.querySelector('.mensaje__exito');
 							mensajeError.innerHTML = '<p>'+datos.respuesta+'</p>';
 							mensajeError.classList.add('mensaje__exito-activo');
-
 							mensajeError.scrollIntoView({behavior:'auto',block:'center'});
-
-							let refrescar = editado.querySelector('.contenido__descripcion');
-							let quill3 = new Quill(refrescar,{
-								readOnly: true,
-								theme: 'bubble'
-							});
-
 						}else {
 							var mensajeError = formulario.querySelector('.mensaje__exito');
 							mensajeError.innerHTML = '<p>'+datos.respuesta+'</p>';

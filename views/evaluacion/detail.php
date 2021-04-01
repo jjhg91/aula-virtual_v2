@@ -383,7 +383,9 @@
 			?>
 			<div class="titulo_der">
 				<div class="enlaces">
-					<a title="Editar" href="#ModalEditarEstudiante"><span class="icon-pencil"></span></a>
+					<a title="Editar" href="#ModalEditarEstudiante" class="btnEditarAlumno">
+						<span class="icon-pencil"></span>
+					</a>
 
 				</div>
 			</div>
@@ -635,10 +637,15 @@
 					<div class="grupo">
 							<textarea name="descripcion" id="message" cols="30" rows="10" placeholder="Descripcion"></textarea>
 					</div>
+					<!-- <div class="grupo">
+						<div id="editor" style="height: 375px;"></div>
+						<textarea name="descripcion" id="descripcion" cols="20" rows="10" style="display:none;"></textarea>
+						<p id="editor_contador">caracteres (<span id="editor_caracteres">0</span>/50000)</p>
+					</div> -->
 
 					<!-- SECCION DE AGREGAR LINKS -->
 
-						<div class="grupo">
+						<!-- <div class="grupo">
 							<br>
 							<br>
 							<h3>Links</h3>
@@ -706,7 +713,7 @@
 								<label for="">Url del Link</label>
 								<input id="link4" name="link4" type="text" placeholder="Url del Link 4">
 							</div>
-						</div>
+						</div> -->
 
 					<!-- /SECCION DE AGREGAR LINKS -->
 

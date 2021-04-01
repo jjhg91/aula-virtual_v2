@@ -7,16 +7,16 @@ class PlanesEvaluaciones
     {
         ?>
         <!-- LAPSO <?= $lapso?> -->
-        <div class="box-lapso <?= $lapsoActivo === $lapso? 'active': '' ?>">
+        <div class="box-lapso <?= $lapsoActivo === $lapso? 'active': '' ?> <?= 'lapso-'.$lapso?>">
 				<div class="box-label"> Lapso <?= $lapso ?></div>
 				<div class="box-contenidos-lapso">
-					<?php foreach ($planes as $plan): ?>
+					<!-- <?php // foreach ($planes as $plan): ?>
 						<?php 
-							if( $plan->lapso === $lapso ){
-								$this->showPlanEvaluacion($plan,$barMateria);
-							}
+							// if( $plan->lapso === $lapso ){
+							// 	$this->showPlanEvaluacion($plan,$barMateria);
+							// }
 						?>
-					<?php endforeach ?>
+					<?php // endforeach ?> -->
 				</div>
 			</div>
             <!-- /LAPSO <?= $lapso?> -->

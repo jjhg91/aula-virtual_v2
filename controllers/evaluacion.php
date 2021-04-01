@@ -58,6 +58,40 @@ class Evaluacion extends Controller
 		}
 	}
 
+	public function getEvaluaciones($url)
+	{
+		$materia = $url[0];
+		$sesion = new Sesion();
+		$sesion->validateSesion();
+		$usuario = $sesion->getSesion();
+		$navbar = new Navbar($usuario);
+
+		if (  ctype_digit($materia) ) {
+			$barMateria = $navbar->barMateria($usuario,$materia);
+			if ($barMateria) {
+				$actividades             = $this->model->getEvaluaciones($materia);
+
+				if ( $usuario['user'] == 'profesor' ) {
+					$planes                    = $this->model->getPlanes($materia);
+					$totalAlumnos              = $this->model->getTotalAlumnos($materia);
+					
+				}
+				$respuesta = [
+					'data' => $actividades,
+					'user' => $usuario['user']
+				];
+				echo json_encode($respuesta);
+
+			}else{
+				echo "MATERIA NO VALIDA O NO INSCRITA";
+			}
+
+		}else{
+			echo "DIRECCION URL INVALIDA";
+			exit;
+		}
+	}
+
 	public function detail($url)
 	{
 		$materia = $url[0];
@@ -121,13 +155,15 @@ class Evaluacion extends Controller
 				$fecha = date("d-m-Y",strtotime($_POST['fecha']));
 				$descripcion = $_POST['descripcion'];
 				$publicado = date("d-m-Y",time());
-
+				$lapso = (int)$_POST['lapso_form'];
+				
 				$datos = [
 					'materia' => $materia,
 					'plan' => $plan,
 					'fecha' => $fecha,
 					'descripcion' => $descripcion,
-					'publicado' => $publicado
+					'publicado' => $publicado,
+					'lapso' => $lapso
 				];
 				$insert = $this->model->addEvaluacion($datos);
 				$idEvaluacion = $this->model->getIdEvaluacion($datos);
@@ -251,6 +287,7 @@ class Evaluacion extends Controller
 				$fecha = date("d-m-Y",strtotime($_POST['fecha']));
 				$descripcion = $_POST['descripcion'];
 				$publicado = date("d-m-Y",time());
+				$lapso = (int)$_POST['lapso_form'];
 
 				$datos = [
 					'materia' => $materia,
@@ -258,7 +295,8 @@ class Evaluacion extends Controller
 					'plan' => $plan,
 					'fecha' => $fecha,
 					'descripcion' => $descripcion,
-					'publicado' => $publicado
+					'publicado' => $publicado,
+					'lapso' => $lapso
 				];
 				$update = $this->model->updateEvaluacion($datos);
 				$idEvaluacion = $this->model->getIdEvaluacion($datos);

@@ -337,6 +337,93 @@ class UI {
 
 
 
+	editContenidoAlumno(e) {
+		validarFormulario.setiarFormulario();
+		validarFormulario.recorreInputs();
+
+		const btnCerrar = document.getElementById('btnCerrarEditar');
+		const flex = document.getElementById('flexEditar');
+		const modalEditar = document.getElementById('modalEditar');
+
+		const section = e.target.parentNode.parentNode.parentNode.parentNode;
+		const nombre = section.querySelector('.nombre');
+		const cedula = section.querySelector('.cedula');
+		const valorNota = (section.querySelector('.valor__nota') && section.querySelector('.valor__nota').innerHTML != 0) ? section.querySelector('.valor__nota').innerHTML : 0;
+		const observacion = (section.querySelector('.observacion__qe > .ql-editor')) ? section.querySelector('.observacion__qe > .ql-editor').innerHTML : 0;
+
+		validarFormulario.inputs.forEach( input => {
+			switch (input.name) {
+				case 'alumno':
+					input.value = e.target.dataset.alumno;
+					break;
+				case 'nota':
+					if ( valorNota !== 0) {
+						input.querySelector('option[value="'+valorNota+'"]').selected = true;
+						validarFormulario.campos.nota = true;
+					}
+					break;
+				case 'observacion':
+					if ( observacion !== 0) {
+						validarFormulario.formulario.querySelector('#editor > .ql-editor').innerHTML = observacion;
+						validarFormulario.campos.observacion = true;
+					}
+					break;
+				case 'contenido':
+					input.value = e.target.dataset.contenido;
+					break;
+				case 'file[]':
+					let n = input.classList[0];
+
+
+					if ( n == 'file1' ) {
+						let link = section.querySelector('.link1');
+						if ( link != null ) {
+							document.getElementById('link1').innerHTML = '<a href="'+link.href+'" download>Material 1</a>';
+						}else{
+							document.getElementById('link1').innerHTML = 'NO HAY ARCHIVO CARGADO';
+						}
+					}else if( n == 'file2' ){
+						let link = section.querySelector('.link2');
+						if ( link != null ) {
+							document.getElementById('link2').innerHTML = '<a href="'+link.href+'" download>Material 2</a>';
+						}else{
+							document.getElementById('link2').innerHTML = 'NO HAY ARCHIVO CARGADO';
+						}
+					}else if( n == 'file3' ){
+						let link = section.querySelector('.link3');
+						if ( link != null ) {
+							document.getElementById('link3').innerHTML = '<a href="'+link.href+'" download>Material 3</a>';
+						}else{
+							document.getElementById('link3').innerHTML = 'NO HAY ARCHIVO CARGADO';
+						}
+					} else if( n == 'file4'){
+						let link = section.querySelector('.link4');
+						if ( link != null ) {
+							document.getElementById('link4').innerHTML = '<a href="'+link.href+'" download>Material 4</a>';
+						}else{
+							document.getElementById('link4').innerHTML = 'NO HAY ARCHIVO CARGADO';
+						}
+					}
+					break;
+			}
+		});
+
+		modalEditar.style.display = 'block';
+
+		btnCerrar.addEventListener('click', () => {
+			modalEditar.style.display = 'none';
+		});
+		flex.addEventListener('click', (e) => {
+			if ( e.target == flex) {
+				modalEditar.style.display = 'none';
+			}
+			
+		});
+
+	}
+
+
+
 	contenidosQE() {
 		var contenidoDescripcion = document.querySelectorAll('.observacion__qe');
 		contenidoDescripcion.forEach( contenidos => {
@@ -396,6 +483,7 @@ const contendios = document.getElementById('trabajos__cargados');
 
 validarFormulario = new ValidarFormulario(addFormulario);
 
+validarFormularioAlumno = 
 
 contendios.addEventListener('click', (event) => {
 	
@@ -405,6 +493,9 @@ contendios.addEventListener('click', (event) => {
 		// 	break;
 		case 'btnModalEditar':
 			ui.editContenido(event);
+			break;
+		case 'btnEditarAlumno':
+			ui.editContenidoAlumno(event);
 			break;
 	}
 })

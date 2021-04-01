@@ -1,31 +1,45 @@
 class ValidarFormulario {
-	constructor(formulario){
+	constructor(formulario, showData, campos, url){
 		this.formulario = formulario;
+		this.showData = showData;
+		this.campos = campos;
+		this.url = url; 
 		this.inputs = this.formulario.querySelectorAll(`
-			#add_contenido input,
-			#add_contenido textarea,
-			#add_contenido select#lapso_form
+			input,
+			textarea,
+			div > select, 
+			select#lapso_form
 		`);
+		
 		this.expresiones = {
 			numero: /^\d{1,4}$/, // 7 a 14 numeros.
-			message: /^[\s\S]{1,100000}$/, // cualquier caracter de tamaño 1 a 20
+			// message: /^[\s\S]{1,100000}$/, // cualquier caracter de tamaño 1 a 100 mil
 			archivo: /(.pdf|.doc|.docx|.xlsx|.xls|.txt|.pptx|.ppt|.pub|.jpg|.jpeg|.gif|.png|.ai|.svg|.git|.psd|.raw|.mp4|.m4v|.mov|.mpg|.mpeg|.swf|.zip|.rar|.mp3|.wav|.opus|.PDF|.DOC|.DOCX|.XLSX|.XLS|.TXT|.PPTX|.PPT|.PUB|.JPG|.JPEG|.GIF|.PNG|.AI|.SVG|.GIT|.PSD|.RAW|.MP4|.M4V|.MOV|.MPG|.MPEG|.SWF|.ZIP|.RAR|.MP3|.WAV|.OPUS|.Pdf|.Doc|.Docx|.Xlsx|.Xls|.Txt|.Pptx|.Ppt|.Pub|.Jpg|.Jpeg|.Gif|.Png|.Ai|.Svg|.Git|.Psd|.Raw|.Mp4|.M4V|.Mov|.Mpg|.Mpeg|.Swf|.Zip|.Rar|.Mp3|.Wav|.Opus)$/i,
 			size: ( 20 * 1024 ) * 1024,
-			lapso_form: /^(1|2|3)$/i
+			lapso_form: /^(1|2|3)$/i,
+
+			title: /^[\s\S]{1,1000}$/, // cualquier caracter de 1 a 1 mil 
+			descripcion: /^[\s\S]{1,100000}$/, // cualquier caracter de tamaño 1 a 100 mil
+			tipo: /^\d{1,6}$/,
+			otros: /^[\s\S]{0,500}$/,
+			valor: /^\d{1,3}$/,
+			semana: /^\d{1,3}$/,
+			
+			plan: /^\d{1,10}$/, // 7 a 14 numeros.
+			fecha: /^(\d{4})\-(\d{2})\-(\d{2})$/
 		}
-		this.campos = {
-			numero: false,
-			message: true,
-			lapso_form: true,
-			file1: true,
-			file2: true,
-			file3: true,
-			file4: true
-		}
+		this.campos = campos;
+		// this.campos = {
+		// 	numero: false,
+		// 	message: true,
+		// 	lapso_form: true,
+		// 	file1: true,
+		// 	file2: true,
+		// 	file3: true,
+		// 	file4: true
+		// }
 		this.recorreInputs();
 		this.sendFormulario();
-
-	
 	}
 
 	recorreInputs() {
@@ -56,7 +70,13 @@ class ValidarFormulario {
 	}
 
 	validarCampo(expresion, input, campo) {
-		if ( expresion.test(input.value) ) {
+		let value = null;
+		if(campo == 'semana' ||campo == 'tipo'){
+			value = parseInt(input.value);
+		}else{
+			value = input.value;
+		}
+		if ( expresion.test(value) ) {
 			input.classList.remove('incorrecto');
 			input.classList.add('correcto');
 			let grupo = input.parentNode;
@@ -138,21 +158,60 @@ class ValidarFormulario {
 		});
 	}
 
+
+	setiarFormulario(formulario,inputs){
+		let mensajeError = formulario.querySelector('.mensaje__error');
+		let mensajeExito = formulario.querySelector('.mensaje__exito');
+		mensajeError.classList.remove('mensaje__error-activo');
+		mensajeExito.classList.remove('mensaje__exito-activo');
+		// const btnSubmit = document.getElementById('btnSubmitEditar');
+		// btnSubmit.disabled = false;
+
+		inputs.forEach(input => {
+			input.classList.remove('incorrecto');
+			input.classList.remove('correcto');
+			let grupo = input.parentNode.querySelector('.formulario__input-error');
+			if ( grupo ) {
+				grupo.classList.remove('formulario__input-error-activo');
+			}
+		});
+
+		formulario.reset();
+		formulario.querySelector('.ql-editor').innerHTML="";
+		
+	}
+
 	sendFormulario(){
+		let showData = this.showData;
+		const url = this.url;
+		let setiarFormulario = this.setiarFormulario;
+		const campos = this.campos;
 		const formulario = this.formulario;
+		const inputs = this.inputs;
+
+
+
 		formulario.addEventListener('submit', (e) => {
-	
 			e.preventDefault();
-			if (this.campos.numero && this.campos.message && this.campos.file1 && this.campos.file2 && this.campos.file2 && this.campos.file4 ) {
+			
+			let validar = true;
+			for( const campo in this.campos) {
+				if(campos[campo] === false){
+					validar = false;
+				}
+			}
+
+			if (validar === true) {
 				let btnSubmit = formulario.querySelector('#btnSubmit');
 				btnSubmit.disabled = true;
 
 				let editarDescripcion = formulario.querySelector('#editor .ql-editor');
-				let message = formulario.querySelector('#message');
-				message.innerHTML = editarDescripcion.innerHTML;
+				let descripcion = formulario.querySelector('#descripcion');
+				descripcion.innerHTML = editarDescripcion.innerHTML;
 
 				const formData = new FormData(e.currentTarget);
-				let direccion = URL+'contenido/add/'+formData.get('materia');
+				// let direccion = URL+'contenido/add/'+formData.get('materia');
+				let direccion = url;
 				let xmlhttp = new XMLHttpRequest();
 
 				xmlhttp.onreadystatechange = function() {
@@ -160,78 +219,10 @@ class ValidarFormulario {
 						// TODO FUE CORRECTO
 						let datos = JSON.parse(xmlhttp.response);
 						if ( datos.status == true ) {
-							let divArchivos = '<div class="trabajos mostrar_archivos">'
-							let pp = formulario.querySelectorAll('input[type="file"]');
-							pp.forEach(element => {
-								if ( element.value ) {
-
-									switch (element.classList[0]) {
-										case 'file1':
-											divArchivos += `
-												<a class="link1" href="${window.URL.createObjectURL(element.files[0])}" download>Material 1</a>
-												<br>
-												<br>
-											`;
-											break;
-										case 'file2':
-											divArchivos += `
-												<a class="link2" href="${window.URL.createObjectURL(element.files[0])}" download>Material 2</a>
-												<br>
-												<br>
-											`;
-											break;
-										case 'file3':
-											divArchivos += `
-												<a class="link3" href="${window.URL.createObjectURL(element.files[0])}" download>Material 3</a>
-												<br>
-												<br>
-											`;
-											break;
-										case 'file4':
-											divArchivos += `
-												<a class="link4" href="${window.URL.createObjectURL(element.files[0])}" download>Material 4</a>
-												<br>
-												<br>
-											`;
-											break;
-									}
-								}
-							});
-
-							divArchivos += '</div>'
-						
-
-							//let contenidos = document.getElementById('contenido').innerHTML += datos.html;
-							let contenidos = document.querySelector(`#contenido .lapso-${formData.get('lapso_form')} .box-contenidos-lapso`); 
-							// let contenidos = document.getElementById('contenido');
-							
-							contenidos.innerHTML += `
-							<section class="contenido" data-contenido=${datos.idContenido}>
-								<div class="titulo">
-									<div class="titulo_izq">
-										<h4>Objetivo  <span class="objetivo__numero">${formData.get('numero')}</span></h4>
-									</div>
-									<div class="titulo_der ">
-										<div class="enlaces">
-											<button title="Editar" class="btnModalEditar item icon-pencil btnInfo" type="button" data-contenido="${datos.idContenido}"></button>
-											<button title="Eliminar" class="btnEliminar icon-bin btnInfo" data-materia="${formData.get('materia')}" data-contenido="${datos.idContenido}" data-objetivo="${formData.get('numero')}" type="button" ></button>
-										</div>
-									</div>
-								</div>
-								<div class="contenido">
-									<div class="contenido__descripcion">${formData.get('message')}</div>
-									${divArchivos}
-								</div>
-							</section>
-							`;
+														
+							showData(formData.get('materia'));
 
 
-							
-							let aa = contenidos.querySelector(`section.contenido[data-contenido="${datos.idContenido}"] .contenido__descripcion`);
-							var quill3 = new Quill(aa,{
-								readOnly: true,
-								theme: 'bubble'
-							});
 							var mensajeError = formulario.querySelector('.mensaje__exito');
 							mensajeError.innerHTML = '<p>'+datos.respuesta+'</p>';
 							mensajeError.classList.add('mensaje__exito-activo');
@@ -242,6 +233,9 @@ class ValidarFormulario {
 							mensajeError.classList.add('mensaje__error-activo');
 						}
 						btnSubmit.disabled = false;
+						formulario.reset();
+						formulario.querySelector('.ql-editor').innerHTML="";
+						// setiarFormulario(formulario,inputs);
 					}
 				}
 

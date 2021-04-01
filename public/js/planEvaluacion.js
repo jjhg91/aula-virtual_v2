@@ -1,20 +1,32 @@
-class ValidarFormulario {
+import ValidarFormulario from "./class/validarFormulario.js";
+import ValidarFormularioEditar from "./class/validarFormularioEditar.js";
+
+
+class ValidarFormulario2 {
 	constructor(formulario){
 		this.formulario = formulario;
-		this.inputs = this.formulario.querySelectorAll('#add_plan input , #add_plan textarea , #add_plan > div > select');
+		this.inputs = this.formulario.querySelectorAll(`
+			#add_plan input,
+			#add_plan textarea,
+			#add_plan > div > select,
+			#add_plan select#lapso_form
+		`);
+			
 		this.expresiones = {
 			tipo: /^\d{1,6}$/,
 			otros: /^[\s\S]{0,500}$/,
 			valor: /^\d{1,3}$/,
 			semana: /^\d{1,3}$/,
-			descripcion: /^[\s\S]{1,100000}$/
+			descripcion: /^[\s\S]{1,100000}$/,
+			lapso_form: /^(1|2|3)$/i
 		}
 		this.campos = {
 			tipo: false,
 			otros: true,
 			valor: true,
 			semana: false,
-			descripcion: true
+			descripcion: true,
+			lapso_form: true,
 		}
 
 		this.recorreInputs();
@@ -45,6 +57,9 @@ class ValidarFormulario {
 				break;
 			case "descripcion":
 				this.validarCampo(this.expresiones.descripcion, e.target, 'descripcion', e.target.value);
+				break;
+			case "lapso_form":
+				this.validarCampo(this.expresiones.lapso_form, e.target, 'lapso_form', e.target.value);
 				break;
 		}
 	}
@@ -90,7 +105,8 @@ class ValidarFormulario {
 						console.log(datos);
 						
 						if ( datos.status == true ) {
-							let planes = document.getElementById('planes');
+							let planes = document.querySelector(`#planes .lapso-${formData.get('lapso_form')} .box-contenidos-lapso`);
+							// let planes = document.getElementById('planes');
 
 							let tipo = formulario.querySelector('.tipo').options[formulario.querySelector('.tipo').selectedIndex].text;
 							let otros = formulario.querySelector('.otros').value;
@@ -174,7 +190,7 @@ class ValidarFormulario {
 
 }
 
-class ValidarFormularioEditar  extends ValidarFormulario{
+class ValidarFormularioEditar2  extends ValidarFormulario2{
 	constructor(formulario) {
 		super(formulario)
 		this.inputs = this.formulario.querySelectorAll('#edit__plan input , #edit__plan textarea , #edit__plan > div > select');
@@ -309,8 +325,9 @@ class ValidarFormularioEditar  extends ValidarFormulario{
 
 
 class UI {
-	constructor(){
-
+	constructor(materia){
+		this.materia = materia;
+		this.showData();
 		this.contenidosQE();
 		this.previewQE();
 		this.addQE();
@@ -318,9 +335,95 @@ class UI {
 		
 	}
 
-	addContenido() {}
+	showData() {
+		let contenidosQE = () => {
+		    var contenidoDescripcion = document.querySelectorAll('.descripcion__qe');
+		    contenidoDescripcion.forEach( contenidos => {
+			    var quill3 = new Quill(contenidos,{
+				    readOnly: true,
+				    theme: 'bubble'
+			    });
+		    });
+	    }
 
-	editContenido(e) {
+		let direccion = `${URL}plan/getPlanes/${materia}`;
+		let xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function() {
+			if ( this.readyState == 4 && this.status == 200 ) {
+				let datos = JSON.parse(xmlhttp.response);
+				let lapso_1 = document.querySelector('.lapso-1 > .box-contenidos-lapso');
+				let lapso_2 = document.querySelector('.lapso-2 > .box-contenidos-lapso');
+				let lapso_3 = document.querySelector('.lapso-3 > .box-contenidos-lapso');
+				
+				lapso_1.innerHTML ="";
+				lapso_2.innerHTML ="";
+				lapso_3.innerHTML ="";
+
+				datos.data.forEach(dato => {
+					var botones = "";
+
+					if(datos.user === 'profesor'){
+						botones = `
+						<div class="enlaces">
+							<button title="Editar" class="btnModalEditar item icon-pencil btnInfo" type="button" data-plan="${dato.id_plan_evaluacion}"></button>
+							<button title="Eliminar" class="btnEliminar icon-bin btnInfo" data-materia="${dato.id_profesorcursogrupo}" data-plan="${dato.id_plan_evaluacion}" type="button" ></button>
+						</div>
+						`;
+					}
+					let html = `
+						<section class="plan_evaluacion" data-plan="${dato.id_plan_evaluacion}">
+							<div class="titulo">
+								<div class="titulo_izq">
+									<h4>${dato.tipo_evaluacion !== 'otros' ? dato.tipo_evaluacion : dato.otros }</h4>
+								</div>
+			
+								<?php if($_SESSION['user'] == 'profesor'): ?>
+								<div class="titulo_der">
+									${botones}
+								</div>
+								<?php endif; ?>
+							</div>
+							<div class="contenido">
+								<span class="semana"><small>${dato.semana}</small></span>
+								<br>
+							
+								
+			
+								<br>
+								<br>
+								<p><strong>Descripcion: </strong></p>
+								<div class="descripcion__qe">
+									${dato.descripcion}
+								</div>
+							</div>
+						</section>
+					`;
+
+					switch (dato.lapso) {
+						case "1":
+							lapso_1.innerHTML += html;
+							break;
+						case "2":
+							lapso_2.innerHTML += html;
+							break;
+						case "3":
+							lapso_3.innerHTML += html;
+							break;
+					}
+					
+				});
+				contenidosQE();
+			}
+		}
+
+		xmlhttp.open('GET', direccion);
+		xmlhttp.send();
+
+
+
+	}
+
+	editContenido(e,validarFormularioEditar) {
 		validarFormularioEditar.setiarFormulario();
 		validarFormularioEditar.recorreInputs();
 
@@ -333,9 +436,9 @@ class UI {
 		const tipo = section.querySelector('.titulo > .titulo_izq > h4').innerHTML;
 		// const valor = section.querySelector('.valor > small > span').innerHTML;
 		const semana = section.querySelector('.semana > small').innerHTML;
-		const descripcion = section.querySelector('.contenido > .descripcion > .ql-editor').innerHTML;
+		const descripcion = section.querySelector('.contenido > .descripcion__qe > .ql-editor').innerHTML;
 		
-		const qEditor = document.querySelector('#edit__qe .ql-editor');
+		const qEditor = document.querySelector('#editar__descripcion .ql-editor');
 		
 		validarFormularioEditar.inputs.forEach( input => {
 			switch (input.name) {
@@ -406,6 +509,9 @@ class UI {
 		let semana = objetivos.querySelector('div.contenido span.semana small').innerHTML;
 
 		let eliminar = confirm(`Deseas eliminar del plan de evaluacion la evaluacion: ${tipo} de la ${semana}` );
+
+		let showData = this.showData;
+
 		if( eliminar ) {
 			let planEliminar = e.target.parentNode.parentNode.parentNode.parentNode;
 			let direccion = `${URL}plan/delete/${materia}/${plan}`;
@@ -416,9 +522,7 @@ class UI {
 					// TODO FUE CORRECTO
 					let datos = JSON.parse(xmlhttp.response);
 					if ( datos.status == true ) {
-						let sectionesPlanes = document.getElementById('planes');
-						let sectionPlan = sectionesPlanes.querySelector(`section.plan_evaluacion[data-plan="${plan}"]`);
-						sectionesPlanes.removeChild(sectionPlan);
+						showData(materia);
 
 					}else{
 						alert('El contendio no se pudo eliminar, Compruebe su conexion a internet');
@@ -508,8 +612,8 @@ class UI {
 		quill.on('text-change', function() {
 			console.log('Text change!');
 			let prueba =  document.querySelector('#preview__descripcion > div');
-			let message =  document.getElementById('descripcion_evaluacion');
-			message.innerHTML = quill.container.firstChild.innerHTML;
+			let descripcion =  document.getElementById('descripcion');
+			descripcion.innerHTML = quill.container.firstChild.innerHTML;
 			prueba.innerHTML = quill.container.firstChild.innerHTML;
 		});
 
@@ -537,7 +641,7 @@ class UI {
 			['code-block','clean']
 		];
 		const limit = 50000;
-		const quill4 = new Quill('#edit__qe',{
+		const quill4 = new Quill('#editar__descripcion',{
 			modules:{
 				toolbar: toolbarOptions
 			},
@@ -566,16 +670,39 @@ class UI {
 
 
 
-const ui = new UI();
+var url = window.location;
+url = url.pathname.split('/');
+var materia = url[url.length - 1];
+
+const ui = new UI(materia);
 
 const editFormulario = document.getElementById('edit__plan');
-const validarFormularioEditar = new ValidarFormularioEditar(editFormulario);
+let urlEdit = `${URL}plan/edit/${materia}`;
+let camposEdit = {
+	tipo: true,
+	otros: true,
+	valor: true,
+	semana: true,
+	descripcion: true,
+	lapso_form: true,
+}
+const validarFormularioEditar = new ValidarFormularioEditar(editFormulario,ui.showData,camposEdit,urlEdit);
 
 const addFormulario = document.getElementById('add_plan');
 const planes = document.getElementById('planes');
 
 
-validarFormulario = new ValidarFormulario(addFormulario);
+let urlAdd = `${URL}plan/add/${materia}`;
+let camposAdd = {
+	tipo: false,
+	otros: true,
+	valor: true,
+	semana: false,
+	descripcion: true,
+	lapso_form: true,
+
+}
+const validarFormulario = new ValidarFormulario(addFormulario,ui.showData,camposAdd,urlAdd);
 
 
 
@@ -591,7 +718,7 @@ planes.addEventListener('click', (event) => {
 			ui.deleteContenido(event);
 			break;
 		case 'btnModalEditar':
-			ui.editContenido(event);
+			ui.editContenido(event,validarFormularioEditar);
 			break;
 		default:
 			break;

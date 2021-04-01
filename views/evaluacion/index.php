@@ -72,9 +72,9 @@ require_once('layout/evaluaciones.php');
 			<div id="evaluaciones" class="acordion">
 				<?php
 					$evaluacionesLapso = new Evaluaciones();
-					$evaluacionesLapso->showEvaluaciones($this->evaluaciones,$this->periodo->lapso,'1',$this->usuario,$this->barMateria,$this->totalAlumnos);
-					$evaluacionesLapso->showEvaluaciones($this->evaluaciones,$this->periodo->lapso,'2',$this->usuario,$this->barMateria,$this->totalAlumnos);
-					$evaluacionesLapso->showEvaluaciones($this->evaluaciones,$this->periodo->lapso,'3',$this->usuario,$this->barMateria,$this->totalAlumnos);
+					$evaluacionesLapso->showEvaluaciones($this->evaluaciones,$this->periodo->lapso,'1',$this->usuario,$this->barMateria);
+					$evaluacionesLapso->showEvaluaciones($this->evaluaciones,$this->periodo->lapso,'2',$this->usuario,$this->barMateria);
+					$evaluacionesLapso->showEvaluaciones($this->evaluaciones,$this->periodo->lapso,'3',$this->usuario,$this->barMateria);
 				?>
 			</div>
 
@@ -107,10 +107,25 @@ require_once('layout/evaluaciones.php');
 							<input type="date" id="fecha_evaluacion" name="fecha" class="fecha">
 							<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
 						</div>
+						<div class="grupo">
+							<label for="lapso_form">Lapso</label>
+							<select name="lapso_form" id="lapso_form">
+								<?php
+								for ($i=1; $i <= 3 ; $i++) { 
+									if($this->periodo->lapso === (string)$i){
+										echo "<option value='$i' selected>$i</option>";
+									}else {
+										echo "<option value='$i'>$i</option>";
+									}
+								}
+								?>
+							</select>
+							<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente, Debe selecionar un lapso </p>
+						</div>
 
 						<div class="grupo">
 							<div id="editor" style="height: 375px;"></div>
-							<textarea name="descripcion" id="descripcion_evaluacion" cols="20" rows="10" style="display:none;"></textarea>
+							<textarea name="descripcion" id="descripcion" cols="20" rows="10" style="display:none;"></textarea>
 							<p id="editor_contador">caracteres (<span id="editor_caracteres">0</span>/50000)</p>
 						</div>
 
@@ -219,9 +234,25 @@ require_once('layout/evaluaciones.php');
 	</div>
 
 	<div class="grupo">
-		<div id="edit__qe" style="height: 375px;"></div>
-		<textarea name="descripcion" id="descripcion_evaluacion__edit" cols="20" rows="10" style="display:none;"></textarea>
+							<label for="lapso_form">Lapso</label>
+							<select name="lapso_form" id="lapso_form">
+								<?php
+								for ($i=1; $i <= 3 ; $i++) { 
+									if($this->periodo->lapso === (string)$i){
+										echo "<option value='$i' selected>$i</option>";
+									}else {
+										echo "<option value='$i'>$i</option>";
+									}
+								}
+								?>
+							</select>
+							<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente, Debe selecionar un lapso </p>
+						</div>
+
+	<div class="grupo">
+		<div id="editar__descripcion" style="height: 375px;"></div>
 		<p class="editor_contador">caracteres (<span id="editor_caracteres__edit">0</span>/50000)</p>
+		<textarea name="descripcion" id="descripcion__editar" cols="20" rows="10" style="display:none;"></textarea>
 	</div>
 
 <!-- SECCION DE AGREGAR ARCHIVOS -->
@@ -263,7 +294,7 @@ require_once('layout/evaluaciones.php');
 	</div>
 
 	<div class="grupo">
-		<button id="btnSubmit__edit" class="item btnTrue" type="submit" >Guardar</button>
+		<button id="btnSubmitEditar" class="item btnTrue" type="submit" >Guardar</button>
 	</div>
 
 </form>
@@ -296,7 +327,7 @@ require_once('layout/evaluaciones.php');
 	<!-- JS -->
 	<script src="<?= constant('URL') ?>public/js/config.js"></script>
 	<script src="<?= constant('URL') ?>public/js/menu.js"></script>
-	<script src="<?= constant('URL') ?>public/js/evaluaciones.js"></script>
+	<script type="module" src="<?= constant('URL') ?>public/js/evaluaciones.js"></script>
 
 	<script>
 		const acordion = document.querySelectorAll('.box-label');

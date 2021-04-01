@@ -117,10 +117,10 @@ require_once('layout/contenidos.php');
 
 
 						<div class="grupo">
-							<label for="message">Contenido</label>
+							<label for="descripcion">Contenido</label>
 							<div id="editor" style="height: 375px;"></div>
 							<p id="editor_contador">caracteres (<span id="editor_caracteres">0</span>/50000)</p>
-							<textarea name="message" id="message" cols="20" rows="10" placeholder="Contenido" style="display:none;"></textarea>
+							<textarea name="descripcion" id="descripcion" cols="20" rows="10" placeholder="Contenido" style="display:none;"></textarea>
 						</div>
 
 						
@@ -211,10 +211,26 @@ require_once('layout/contenidos.php');
 											</div>
 
 											<div class="grupo">
-												<label for="message">Contenido</label>
+												<label for="lapso_form">Lapso</label>
+												<select name="lapso_form" id="lapso_form">
+													<?php
+													for ($i=1; $i <= 3 ; $i++) { 
+														if($this->periodo->lapso === (string)$i){
+															echo "<option value='$i' selected>$i</option>";
+														}else {
+															echo "<option value='$i'>$i</option>";
+														}
+													}
+													?>
+												</select>
+												<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente, Debe selecionar un lapso </p>
+											</div>
+
+											<div class="grupo">
+												<label for="descripcion">Contenido</label>
 												<div id="editar__descripcion" style="height: 375px;"></div>
 												<p id="editar_contador">caracteres (<span id="editar_caracteres">0</span>/50000)</p>
-												<textarea id="message__editar" name="message" cols="20" rows="10" placeholder="Contenido" style="display:none;"></textarea>
+												<textarea id="descripcion__editar" name="descripcion" cols="20" rows="10" placeholder="Contenido" style="display:none;"></textarea>
 											</div>
 
 											

@@ -90,6 +90,22 @@ require_once('layout/posts.php');
 							<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
 						</div>
 						<div class="grupo">
+							<label for="lapso_form">Lapso</label>
+							<select name="lapso_form" id="lapso_form">
+								<?php
+								for ($i=1; $i <= 3 ; $i++) { 
+									if($this->periodo->lapso === (string)$i){
+										echo "<option value='$i' selected>$i</option>";
+									}else {
+										echo "<option value='$i'>$i</option>";
+									}
+								}
+								?>
+							</select>
+							<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente, Debe selecionar un lapso </p>
+						</div>
+						
+						<div class="grupo">
 							<div id="editor" style="height: 375px;"></div>
 							<p id="editor_contador">caracteres (<span id="editor_caracteres">0</span>/50000)</p>
 							<textarea name="descripcion" id="descripcion" cols="30" rows="10" style="display: none;"></textarea>
@@ -164,69 +180,84 @@ require_once('layout/posts.php');
 									<div class="modal__preview">
 										<!-- FORMULARIO EDITAR BLOG -->
 										<form id="edit__blog" name="agregar_blog" method="post" enctype="multipart/form-data" >
-	<div class="grupo">
-		<label for="title">Titulo</label>
-		<input name="title" id="title__edit" type="text" placeholder="Titulo">
-		<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
-	</div>
-	<div class="grupo">
-		<div id="editor__edit" style="height: 375px;"></div>
-		<p id="editor_contador__edit">caracteres (<span id="editor_caracteres__edit">0</span>/50000)</p>
-		<textarea name="descripcion" id="descripcion__edit" cols="30" rows="10" style="display: none;"></textarea>
-	</div>
+											<div class="grupo">
+												<label for="title">Titulo</label>
+												<input name="title" id="title__edit" type="text" placeholder="Titulo">
+												<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
+											</div>
+											
+											<div class="grupo">
+												<label for="lapso_form">Lapso</label>
+												<select name="lapso_form" id="lapso_form">
+													<?php
+													for ($i=1; $i <= 3 ; $i++) { 
+														if($this->periodo->lapso === (string)$i){
+															echo "<option value='$i' selected>$i</option>";
+														}else {
+															echo "<option value='$i'>$i</option>";
+														}
+													}
+													?>
+												</select>
+												<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente, Debe selecionar un lapso </p>
+											</div>
 
-	<div class="grupo_oculto">
-		<input type="text" name="materia" value="<?= $this->barMateria[2] ?>" style="display: none;">
-		<input type="text" name="blog" value="" style="display: none;">
-	</div>
+											<div class="grupo">
+												<div id="editar__descripcion" style="height: 375px;"></div>
+												<p id="editor_contador__edit">caracteres (<span id="editor_caracteres__edit">0</span>/50000)</p>
+												<textarea name="descripcion" id="descripcion__editar" cols="30" rows="10" style="display: none;"></textarea>
+											</div>
+
+											<div class="grupo_oculto">
+												<input type="text" name="materia" value="<?= $this->barMateria[2] ?>" style="display: none;">
+												<input type="text" name="blog" value="" style="display: none;">
+											</div>
 
 
-<!-- SECCION DE AGREGAR ARCHIVOS -->
-	<div class="grupo">
-		<div>
-			<br>
-			<br>
-			<h3>Agregar Archivos</h3>
-			<br>
-		</div>
-		<div id="grupo_archivos__edit">
-			<div id="link1"></div>
-				<input type="file" name="file[]" class="file1">
-				<p class="formulario__input-error"></p>
-				<div id="link2"></div>
-				<input type="file" name="file[]" class="file2">
-				<p class="formulario__input-error"></p>
-				<div id="link3"></div>
-				<input type="file" name="file[]" class="file3">
-				<p class="formulario__input-error"></p>
-				<div id="link4"></div>
-				<input type="file" name="file[]" class="file4">
-				<p class="formulario__input-error"></p>
-		</div>
-	</div>
-<!-- /SECCION DE AGREGAR ARCHIVOS -->
+											<!-- SECCION DE AGREGAR ARCHIVOS -->
+											<div class="grupo">
+												<div>
+													<br>
+													<br>
+													<h3>Agregar Archivos</h3>
+													<br>
+												</div>
+												<div id="grupo_archivos__edit">
+													<div id="link1"></div>
+														<input type="file" name="file[]" class="file1">
+														<p class="formulario__input-error"></p>
+														<div id="link2"></div>
+														<input type="file" name="file[]" class="file2">
+														<p class="formulario__input-error"></p>
+														<div id="link3"></div>
+														<input type="file" name="file[]" class="file3">
+														<p class="formulario__input-error"></p>
+														<div id="link4"></div>
+														<input type="file" name="file[]" class="file4">
+														<p class="formulario__input-error"></p>
+												</div>
+											</div>
+											<!-- /SECCION DE AGREGAR ARCHIVOS -->
 
-	<div class="grupo">
-		<div class="mensaje__error">
-			<p>No se puedo guardar, por favor revise todo los campos y verifique que no tengan ningun error.</p>
-		</div>
-		<div class="mensaje__exito"></div>
-	</div>
+											<div class="grupo">
+												<div class="mensaje__error">
+													<p>No se puedo guardar, por favor revise todo los campos y verifique que no tengan ningun error.</p>
+												</div>
+												<div class="mensaje__exito"></div>
+											</div>
 
-	<div class="grupo">
-		<button id="btnSubmit__edit" class="item btnTrue" type="submit" >Guardar</button>
-	</div>
-	
-</form>
+											<div class="grupo">
+												<button id="btnSubmitEditar" class="item btnTrue" type="submit" >Guardar</button>
+											</div>
+
+										</form>
 										<!-- /FORMULARIO EDITAR BLOG -->
 
 									</div>
 								</div>
 							</div>
 						</div>
-
 					<!-- /SECCION DE EDITAR MODAL -->
-
 				</div>
 			</section>
 			<?php endif; ?>
@@ -249,7 +280,7 @@ require_once('layout/posts.php');
 	<!-- JS -->
 	<script src="<?= constant('URL') ?>public/js/config.js"></script>
 	<script src="<?= constant('URL') ?>public/js/menu.js"></script>
-	<script src="<?= constant('URL') ?>public/js/blog.js"></script>
+	<script type="module" src="<?= constant('URL') ?>public/js/blog.js"></script>
 
 	<script>
 		const acordion = document.querySelectorAll('.box-label');

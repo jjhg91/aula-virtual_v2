@@ -7,16 +7,16 @@ class PostsLapso
     {
         ?>
         <!-- LAPSO <?= $lapso?> -->
-        <div class="box-lapso <?= $lapsoActivo === $lapso? 'active': '' ?>">
+        <div class="box-lapso <?= $lapsoActivo === $lapso? 'active': '' ?> <?= 'lapso-'.$lapso?>">
 				<div class="box-label"> Lapso <?= $lapso ?></div>
 				<div class="box-contenidos-lapso">
-					<?php foreach ($posts as $post): ?>
+					<!-- <?php // foreach ($posts as $post): ?>
 						<?php 
-							if( $post->lapso === $lapso ){
-								$this->showPost($post);
-							}
+							// if( $post->lapso === $lapso ){
+								// $this->showPost($post);
+							// }
 						?>
-					<?php endforeach ?>
+					<?php // endforeach ?> -->
 				</div>
 			</div>
             <!-- /LAPSO <?= $lapso?> -->

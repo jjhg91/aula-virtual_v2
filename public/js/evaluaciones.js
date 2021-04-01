@@ -1,14 +1,24 @@
-class ValidarFormulario {
+import ValidarFormulario from "./class/validarFormulario.js";
+import ValidarFormularioEditar from "./class/validarFormularioEditar.js";
+
+class ValidarFormulario2 {
 	constructor(formulario){
 		this.formulario = formulario;
-		this.inputs = this.formulario.querySelectorAll('input , textarea, #add_evaluacion > div > select');
+		this.inputs = this.formulario.querySelectorAll(`
+			input,
+			textarea,
+			#add_evaluacion > div > select,
+			#add_evaluacion select#lapso_form
+		`);
+		
 		this.expresiones = {
 			plan: /^\d{1,10}$/, // 7 a 14 numeros.
 			fecha: /^(\d{4})\-(\d{2})\-(\d{2})$/,
 			descripcion: /^[\s\S]{1,100000}$/, // cualquier caracter de tamaño 1 a 20
 			archivo: /(.pdf|.doc|.docx|.xlsx|.xls|.txt|.pptx|.ppt|.pub|.jpg|.jpeg|.gif|.png|.ai|.svg|.git|.psd|.raw|.mp4|.m4v|.mov|.mpg|.mpeg|.swf|.zip|.rar|.mp3|.wav|.opus|.PDF|.DOC|.DOCX|.XLSX|.XLS|.TXT|.PPTX|.PPT|.PUB|.JPG|.JPEG|.GIF|.PNG|.AI|.SVG|.GIT|.PSD|.RAW|.MP4|.M4V|.MOV|.MPG|.MPEG|.SWF|.ZIP|.RAR|.MP3|.WAV|.OPUS|.Pdf|.Doc|.Docx|.Xlsx|.Xls|.Txt|.Pptx|.Ppt|.Pub|.Jpg|.Jpeg|.Gif|.Png|.Ai|.Svg|.Git|.Psd|.Raw|.Mp4|.M4V|.Mov|.Mpg|.Mpeg|.Swf|.Zip|.Rar|.Mp3|.Wav|.Opus)$/i,
-			size: ( 20 * 1024 ) * 1024
-		}
+			size: ( 20 * 1024 ) * 1024,
+			lapso_form: /^(1|2|3)$/i
+			}
 		this.campos = {
 			plan: false,
 			fecha: false,
@@ -16,13 +26,14 @@ class ValidarFormulario {
 			file1: true,
 			file2: true,
 			file3: true,
-			file4: true
+			file4: true,
+			lapso_form: true
 		}
-
+		
 		this.recorreInputs();
 		this.sendFormulario();
 	}
-
+	
 	recorreInputs() {
 		this.inputs.forEach( (input) => {
 			input.addEventListener('keyup', event => { this.validarFormulario(event) } );
@@ -39,11 +50,14 @@ class ValidarFormulario {
 			case "plan":
 				this.validarCampo(this.expresiones.plan, e.target, 'plan', parseInt(e.target.value));
 				break;
-			case "fecha":
-				this.validarCampo(this.expresiones.fecha, e.target, 'fecha', e.target.value);
+				case "fecha":
+					this.validarCampo(this.expresiones.fecha, e.target, 'fecha', e.target.value);
 				break;
 			case "descripcion":
 				// this.validarCampo(this.expresiones.message, e.target, 'message');
+				break;
+			case "lapso_form":
+				this.validarCampo(this.expresiones.lapso_form, e.target, 'lapso_form', e.target.value);
 				break;
 		}
 	}
@@ -284,7 +298,7 @@ class ValidarFormulario {
 
 }
 
-class ValidarFormularioEditar  extends ValidarFormulario{
+class ValidarFormularioEditar2  extends ValidarFormulario2{
 	constructor(formulario) {
 		super(formulario)
 		this.inputs = this.formulario.querySelectorAll('input , textarea, #edit_evaluacion > div > select');
@@ -474,14 +488,157 @@ class ValidarFormularioEditar  extends ValidarFormulario{
 
 class UI {
 	constructor(){
-
-		this.contenidosQE();
+		this.materia = materia;
+		this.showData(this.materia);
+		// this.contenidosQE();
 		this.previewQE();
 		this.addQE();
 		this.editQE();
 	}
 
-	addContenido() {}
+	showData(materia) {
+		
+		let contenidosQE = () => {
+		    var contenidoDescripcion = document.querySelectorAll('.contenido__descripcion');
+		    contenidoDescripcion.forEach( contenidos => {
+			    var quill3 = new Quill(contenidos,{
+				    readOnly: true,
+				    theme: 'bubble'
+			    });
+		    });
+	    }
+
+		let direccion = `${URL}evaluacion/getevaluaciones/${materia}`;
+		let xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function() {
+			if ( this.readyState == 4 && this.status == 200 ) {
+				let datos = JSON.parse(xmlhttp.response);
+				let lapso_1 = document.querySelector('.lapso-1 > .box-contenidos-lapso');
+				let lapso_2 = document.querySelector('.lapso-2 > .box-contenidos-lapso');
+				let lapso_3 = document.querySelector('.lapso-3 > .box-contenidos-lapso');
+				
+				lapso_1.innerHTML ="";
+				lapso_2.innerHTML ="";
+				lapso_3.innerHTML ="";
+
+				datos.data.forEach(dato => {
+						var archivos = "";
+						var archivo_1 = "";
+						var archivo_2 = "";
+						var archivo_3 = "";
+						var archivo_4 = "";
+						var botones = "";
+						var entregadas = "";
+
+						if (dato.file1  !== null || dato.file2  !== null || dato.file3  !== null || dato.file4  !== null){
+							archivos = `
+								<br>
+								<br>
+								<h4>Descarga de Materiales</h4>
+								<br>
+							`;
+						}
+						if (dato.file1 !== null){
+							archivo_1 = `
+								<a class="link1" href="${URL}public/upload/actividad/${dato.id_profesorcursogrupo}/${dato.id_actividades}/${dato.file1}" download>Material 1</a>
+								<br>
+								<br>
+							`;
+						}
+						if (dato.file2  !== null){
+							archivo_2 = `
+								<a class="link2" href="${URL}public/upload/actividad/${dato.id_profesorcursogrupo}/${dato.id_actividades}/${dato.file2}" download>Material 2</a>
+								<br>
+								<br>
+							`;
+						}
+						if (dato.file3  !== null){
+							archivo_3 = `
+								<a class="link3" href="${URL}public/upload/actividad/${dato.id_profesorcursogrupo}/${dato.id_actividades}/${dato.file3}" download>Material 3</a>
+								<br>
+								<br>
+							`;
+						}
+						if (dato.file4  !== null){
+							archivo_4 = `
+								<a class="link4" href="${URL}public/upload/actividad/${dato.id_profesorcursogrupo}/${dato.id_actividades}/${dato.file4}" download>Material 4</a>
+								<br>
+								<br>
+							`;
+						}
+						if( datos.user === 'profesor'){
+							botones = `
+							<div class="enlaces">
+								<button title="Editar" class="btnModalEditar item icon-pencil btnInfo" type="button" data-evaluacion="${dato.id_actividades}"></button>
+								<button title="Eliminar" class="btnEliminar icon-bin btnInfo" data-materia="${materia}" data-evaluacion="${dato.id_actividades}" type="button" ></button>
+							</div>
+							`;
+
+							entregadas = `
+								<br>
+								<br>
+								<a href="${URL}evaluacion/detail/${materia}/${dato.id_actividades}#Entregadas">Actividades entregadas</a>
+							`;
+						}
+
+						let html = `
+							<section class="evaluacion" data-evaluacion="${dato.id_actividades}" data-plan="${dato.id_plan_evaluacion}">		
+								<div class="titulo">
+									<div class="titulo_izq">
+										<h4 class="tipo">${dato.id_tipo_evaluacion === 8 ? dato.tipo_evaluacion : dato.otros }</h4>
+									</div>
+
+									<?php if($_SESSION['user'] == 'profesor'): ?>
+									<div class="titulo_der">
+										${botones}
+									</div>
+
+									<?php endif; ?>
+								</div>
+								<div class="contenido ">
+									<p><strong>Fecha limite: </strong><span class="fecha">${dato.fecha}</span></p>
+									<p><strong>Valor: </strong><span class="valor">20pts</span></p>
+									<br>
+									<p><strong>Descripcion: </strong></p>
+									<div class="contenido__descripcion">
+										${dato.descripcion}
+									</div>
+								
+								<!-- MOSTRAR ARCHIVOS  -->
+									<div class="trabajos mostrar_archivos">
+										${archivos}
+										${archivo_1}
+										${archivo_2}
+										${archivo_3}
+										${archivo_4}
+									</div>
+								<!-- /MOSTART ARCHIVOS  -->
+									<br>
+									<a href="${URL}evaluacion/detail/${materia}/${dato.id_actividades}">Detalles</a>
+									${entregadas}
+								</div>
+							</section>
+						`;
+
+					switch (dato.lapso) {
+						case "1":
+							lapso_1.innerHTML += html;
+							break;
+						case "2":
+							lapso_2.innerHTML += html;
+							break;
+						case "3":
+							lapso_3.innerHTML += html;
+							break;
+					}
+					
+				});
+				contenidosQE();
+			}
+		}
+		xmlhttp.open('GET', direccion);
+		xmlhttp.send();
+	}
 
 	editContenido(e) {
 		validarFormularioEditar.setiarFormulario();
@@ -498,11 +655,9 @@ class UI {
 		const fechaArray = section.querySelector('.fecha').innerHTML.split('-');
 		const fecha = `${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}`;
 		const valor = section.querySelector('.valor').innerHTML;
-		const descripcion = section.querySelector('.editor__qe > div.ql-editor').innerHTML;
+		const descripcion = section.querySelector('.contenido__descripcion > div.ql-editor').innerHTML;
 
 		
-
-
 		const qlEditor = section.querySelector('.ql-editor');
 		
 		validarFormularioEditar.inputs.forEach( input => {
@@ -515,8 +670,8 @@ class UI {
 					input.value = fecha;
 					break;
 				case 'descripcion':
-					document.querySelector('#edit__qe > div.ql-editor').innerHTML = descripcion;
-					input.value = descripcion;
+					document.querySelector('#editar__descripcion > div.ql-editor').innerHTML = descripcion;
+					input = descripcion;
 					break;
 				case 'evaluacion':
 					input.value = e.target.dataset.evaluacion;
@@ -647,7 +802,7 @@ class UI {
 	modalEdit() {}
 
 	contenidosQE() {
-		var contenidoDescripcion = document.querySelectorAll('.editor__qe');
+		var contenidoDescripcion = document.querySelectorAll('.editar__descripcion');
 		contenidoDescripcion.forEach( contenidos => {
 			var quill3 = new Quill(contenidos,{
 				readOnly: true,
@@ -682,7 +837,7 @@ class UI {
 			theme: 'snow'
 		});
 		quill.on('text-change', function() {
-			let descripcion =  document.getElementById('descripcion_evaluacion');
+			let descripcion =  document.getElementById('descripcion');
 			descripcion.innerHTML = quill.container.firstChild.innerHTML;
 		});
 
@@ -710,7 +865,7 @@ class UI {
 			['code-block','clean']
 		];
 		const limit = 50000;
-		const quill4 = new Quill('#edit__qe',{
+		const quill4 = new Quill('#editar__descripcion',{
 			modules:{
 				toolbar: toolbarOptions
 			},
@@ -727,20 +882,42 @@ class UI {
 }
 
 
+var url = window.location;
+url = url.pathname.split('/');
+var materia = url[url.length - 1];
 
-const ui = new UI();
+const ui = new UI(materia);
 
 const editFormulario = document.getElementById('edit_evaluacion');
-const validarFormularioEditar = new ValidarFormularioEditar(editFormulario);
+let urlEdit = `${URL}evaluacion/edit/${materia}`;
+let camposEdit = {
+	plan: true,
+	fecha: true,
+	descripcion: true,
+	file1: true,
+	file2: true,
+	file3: true,
+	file4: true,
+	lapso_form: true
+}
+const validarFormularioEditar = new ValidarFormularioEditar(editFormulario,ui.showData,camposEdit,urlEdit);
 
 const addFormulario = document.getElementById('add_evaluacion');
 const evaluacion = document.getElementById('evaluaciones');
 
-
-validarFormulario = new ValidarFormulario(addFormulario);
+let urlAdd = `${URL}evaluacion/add/${materia}`;
+let camposAdd = {
+	plan: false,
+	fecha: false,
+	descripcion: true,
+	file1: true,
+	file2: true,
+	file3: true,
+	file4: true,
+	lapso_form: true
+}
+const validarFormulario = new ValidarFormulario(addFormulario,ui.showData,camposAdd,urlAdd);
 validarFormulario.addInputArchivo();
-
-
 
 ui.modalPreview(validarFormulario.inputs);
 

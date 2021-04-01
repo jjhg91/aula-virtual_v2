@@ -150,14 +150,16 @@ class PlanModel extends Model
 							otros,
 							valor,
 							descripcion,
-							semana)
+							semana,
+							lapso)
 						VALUES(
 							:materia,
 							:tipo,
 							:otros,
 							:valor,
 							:descripcion,
-							:semana)
+							:semana,
+							:lapso)
 					");
 					$query2->bindParam(':materia',$datos['materia']);
 					$query2->bindParam(':tipo',$datos['tipo']);
@@ -165,6 +167,7 @@ class PlanModel extends Model
 					$query2->bindParam(':valor',$datos['valor']);
 					$query2->bindParam(':descripcion',$datos['descripcion']);
 					$query2->bindParam(':semana',$datos['semana']);
+					$query2->bindParam(':lapso',$datos['lapso']);
 					$query2->execute();
 					$respuesta = true;
 				}else {
@@ -174,19 +177,22 @@ class PlanModel extends Model
 							tipo_evaluacion,
 							valor,
 							descripcion,
-							semana)
+							semana,
+							lapso)
 						VALUES(
 							:materia,
 							:tipo,
 							:valor,
 							:descripcion,
-							:semana)
+							:semana,
+							:lapso)
 					");
 					$query2->bindParam(':materia',$datos['materia']);
 					$query2->bindParam(':tipo',$datos['tipo']);
 					$query2->bindParam(':valor',$datos['valor']);
 					$query2->bindParam(':descripcion',$datos['descripcion']);
 					$query2->bindParam(':semana',$datos['semana']);
+					$query2->bindParam(':lapso',$datos['lapso']);
 					$query2->execute();
 					$respuesta = true;
 				}
@@ -209,7 +215,8 @@ class PlanModel extends Model
 			otros = :otros,
 			valor = :valor,
 			descripcion = :descripcion,
-			semana = :semana
+			semana = :semana,
+			lapso = :lapso
 			WHERE
 			id_plan_evaluacion = :plan
 		");
@@ -219,6 +226,7 @@ class PlanModel extends Model
 		$query->bindParam(':valor',$datos['valor']);
 		$query->bindParam(':descripcion',$datos['descripcion']);
 		$query->bindParam(':semana',$datos['semana']);
+		$query->bindParam(':lapso',$datos['lapso']);
 		$query->bindParam(':plan',$datos['plan']);
 
 		if ( $query->execute() ) {

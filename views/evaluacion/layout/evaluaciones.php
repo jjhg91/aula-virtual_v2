@@ -3,20 +3,20 @@
 
 class Evaluaciones
 {
-    public function showEvaluaciones($evaluaciones, $lapsoActivo, $lapso, $usuario, $barMateria, $totalAlumnos)
+    public function showEvaluaciones($evaluaciones, $lapsoActivo, $lapso, $usuario, $barMateria)
     {
         ?>
         <!-- LAPSO <?= $lapso?> -->
-        <div class="box-lapso <?= $lapsoActivo === $lapso? 'active': '' ?>">
+        <div class="box-lapso <?= $lapsoActivo === $lapso? 'active': '' ?> <?= 'lapso-'.$lapso?>">
 				<div class="box-label"> Lapso <?= $lapso ?></div>
 				<div class="box-contenidos-lapso">
-					<?php foreach ($evaluaciones as $evaluacion): ?>
+					<!-- <?php // foreach ($evaluaciones as $evaluacion): ?>
 						<?php 
-							if( $evaluacion->lapso === $lapso ){
-								$this->showEvaluacion($evaluacion,$usuario,$barMateria,$totalAlumnos);
-							}
+							// if( $evaluacion->lapso === $lapso ){
+							//	$this->showEvaluacion($evaluacion,$usuario,$barMateria,$totalAlumnos);
+							// }
 						?>
-					<?php endforeach ?>
+					<?php // endforeach ?> -->
 				</div>
 			</div>
             <!-- /LAPSO <?= $lapso?> -->

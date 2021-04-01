@@ -51,17 +51,20 @@ class BlogModel extends Model
 				id_profesorcursogrupo,
 				fecha,
 				descripcion,
-				titulo)
+				titulo,
+				lapso)
 			VALUES(
 				:materia,
 				:fecha,
 				:descripcion,
-				:titulo)
+				:titulo,
+				:lapso)
 		");
 		$query->bindParam(':materia',$datos['materia']);
 		$query->bindParam(':fecha',$datos['fecha']);
 		$query->bindParam(':descripcion',$datos['descripcion']);
 		$query->bindParam(':titulo',$datos['titulo']);
+		$query->bindParam(':lapso',$datos['lapso']);
 
 		if ( $query->execute() ) {
 			$respuesta = true;
@@ -122,13 +125,15 @@ class BlogModel extends Model
 			id_profesorcursogrupo = :materia,
 			fecha = :fecha,
 			descripcion = :descripcion,
-			titulo = :titulo
+			titulo = :titulo,
+			lapso = :lapso
 			WHERE id_blog = :blog
 		");
 		$query->bindParam(':materia',$datos['materia']);
 		$query->bindParam(':fecha',$datos['fecha']);
 		$query->bindParam(':descripcion',$datos['descripcion']);
 		$query->bindParam(':titulo',$datos['titulo']);
+		$query->bindParam(':lapso',$datos['lapso']);
 
 		$query->bindParam(':blog',$datos['blog']);
 

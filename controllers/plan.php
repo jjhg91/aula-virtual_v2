@@ -68,6 +68,30 @@ class Plan extends Controller
 		}
 	}
 
+	public function getPlanes($materia)
+	{
+		$sesion = new Sesion();
+		$sesion->validateSesion();
+		$usuario = $sesion->getSesion();
+		$navbar = new Navbar($usuario);
+		if (  ctype_digit($materia[0]) ) {
+			$barMateria = $navbar->barMateria($usuario,$materia[0]);
+			if ($barMateria) {
+				$planes = $this->model->getPlanes($materia[0]);
+				$respuesta = [
+					'data' => $planes,
+					'user' => $usuario['user']
+				];
+				echo json_encode($respuesta);
+			}else{
+				echo "MATERIA NO VALIDA O NO INSCRITA";
+			}
+		}else{
+			echo "DIRECCION URL INVALIDA";
+			exit;
+		}
+	}
+
 	public function delete($url)
 	{
 		$materia = $url[0];
@@ -128,16 +152,17 @@ class Plan extends Controller
 				$semana = $_POST['semana'];
 				$descripcion = $_POST['descripcion'];
 				$otros = $_POST['otros'];
-
 				$id = $_SESSION['id'];
-
+				$lapso = (int)$_POST['lapso_form'];
+				
 				$datos = [
 					'materia' => $materia,
 					'valor' => $valor,
 					'tipo' => $tipo,
 					'semana' => $semana,
 					'descripcion' => $descripcion,
-					'otros' => $otros
+					'otros' => $otros,
+					'lapso' => $lapso
 				];
 				$insert = $this->model->addPlan($datos);
 				
@@ -192,6 +217,7 @@ class Plan extends Controller
 				$semana = $_POST['semana'];
 				$descripcion = $_POST['descripcion'];
 				$otros = $_POST['otros'];
+				$lapso = (int)$_POST['lapso_form'];
 
 				$datos = [
 					'materia' => $materia,
@@ -200,7 +226,8 @@ class Plan extends Controller
 					'tipo' => $tipo,
 					'semana' => $semana,
 					'descripcion' => $descripcion,
-					'otros' => $otros
+					'otros' => $otros,
+					'lapso' => $lapso
 				];
 
 				$update = $this->model->updatePlan($datos);

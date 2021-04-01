@@ -109,7 +109,7 @@ class Contenido extends Controller
 				// DATOS DE FORMULARIO
 				$numero = (int)$_POST['numero'];
 				$lapso = (int)$_POST['lapso_form'];
-				$descripcion = $_POST['message'];
+				$descripcion = $_POST['descripcion'];
 
 				$datos = [
 					'materia' => $materia,
@@ -208,13 +208,15 @@ class Contenido extends Controller
 			if ($barMateria) {
 				// DATOS DEL FORMULARIO
 				$numero = (int)$_POST['numero'];
-				$descripcion = $_POST['message'];
+				$descripcion = $_POST['descripcion'];
+				$lapso = (int)$_POST['lapso_form'];
 				
 				$datos = [
 					'materia' => $materia,
 					'contenido' => $contenido,
 					'numero' => $numero,
-					'descripcion' => $descripcion
+					'descripcion' => $descripcion,
+					'lapso' => $lapso
 				];
 				
 				$editar = $this->model->editContenido($datos);
@@ -290,6 +292,40 @@ class Contenido extends Controller
 
 		
 		echo json_encode($respuesta);
+	}
+
+
+	public function getContenidos($materia)
+	{
+		$sesion = new Sesion();
+		$sesion->validateSesion();
+		$usuario = $sesion->getSesion();
+
+		$navbar = new Navbar($usuario);
+		
+		
+		if (  ctype_digit($materia[0]) ) {
+
+			$barMateria = $navbar->barMateria($usuario,$materia[0]);
+			if ($barMateria) {
+				$this->view->barMateria = $barMateria;
+				$contenidos = $this->model->getContenido($materia[0]);
+				$respuesta = [
+					'data' => $contenidos,
+					'user' => $usuario['user']
+				];
+				echo json_encode($respuesta);
+
+			}else{
+				echo "MATERIA NO VALIDA O NO INSCRITA";
+			}
+
+
+		}else{
+			echo "DIRECCION URL INVALIDA";
+			exit;
+		}
+
 	}
 
 }

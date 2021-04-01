@@ -143,9 +143,24 @@ require_once('layout/planes.php');
 							<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente</p>
 						</div>
 						<div class="grupo">
+							<label for="lapso_form">Lapso</label>
+							<select name="lapso_form" id="lapso_form">
+								<?php
+								for ($i=1; $i <= 3 ; $i++) { 
+									if($this->periodo->lapso === (string)$i){
+										echo "<option value='$i' selected>$i</option>";
+									}else {
+										echo "<option value='$i'>$i</option>";
+									}
+								}
+								?>
+							</select>
+							<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente, Debe selecionar un lapso </p>
+						</div>
+						<div class="grupo">
 							<div id="editor"></div>
 							<p id="editor_contador">caracteres (<span id="editor_caracteres">0</span>/50000)</p>
-							<textarea name="descripcion" id="descripcion_evaluacion" cols="20" rows="10" style="display:none;"></textarea>
+							<textarea name="descripcion" id="descripcion" cols="20" rows="10" style="display:none;"></textarea>
 						</div>
 						<div class="grupo_oculto">
 							<input type="text" name="mat" value="<?= $this->barMateria[2] ?>"style="display: none;">
@@ -199,78 +214,95 @@ require_once('layout/planes.php');
 									<div class="modal__preview">
 										<!-- FORMULARIO AGREGAR CONTENIDO -->
 										<form id="edit__plan" method="post">
-	<div class="grupo">
-		<label for="tipo">Tipo de evaluacion</label>
-		<select name="tipo" class="tipo">
-			<?php foreach ($this->tipoEvaluacion as $tipo): ?>
-			<option value="<?= $tipo[0]; ?> ">
-				<?= $tipo[1]; ?>
-			</option>
-			<?php endforeach; ?>
-		</select>
-		<p class="formulario__input-error">
-			* Este campo debe llenarse obligatoriamente
-		</p>
-	</div>
-	<div class="grupo oculto grupo__otros">
-		<label for="otros">Otros tipo de evaluacion </label>
-		<input class="otros" name="otros" type="text" />
-		<p class="formulario__input-error">
-			* Este campo debe llenarse obligatoriamente
-		</p>
-	</div>
+											<div class="grupo">
+												<label for="tipo">Tipo de evaluacion</label>
+												<select name="tipo" class="tipo">
+													<?php foreach ($this->tipoEvaluacion as $tipo): ?>
+													<option value="<?= $tipo[0]; ?> ">
+														<?= $tipo[1]; ?>
+													</option>
+													<?php endforeach; ?>
+												</select>
+												<p class="formulario__input-error">
+													* Este campo debe llenarse obligatoriamente
+												</p>
+											</div>
+											<div class="grupo oculto grupo__otros">
+												<label for="otros">Otros tipo de evaluacion </label>
+												<input class="otros" name="otros" type="text" />
+												<p class="formulario__input-error">
+													* Este campo debe llenarse obligatoriamente
+												</p>
+											</div>
 
 
-	<div class="grupo">
-		<label for="semana">Semana de la evaluacion</label>
-		<select name="semana" class="semana">
-			<?php foreach ($this->semanas as $semana): ?>
-			<option value="<?= $semana[0]; ?> ">
-				<?= $semana[1]; ?>
-			</option>
-			<?php endforeach; ?>
-		</select>
-		<p class="formulario__input-error">
-			* Este campo debe llenarse obligatoriamente
-		</p>
-	</div>
-	<div class="grupo">
-		<div id="edit__qe" class="=editor" style="height: 375px;"></div>
-		<p id="editor_contador">
-			caracteres (<span id="edit_caracteres">0</span>/50000)
-		</p>
-		<textarea
-			name="descripcion"
-			id="edit__descripcion"
-			cols="20"
-			rows="10"
-			style="display: none;"
-		></textarea>
-	</div>
-	<div class="grupo_oculto">
-		<input
-			type="text"
-			name="materia"
-			value="<?= $this->barMateria[2] ?>"
-			style="display: none;"
-		/>
-		<input
-			type="text"
-			name="plan"
-			value=""
-			style="display: none;"
-		/>
-	</div>
+											<div class="grupo">
+												<label for="semana">Semana de la evaluacion</label>
+												<select name="semana" class="semana">
+													<?php foreach ($this->semanas as $semana): ?>
+													<option value="<?= $semana[0]; ?> ">
+														<?= $semana[1]; ?>
+													</option>
+													<?php endforeach; ?>
+												</select>
+												<p class="formulario__input-error">
+													* Este campo debe llenarse obligatoriamente
+												</p>
+											</div>
 
-	<div class="grupo">
-		<div class="mensaje__error"></div>
-		<div class="mensaje__exito"></div>
-	</div>
+											<div class="grupo">
+												<label for="lapso_form">Lapso</label>
+												<select name="lapso_form" id="lapso_form">
+													<?php
+													for ($i=1; $i <= 3 ; $i++) { 
+														if($this->periodo->lapso === (string)$i){
+															echo "<option value='$i' selected>$i</option>";
+														}else {
+															echo "<option value='$i'>$i</option>";
+														}
+													}
+													?>
+												</select>
+												<p class="formulario__input-error">* Este campo debe llenarse obligatoriamente, Debe selecionar un lapso </p>
+											</div>
+											
+											<div class="grupo">
+												<div id="editar__descripcion" class="=editor" style="height: 375px;"></div>
+												<p id="editor_contador">
+													caracteres (<span id="edit_caracteres">0</span>/50000)
+												</p>
+												<textarea
+													name="descripcion"
+													id="descripcion__editar"
+													cols="20"
+													rows="10"
+													style="display: none;"
+												></textarea>
+											</div>
+											<div class="grupo_oculto">
+												<input
+													type="text"
+													name="materia"
+													value="<?= $this->barMateria[2] ?>"
+													style="display: none;"
+												/>
+												<input
+													type="text"
+													name="plan"
+													value=""
+													style="display: none;"
+												/>
+											</div>
 
-	<div class="grupo">
-		<button id="btnSubmit__edit" class="item btnTrue" type="submit">Guardar</button>
-	</div>
-</form>
+											<div class="grupo">
+												<div class="mensaje__error"></div>
+												<div class="mensaje__exito"></div>
+											</div>
+
+											<div class="grupo">
+												<button id="btnSubmitEditar" class="item btnTrue" type="submit">Guardar</button>
+											</div>
+										</form>
 
 										<!-- /FORMULARIO AGREGAR CONTENIDO -->
 
@@ -304,7 +336,7 @@ require_once('layout/planes.php');
 	<!-- JS -->
 	<script src="<?= constant('URL') ?>public/js/config.js"></script>
 	<script src="<?= constant('URL') ?>public/js/menu.js"></script>
-	<script src="<?= constant('URL') ?>public/js/planEvaluacion.js"></script>
+	<script type="module" src="<?= constant('URL') ?>public/js/planEvaluacion.js"></script>
 	
 	<script>
 

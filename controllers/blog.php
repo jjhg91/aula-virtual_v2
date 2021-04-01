@@ -57,6 +57,34 @@ class Blog extends Controller
 		}
 	}
 
+
+	public function getPosts($materia)
+	{
+		$sesion = new Sesion();
+		$sesion->validateSesion();
+		$usuario = $sesion->getSesion();
+		$navbar = new Navbar($usuario);
+		if (  ctype_digit($materia[0]) ) {
+			$barMateria = $navbar->barMateria($usuario,$materia[0]);
+			if ($barMateria) {
+				$posts = $this->model->getPosts($materia[0]);
+				$respuesta = [
+					'data' => $posts,
+					'user' => $usuario['user']
+				];
+
+				echo json_encode($respuesta);
+			}else{
+				echo "MATERIA NO VALIDA O NO INSCRITA";
+			}
+
+		}else{
+			echo "DIRECCION URL INVALIDA";
+			exit;
+		}
+	}
+
+
 	public function delete($url)
 	{
 		$materia = $url[0];
@@ -111,12 +139,13 @@ class Blog extends Controller
 				$descripcion = $_POST['descripcion'];
 				$fecha = date("m-d-Y",time()) ;
 				$respuesta = ['status' => false, 'respuesta' => "", 'idBlog' => ""];
-
+				$lapso = (int)$_POST['lapso_form'];
 				$datos = [
 					'materia' => $materia,
 					'titulo' => $titulo,
 					'descripcion' => $descripcion,
-					'fecha' => $fecha
+					'fecha' => $fecha,
+					'lapso' => $lapso
 				];
 				$insert = $this->model->addBlog($datos);
 				$idBlog = $this->model->getIdBlog($materia, $fecha, $titulo, $descripcion);
@@ -203,6 +232,7 @@ class Blog extends Controller
 				$titulo = $_POST['title'];
 				$descripcion = $_POST['descripcion'];
 				$fecha = date("m-d-Y",time()) ;
+				$lapso = (int)$_POST['lapso_form'];
 
 				
 				$datos = [
@@ -210,7 +240,8 @@ class Blog extends Controller
 					'blog' => $blog,
 					'titulo' => $titulo,
 					'descripcion' => $descripcion,
-					'fecha' => $fecha
+					'fecha' => $fecha,
+					'lapso' => $lapso
 				];
 				
 				$editar = $this->model->editBlog($datos);

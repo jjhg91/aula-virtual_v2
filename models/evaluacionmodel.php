@@ -285,19 +285,22 @@ class EvaluacionModel extends Model
 				id_plan_evaluacion,
 				publicacion,
 				fecha,
-				descripcion)
+				descripcion,
+				lapso)
 			VALUES(
 				:materia,
 				:plan,
 				:publicado,
 				:fecha,
-				:descripcion)
+				:descripcion,
+				:lapso)
 		");
 		$query->bindParam(':materia',$datos['materia']);
 		$query->bindParam(':plan',$datos['plan']);
 		$query->bindParam(':publicado',$datos['publicado']);
 		$query->bindParam(':fecha',$datos['fecha']);
 		$query->bindParam(':descripcion',$datos['descripcion']);
+		$query->bindParam(':lapso',$datos['lapso']);
 
 		if ( $query->execute() ) {
 			$respuesta = true;
@@ -380,7 +383,8 @@ class EvaluacionModel extends Model
 			id_plan_evaluacion = :plan,
 			publicacion = :publicado,
 			fecha = :fecha,
-			descripcion = :descripcion
+			descripcion = :descripcion,
+			lapso = :lapso
 			WHERE
 			id_profesorcursogrupo = :materia AND
 			id_actividades = :evaluacion
@@ -391,6 +395,7 @@ class EvaluacionModel extends Model
 		$query->bindParam(':publicado',$datos['publicado']);
 		$query->bindParam(':fecha',$datos['fecha']);
 		$query->bindParam(':descripcion',$datos['descripcion']);
+		$query->bindParam(':lapso',$datos['lapso']);
 
 		if ( $query->execute() ) {
 			$respuesta = true;

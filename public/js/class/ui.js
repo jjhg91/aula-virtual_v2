@@ -1,22 +1,17 @@
-import ValidarFormulario from "./class/validarFormulario.js";
-import ValidarFormularioEditar from "./class/validarFormularioEditar.js";
-
-
-
 
 class UI {
 	constructor(materia){
 		this.materia = materia;
 		this.showData(this.materia);
-		this.contenidosQE();
 		this.previewQE();
 		this.addQE();
 		this.editQE();
 	}
 
-	showData() {
+	showData(materia) {
+
 		let contenidosQE = () => {
-		    var contenidoDescripcion = document.querySelectorAll('.descripcion__qe');
+		    var contenidoDescripcion = document.querySelectorAll('.contenido__descripcion');
 		    contenidoDescripcion.forEach( contenidos => {
 			    var quill3 = new Quill(contenidos,{
 				    readOnly: true,
@@ -25,7 +20,7 @@ class UI {
 		    });
 	    }
 
-		let direccion = URL+`blog/getPosts/${materia}`;
+		let direccion = URL+`contenido/getContenidos/${materia}`;
 		let xmlhttp = new XMLHttpRequest();
 		xmlhttp.onreadystatechange = function() {
 			if ( this.readyState == 4 && this.status == 200 ) {
@@ -45,6 +40,7 @@ class UI {
 						var archivo_3 = "";
 						var archivo_4 = "";
 						var botones = "";
+			
 						if (dato.file1  !== null || dato.file2  !== null || dato.file3  !== null || dato.file4  !== null){
 							archivos = `
 								<br>
@@ -55,46 +51,47 @@ class UI {
 						}
 						if (dato.file1 !== null){
 							archivo_1 = `
-								<a class="link1" href="${URL}public/upload/blog/${dato.id_profesorcursogrupo}/${dato.id_blog}/${dato.file1}" download>Material 1</a>
+								<a class="link1" href="${URL}public/upload/contenido/${dato.id_profesorcursogrupo}/${dato.id_contenido}/${dato.file1}" download>Material 1</a>
 								<br>
 								<br>
 							`;
 						}
 						if (dato.file2  !== null){
 							archivo_2 = `
-								<a class="link2" href="${URL}public/upload/blog/${dato.id_profesorcursogrupo}/${dato.id_blog}/${dato.file2}" download>Material 2</a>
+								<a class="link2" href="${URL}public/upload/contenido/${dato.id_profesorcursogrupo}/${dato.id_contenido}/${dato.file2}" download>Material 2</a>
 								<br>
 								<br>
 							`;
 						}
 						if (dato.file3  !== null){
 							archivo_3 = `
-								<a class="link3" href="${URL}public/upload/blog/${dato.id_profesorcursogrupo}/${dato.id_blog}/${dato.file3}" download>Material 3</a>
+								<a class="link3" href="${URL}public/upload/contenido/${dato.id_profesorcursogrupo}/${dato.id_contenido}/${dato.file3}" download>Material 3</a>
 								<br>
 								<br>
 							`;
 						}
 						if (dato.file4  !== null){
 							archivo_4 = `
-								<a class="link4" href="${URL}public/upload/blog/${dato.id_profesorcursogrupo}/${dato.id_blog}/${dato.file4}" download>Material 4</a>
+								<a class="link4" href="${URL}public/upload/contenido/${dato.id_profesorcursogrupo}/${dato.id_contenido}/${dato.file4}" download>Material 4</a>
 								<br>
 								<br>
 							`;
 						}
+
 						if(datos.user === 'profesor'){
 							botones = `
 								<div class="enlaces">
-									<button title="Editar" class="btnModalEditar item icon-pencil btnInfo" type="button" data-blog="${dato.id_blog}"></button>
-									<button title="Eliminar" class="btnEliminar icon-bin btnInfo" data-materia="${dato.id_profesorcursogrupo}" data-blog="${dato.id_blog}" type="button"></button>
+									<button title="Editar" class="btnModalEditar item icon-pencil btnInfo" type="button" data-contenido="${dato.id_contenido}"></button>
+									<button title="Eliminar" class="btnEliminar icon-bin btnInfo" data-materia="${dato.id_profesorcursogrupo}" data-contenido="${dato.id_contenido}" data-objetivo="${dato.numero}" type="button" ></button>
 								</div>
 							`;
 						}
 
 						let html = `
-						<section class="blog" data-blog="${dato.id_blog}" data-lapso="${dato.lapso}">
+						<section class="contenido" data-contenido="${dato.id_contenido}" data-lapso="${dato.lapso}">
 							<div class="titulo">
 								<div class="titulo_izq">
-									<h4>${dato.titulo}</h4>
+									<h4>Objetivo <span class="objetivo__numero">${dato.numero}</span></h4>
 								</div>
 
 								<?php if($_SESSION['user'] == 'profesor'): ?>
@@ -105,7 +102,7 @@ class UI {
 
 							</div>
 							<div class="contenido ">
-								<div class="descripcion__qe">
+								<div class="contenido__descripcion">
 									${dato.descripcion}
 								</div>
 							
@@ -141,9 +138,6 @@ class UI {
 
 		xmlhttp.open('GET', direccion);
 		xmlhttp.send();
-
-
-
 	}
 
 	editContenido(e,validarFormularioEditar) {
@@ -155,51 +149,50 @@ class UI {
 		const modalEditar = document.getElementById('modalEditar');
 
 		const section = e.target.parentNode.parentNode.parentNode.parentNode;
-		const titulo = section.querySelector('.titulo > .titulo_izq > h4').innerHTML;
-		const descripcion = section.querySelector('.ql-editor').innerHTML;
-		
-		
+		const numero = section.querySelector('span.objetivo__numero');
+		const qlEditor = section.querySelector('.ql-editor');
+
 		validarFormularioEditar.inputs.forEach( input => {
 			switch (input.name) {
-				case 'title':
-					input.value = titulo;
+				case 'numero':
+					input.value = numero.innerHTML;
 					break;
 				case 'descripcion':
 					let editarDescripcion = document.querySelector('#editar__descripcion > .ql-editor');
-					editarDescripcion.innerHTML = descripcion;
+					editarDescripcion.innerHTML = qlEditor.innerHTML;
+
 					break;
-				case 'blog':
-					input.value = e.target.dataset.blog;
+				case 'contenido':
+					input.value = e.target.dataset.contenido;
 					break;
 				case 'file[]':
 					let n = input.classList[0];
 
-
 					if ( n == 'file1' ) {
 						let link = section.querySelector('.link1');
 						if ( link != null ) {
-							document.getElementById('link1').innerHTML = `<a href="${link.href}" download>Material 1</a>`;
+							document.getElementById('link1').innerHTML = '<a href="'+link.href+'" download>Material 1</a>';
 						}else{
 							document.getElementById('link1').innerHTML = 'NO HAY ARCHIVO CARGADO';
 						}
 					}else if( n == 'file2' ){
 						let link = section.querySelector('.link2');
 						if ( link != null ) {
-							document.getElementById('link2').innerHTML = `<a href="${link.href}" download>Material 2</a>`;
+							document.getElementById('link2').innerHTML = '<a href="'+link.href+'" download>Material 2</a>';
 						}else{
 							document.getElementById('link2').innerHTML = 'NO HAY ARCHIVO CARGADO';
 						}
 					}else if( n == 'file3' ){
 						let link = section.querySelector('.link3');
 						if ( link != null ) {
-							document.getElementById('link3').innerHTML = `<a href="${link.href}" download>Material 3</a>`;
+							document.getElementById('link3').innerHTML = '<a href="'+link.href+'" download>Material 3</a>';
 						}else{
 							document.getElementById('link3').innerHTML = 'NO HAY ARCHIVO CARGADO';
 						}
 					} else if( n == 'file4'){
 						let link = section.querySelector('.link4');
 						if ( link != null ) {
-							document.getElementById('link4').innerHTML = `<a href="${link.href}" download>Material 4</a>`;
+							document.getElementById('link4').innerHTML = '<a href="'+link.href+'" download>Material 4</a>';
 						}else{
 							document.getElementById('link4').innerHTML = 'NO HAY ARCHIVO CARGADO';
 						}
@@ -224,13 +217,17 @@ class UI {
 
 	deleteContenido(e) {
 		let materia = e.target.dataset.materia;
-		let blog = e.target.dataset.blog;
+		let contenido = e.target.dataset.contenido;
+		let objetivo = e.target.dataset.objetivo;
+		let eliminar = confirm('Deseas eliminar del contendio el objetivo numero: ' + objetivo );
 		let showData = this.showData;
-		let eliminar = confirm('Deseas eliminar el post del blog?');
+		
+		
 		if( eliminar ) {
-			let direccion = `${URL}blog/delete/${materia}/${blog}`;
+			let contenidoEliminar = e.target.parentNode.parentNode.parentNode.parentNode;
+			let direccion = URL+'contenido/delete/'+materia+'/'+contenido+'/'+objetivo
 			let xmlhttp = new XMLHttpRequest();
-
+			
 			xmlhttp.onreadystatechange = function() {
 				if ( this.readyState == 4 && this.status == 200 ) {
 					// TODO FUE CORRECTO
@@ -242,6 +239,7 @@ class UI {
 					}
 				}
 			}
+
 			xmlhttp.open('GET', direccion);
 			xmlhttp.send();
 		}
@@ -253,14 +251,12 @@ class UI {
 		const flex = document.getElementById('flexPreview');
 		const modal = document.getElementById('modalPreview');
 
-		const previewTitle = document.getElementById('preview__title');
-		const previewDescripcion = document.querySelector('#preview__descripcion > .ql-editor');
+		const previewNumero = document.getElementById('preview__numero');
 		const previewArchivos = document.getElementById('preview__archivos');
 
 		btnModalPreview.addEventListener('click', () => {
 			modal.style.display = 'block';
-			previewTitle.innerHTML = `<h4>${inputs[0].value}<h4><br/>`;
-			previewDescripcion.innerHTML = document.querySelector('#editor > .ql-editor').innerHTML;
+			previewNumero.innerHTML = '<p>Objetivo Numero: '+inputs[0].value+'<p>';
 		});
 		btnCerrar.addEventListener('click', () => {
 			modal.style.display = 'none';
@@ -269,18 +265,6 @@ class UI {
 			if ( e.target == flex) {
 				modal.style.display = 'none';
 			}
-		});
-	}
-
-	modalEdit() {}
-
-	contenidosQE() {
-		let contenidoDescripcion = document.querySelectorAll('.descripcion__qe');
-		contenidoDescripcion.forEach( contenidos => {
-			var quill3 = new Quill(contenidos,{
-				readOnly: true,
-				theme: 'bubble'
-			});
 		});
 	}
 
@@ -310,8 +294,12 @@ class UI {
 			theme: 'snow'
 		});
 		quill.on('text-change', function() {
+			// console.log('Text change!');
+			let prueba =  document.querySelector('#preview__descripcion div');
 			let descripcion =  document.getElementById('descripcion');
+			//descripcion.innerHTML = quill.container.firstChild.innerHTML;
 			descripcion.innerHTML = quill.container.firstChild.innerHTML;
+			prueba.innerHTML = quill.container.firstChild.innerHTML;
 		});
 
 		const limit = 50000;
@@ -348,58 +336,10 @@ class UI {
 			if ( (quill4.getLength()-1) > limit) {
 				quill4.deleteText(limit, quill4.getLength());
 			}else{
-				document.getElementById('editor_caracteres__edit').innerHTML = quill4.getLength() - 1;
+				document.getElementById('editar_caracteres').innerHTML = quill4.getLength() - 1;
 			}
 		});
 	}
 }
 
-
-var url = window.location;
-url = url.pathname.split('/');
-var materia = url[url.length - 1];
-
-const ui = new UI(materia);
-
-const editFormulario = document.getElementById('edit__blog');
-let urlEdit = `${URL}blog/edit/${materia}`;
-let camposEdit = {
-	title: true,
-	descripcion: true,
-	file1: true,
-	file2: true,
-	file3: true,
-	file4: true,
-	lapso_form: true
-}
-const validarFormularioEditar = new ValidarFormularioEditar(editFormulario,ui.showData,camposEdit,urlEdit);
-
-const addFormulario = document.getElementById('add__blog');
-const blogs = document.getElementById('blogs');
-
-let urlAdd = `${URL}blog/add/${materia}`;
-let camposAdd = {
-	title: false,
-	descripcion: true,
-	file1: true,
-	file2: true,
-	file3: true,
-	file4: true,
-	lapso_form: true
-}
-const validarFormulario = new ValidarFormulario(addFormulario,ui.showData,camposAdd, urlAdd);
-validarFormulario.addInputArchivo();
-
-
-
-ui.modalPreview(validarFormulario.inputs);
-blogs.addEventListener('click', (event) => {
-	switch (event.target.classList[0]) {
-		case 'btnEliminar':
-			ui.deleteContenido(event);
-			break;
-		case 'btnModalEditar':
-			ui.editContenido(event,validarFormularioEditar);
-			break;
-	}
-})
+export default UI;

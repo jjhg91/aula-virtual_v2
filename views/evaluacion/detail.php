@@ -369,52 +369,44 @@
 
 
 			<!-- ALUMNO MUESTRA LA EVALUACION YA ENTREGADA -->
-<?php if ( $this->actividadAlumno ): ?>
-<section class="trabajos cargados">
-		<div class="titulo">
-			<div class="titulo_izq">
-				<h4><?= $this->usuario['nombre']  ?></h4>
-			</div>
-
-			<?php
-				$fecha = strtotime(date("d-m-Y",time()));
-				$flimite = strtotime($this->actividad[4]."+ 1 days");
-				if ( $fecha < $flimite ):
-			?>
-			<div class="titulo_der">
-				<div class="enlaces">
-					<a title="Editar" href="#ModalEditarEstudiante" class="btnEditarAlumno">
-						<span class="icon-pencil"></span>
-					</a>
-
+			<?php if ( $this->actividadAlumno ): ?>
+			<div id="trabajos__cargados">
+			<section class="trabajo cargado">
+				<div class="titulo">
+					<div class="titulo_izq">
+						<h4><?= $this->usuario['nombre']  ?></h4>
+					</div>
+				<?php
+					$fecha = strtotime(date("d-m-Y",time()));
+					$flimite = strtotime($this->actividad[4]."+ 1 days");
+					if ( $fecha < $flimite ):
+				?>
+				<div class="titulo_der">
+					<div class="enlaces">
+						<a title="Editar" href="#ModalEditarEstudiante" class="btnEditarAlumno">
+							<span class="icon-pencil"></span>
+						</a>
+					</div>
 				</div>
+				<?php endif ?>
 			</div>
+			<div class="contenido">
+				<span><small><strong>C.I: </strong><?= $this->usuario['cedula'] ?></small></span>
+				<br>
+				<span><small><strong>Fecha de Entrega: </strong><?= $this->actividadAlumno[4] ?></small></span>
+				<br>
+				<br>
+				<br>
+				<?php if(!$this->actividadAlumno[10]): ?>
+				<span><strong>Estatus: </strong>SIN CORREGIR</span>
+				<?php else: ?>
+				<span><strong>Estatus: </strong>CORREGIDO</span>
+				<br>
+				<span><strong>Nota: </strong><?= $this->actividadAlumno[10] ?></span>
+				<br>
+				<span><strong>Observacion: </strong><?= $this->actividadAlumno[11] ?></span>
 
-			<?php endif ?>
-
-		</div>
-		<div class="contenido">
-
-			<span><small><strong>C.I: </strong><?= $this->usuario['cedula'] ?></small></span>
-			<br>
-			<span><small><strong>Fecha de Entrega: </strong><?= $this->actividadAlumno[4] ?></small></span>
-			<br>
-			<br>
-			<br>
-
-			<?php if(!$this->actividadAlumno[10]): ?>
-			<span><strong>Estatus: </strong>SIN CORREGIR</span>
-			<?php else: ?>
-			<span><strong>Estatus: </strong>CORREGIDO</span>
-			<br>
-			<span><strong>Nota: </strong><?= $this->actividadAlumno[10] ?></span>
-			<br>
-			<span><strong>Observacion: </strong><?= $this->actividadAlumno[11] ?></span>
-
-
-			<!-- MOSTRAR CORRECIONES -->
-
-
+				<!-- MOSTRAR CORRECIONES -->
 				<?php if ($this->actividadAlumno[30] or $this->actividadAlumno[31] or $this->actividadAlumno[32] or $this->actividadAlumno[33]): ?>
 				<br>
 				<br>
@@ -538,7 +530,7 @@
 
 		<!-- MODAL EDITAR EVALUACION ENVIADA POR ALUMNO -->
 			<div id="ModalEditarEstudiante" class="editar">
-				<form method="post" enctype="multipart/form-data" action="<?= constant('URL') ?>evaluacion/updateEvaluacionAlumno/<?= $this->actividadAlumno[1] ?>/<?= $this->actividadAlumno[0]?>">
+				<form id="FormEditarEstudiante" method="post" enctype="multipart/form-data" action="<?= constant('URL') ?>evaluacion/updateEvaluacionAlumno/<?= $this->actividadAlumno[1] ?>/<?= $this->actividadAlumno[0]?>">
 
 					<div class="grupo">
 							<br>
@@ -612,6 +604,9 @@
 
 		</div>
 </section>
+
+			
+</div>
 
 <!-- /ALUMNO MUESTRA LA EVALUACION YA ENTREGADA -->
 <?php else: ?>

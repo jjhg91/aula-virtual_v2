@@ -82,32 +82,32 @@ class ValidarFormulario {
 			if( size < this.expresiones.size || size == null){
 				input.classList.remove('incorrecto');
 				input.classList.add('correcto');
-	
+
 				this.campos[campo] = true;
-			
+
 				let error = input.nextElementSibling;
 				error.classList.remove('formulario__input-error-activo');
 			}else{
 				input.classList.remove('correcto');
 				input.classList.add('incorrecto');
-	
+
 				let error = input.nextElementSibling;
 				error.innerHTML = '<span>* El archivo excede el tamaño permitido 20mb.</span><br>';
 				error.classList.add('formulario__input-error-activo');
-				
+
 				this.campos[campo] = false;
-				
+
 			}
 		}else{
 			input.classList.remove('correcto');
 			input.classList.add('incorrecto');
-			
+
 			let error = input.nextElementSibling;
 			error.innerHTML = '<span>* Formato de archivo No valido.</span><br>';
 			error.classList.add('formulario__input-error-activo');
-			
+
 			this.campos[campo] = false;
-			
+
 		}
 	}
 
@@ -128,12 +128,12 @@ class ValidarFormulario {
 				grupo.classList.remove('formulario__input-error-activo');
 			}
 		});
-		
+
 	}
 	sendFormulario(){
 		const formulario = this.formulario;
 		formulario.addEventListener('submit', (e) => {
-			
+
 			e.preventDefault();
 			if (this.campos.nota && this.campos.observacion && this.campos.file1 && this.campos.file2 && this.campos.file2 && this.campos.file4 ) {
 				let btnSubmit = formulario.querySelector('#btnSubmit');
@@ -162,7 +162,7 @@ class ValidarFormulario {
 								<p><strong>OBSERVACION: </strong></p>
 								<div class="observacion__qe">${formData.get('observacion')}</div>
 							`;
-							
+
 							if ( datos.json['correccion1'] || datos.json['correccion2'] || datos.json['correccion3'] || datos.json['correccion4'] ){
 								notaContenido.innerHTML += `
 									<br>
@@ -201,7 +201,7 @@ class ValidarFormulario {
 							}
 
 
-							
+
 							let aa = notaContenido.querySelector('.observacion__qe');
 							var quill3 = new Quill(aa,{
 								readOnly: true,
@@ -330,7 +330,7 @@ class UI {
 			if ( e.target == flex) {
 				modalEditar.style.display = 'none';
 			}
-			
+
 		});
 
 	}
@@ -338,8 +338,8 @@ class UI {
 
 
 	editContenidoAlumno(e) {
-		validarFormulario.setiarFormulario();
-		validarFormulario.recorreInputs();
+		validarFormularioEditarAlumno.setiarFormulario();
+		validarFormularioEditarAlumno.recorreInputs();
 
 		const btnCerrar = document.getElementById('btnCerrarEditar');
 		const flex = document.getElementById('flexEditar');
@@ -351,7 +351,7 @@ class UI {
 		const valorNota = (section.querySelector('.valor__nota') && section.querySelector('.valor__nota').innerHTML != 0) ? section.querySelector('.valor__nota').innerHTML : 0;
 		const observacion = (section.querySelector('.observacion__qe > .ql-editor')) ? section.querySelector('.observacion__qe > .ql-editor').innerHTML : 0;
 
-		validarFormulario.inputs.forEach( input => {
+		validarFormularioEditarAlumno.inputs.forEach( input => {
 			switch (input.name) {
 				case 'alumno':
 					input.value = e.target.dataset.alumno;
@@ -359,13 +359,13 @@ class UI {
 				case 'nota':
 					if ( valorNota !== 0) {
 						input.querySelector('option[value="'+valorNota+'"]').selected = true;
-						validarFormulario.campos.nota = true;
+						validarFormularioEditarAlumno.campos.nota = true;
 					}
 					break;
 				case 'observacion':
 					if ( observacion !== 0) {
-						validarFormulario.formulario.querySelector('#editor > .ql-editor').innerHTML = observacion;
-						validarFormulario.campos.observacion = true;
+						validarFormularioEditarAlumno.formulario.querySelector('#editor > .ql-editor').innerHTML = observacion;
+						validarFormularioEditarAlumno.campos.observacion = true;
 					}
 					break;
 				case 'contenido':
@@ -417,7 +417,7 @@ class UI {
 			if ( e.target == flex) {
 				modalEditar.style.display = 'none';
 			}
-			
+
 		});
 
 	}
@@ -483,10 +483,11 @@ const contendios = document.getElementById('trabajos__cargados');
 
 validarFormulario = new ValidarFormulario(addFormulario);
 
-validarFormularioAlumno = 
+// const editFormularioAlumno = document.getElementById('FormEditarEstudiante');
+// validarFormularioEditarAlumno = new ValidarFormulario(editFormularioAlumno);
 
 contendios.addEventListener('click', (event) => {
-	
+
 	switch (event.target.classList[0]) {
 		// case 'btnEliminar':
 		// 	ui.deleteContenido(event);
@@ -495,7 +496,11 @@ contendios.addEventListener('click', (event) => {
 			ui.editContenido(event);
 			break;
 		case 'btnEditarAlumno':
-			ui.editContenidoAlumno(event);
-			break;
+			const elemtento = event.target.parentNode.parentNode.parentNode.parentNode;
+			const modal = elemtento.querySelector('#ModalEditarEstudiante');
+			modal.style.cssText = 'display:block; opacity:1;pointer-events: auto; height: auto;'
+			console.log(modal)
+		// ui.editContenidoAlumno(event);
+		 	break;
 	}
 })

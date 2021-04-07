@@ -47,12 +47,12 @@
 			<?php foreach ($this->alumnos as $alumno): ?>
 			<section class="plan_evaluacion">
 				<div class="contenido">
-					<h3><?= $alumno[1]." ".$alumno[2] ?></h3>
-					<span><small><strong>C.I: </strong><?= $alumno[3] ?></small></span>
+					<h3><?= $alumno->apellidos." ".$alumno->nombres ?></h3>
+					<span><small><strong>C.I: </strong><?= $alumno->cedula ?></small></span>
 					<br>
 
-					<?php if ($alumno[6]): ?>
-					<span><small><strong>Fecha de ultimoi inicio: </strong><?= $alumno[6] ?></small></span>
+					<?php if ($alumno->fecha): ?>
+					<span><small><strong>Fecha de ultimoi inicio: </strong><?= $alumno->fecha ?></small></span>
 					<?php else: ?>
 					<span><small><strong>Fecha de ultimoi inicio: </strong>No se ah conectado</small></span>
 					<?php endif; ?>

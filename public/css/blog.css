@@ -50,7 +50,7 @@ div.enlaces {
   display: block;
 }
 
-div.enlaces a {
+div.enlaces a, div.enlaces button {
   background: rgba(0, 0, 0, 0.2);
   padding: 10px;
   display: inline-block;
@@ -61,8 +61,12 @@ div.enlaces a {
   color: black;
 }
 
-div.enlaces a:hover {
+div.enlaces a:hover, div.enlaces button:hover {
   background: rgba(0, 0, 0, 0.4);
+}
+
+div.enlaces button {
+  border: none;
 }
 
 @media (max-width: 700px) {
@@ -877,4 +881,3 @@ body main section.section_agregar div.modal div.flex div.modal__contenido div.mo
 .acordion .box-lapso.active .box-label::before {
   content: '-';
 }
-/*# sourceMappingURL=blog.css.map */

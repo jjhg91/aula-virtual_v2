@@ -115,16 +115,73 @@ class Evaluacion extends Controller
 				$this->view->barMateria = $barMateria;
 				$actividad = $this->model->getEvaluacion($url[1]);
 				$this->view->actividad = $actividad;
-				if ( $usuario['user'] == 'alumno' ) {
-					$actividadAlumno = $this->model->getEvaluacionEntregada($evaluacion, $usuario['id']);
-					$this->view->actividadAlumno = $actividadAlumno;
-				}elseif( $usuario['user'] == 'profesor' ){
-					$evaluacionesEntregadas = $this->model->getEvaluacionesEntregadas($evaluacion);
-					$this->view->evaluacionesEntregadas = $evaluacionesEntregadas;
-				}
+				// if ( $usuario['user'] == 'alumno' ) {
+				// 	$actividadAlumno = $this->model->getEvaluacionEntregada($evaluacion, $usuario['id']);
+				// 	$this->view->actividadAlumno = $actividadAlumno;
+				// }elseif( $usuario['user'] == 'profesor' ){
+				// 	$evaluacionesEntregadas = $this->model->getEvaluacionesEntregadas($evaluacion);
+				// 	$this->view->evaluacionesEntregadas = $evaluacionesEntregadas;
+				// }
 
 				$this->view->render('evaluacion/detail');
 
+			}else{
+				echo "MATERIA NO VALIDA O NO INSCRITA";
+			}
+
+
+		}else{
+			echo "DIRECCION URL INVALIDA";
+			exit;
+		}
+	}
+
+
+	public function showEvaluaciones($url)
+	{
+		$materia = $url[0];
+		$evaluacion = $url[1];
+
+		$sesion = new Sesion();
+		$sesion->validateSesion();
+		$usuario = $sesion->getSesion();
+
+		$navbar = new Navbar($usuario);
+		$navbarMaterias = $navbar->navbarMaterias($usuario);
+		$periodo = $navbar->periodoActivo();
+
+		$this->view->usuario = $usuario;
+		$this->view->navbarMaterias = $navbarMaterias;
+		$this->view->periodo = $periodo;
+
+		if (  ctype_digit($materia) && ctype_digit($evaluacion) ) {
+			$barMateria = $navbar->barMateria($usuario,$materia);
+			if ($barMateria) {
+				$this->view->barMateria = $barMateria;
+				$actividad = $this->model->getEvaluacion($url[1]);
+				
+				$flimite = strtotime($actividad['fecha']."+ 1 days");
+				$fecha = strtotime(date("d-m-Y",time()));
+
+				if ( $usuario['user'] == 'alumno' ) {
+					$evaluacionEntregada = $this->model->getEvaluacionEntregada($evaluacion, $usuario['id']);
+					$respuesta = [
+						'data' => $evaluacionEntregada,
+						'user' => $usuario['user'],
+						'fecha_limite' => $flimite,
+						'fecha' => $fecha
+					];
+				}elseif( $usuario['user'] == 'profesor' ){
+					$evaluacionesEntregadas = $this->model->getEvaluacionesEntregadas($evaluacion);
+					$respuesta = [
+						'data' => $evaluacionesEntregadas,
+						'user' => $usuario['user'],
+						'fecha_limite' => $flimite,
+						'fecha' => $fecha
+					];
+				}
+				echo json_encode($respuesta);
+				
 			}else{
 				echo "MATERIA NO VALIDA O NO INSCRITA";
 			}
@@ -367,9 +424,10 @@ class Evaluacion extends Controller
 	public function addEvaluacionAlumno($url)
 	{
 		//URLS VARIABLES
-		$materia = $_POST['materia'];
-		$evaluacion = $_POST['evaluacion'];
+		$materia = (int)$_POST['materia'];
+		$evaluacion = (int)$_POST['evaluacion'];
 
+		echo $evaluacion;
 		$sesion = new Sesion();
 		$sesion->validateSesion();
 		$usuario = $sesion->getSesion();
@@ -469,6 +527,7 @@ class Evaluacion extends Controller
 		$materia = $_POST['materia'];
 		$evaluacion = $_POST['evaluacion'];
 		$evaluacionAlumno = $_POST['evaluacionAlumno'];
+		
 
 		$sesion = new Sesion();
 		$sesion->validateSesion();

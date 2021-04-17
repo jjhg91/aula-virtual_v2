@@ -130,55 +130,58 @@ class EvaluacionModel extends Model
 	{
 		$query = $this->db->connect2()->prepare("
 			SELECT
-			actividades.id_actividades,
-			actividades.id_profesorcursogrupo,
-			actividades.id_plan_evaluacion,
-			actividades_estudiante.id_estudiante,
-			actividades_estudiante.fecha,
-			actividades_estudiante.file1,
-			actividades_estudiante.file2,
-			actividades_estudiante.file3,
-			actividades_estudiante.file4,
-			actividades_estudiante.corregido,
-			(SELECT notas.nota FROM notas WHERE notas.id_estudiante = actividades_estudiante.id_estudiante AND notas.id_plan_evaluacion = actividades.id_plan_evaluacion) as nota,
-			(SELECT notas.observacion FROM notas WHERE notas.id_estudiante = actividades_estudiante.id_estudiante AND notas.id_plan_evaluacion = actividades.id_plan_evaluacion) as observacion,
-			actividades_estudiante.id_actividades_estudiante,
-			actividades.nlink1,
-			actividades.nlink2,
-			actividades.nlink3,
-			actividades.nlink4,
-			actividades.link1,
-			actividades.link2,
-			actividades.link3,
-			actividades.link4,
-			actividades_estudiante.nlink1,
-			actividades_estudiante.nlink2,
-			actividades_estudiante.nlink3,
-			actividades_estudiante.nlink4,
-			actividades_estudiante.link1,
-			actividades_estudiante.link2,
-			actividades_estudiante.link3,
-			actividades_estudiante.link4,
-			actividades_estudiante.descripcion,
-			notas.file1,
-			notas.file2,
-			notas.file3,
-			notas.file4
-			FROM actividades
-			INNER JOIN plan_evaluacion ON actividades.id_plan_evaluacion = plan_evaluacion.id_plan_evaluacion
+				A.id_actividades,
+				A.id_profesorcursogrupo,
+				A.id_plan_evaluacion,
+				actividades_estudiante.id_estudiante,
+				actividades_estudiante.fecha,
+				actividades_estudiante.file1,
+				actividades_estudiante.file2,
+				actividades_estudiante.file3,
+				actividades_estudiante.file4,
+				actividades_estudiante.corregido,
+				(SELECT notas.nota FROM notas WHERE notas.id_estudiante = actividades_estudiante.id_estudiante AND notas.id_plan_evaluacion = A.id_plan_evaluacion) as nota,
+				(SELECT notas.observacion FROM notas WHERE notas.id_estudiante = actividades_estudiante.id_estudiante AND notas.id_plan_evaluacion = A.id_plan_evaluacion) as observacion,
+				actividades_estudiante.id_actividades_estudiante,
+				A.nlink1,
+				A.nlink2,
+				A.nlink3,
+				A.nlink4,
+				A.link1,
+				A.link2,
+				A.link3,
+				A.link4,
+				actividades_estudiante.nlink1,
+				actividades_estudiante.nlink2,
+				actividades_estudiante.nlink3,
+				actividades_estudiante.nlink4,
+				actividades_estudiante.link1,
+				actividades_estudiante.link2,
+				actividades_estudiante.link3,
+				actividades_estudiante.link4,
+				actividades_estudiante.descripcion,
+				(SELECT notas.file1 FROM notas WHERE notas.id_estudiante = actividades_estudiante.id_estudiante AND notas.id_plan_evaluacion = A.id_plan_evaluacion) as revision1,
+				(SELECT notas.file2 FROM notas WHERE notas.id_estudiante = actividades_estudiante.id_estudiante AND notas.id_plan_evaluacion = A.id_plan_evaluacion) as revision2,
+				(SELECT notas.file3 FROM notas WHERE notas.id_estudiante = actividades_estudiante.id_estudiante AND notas.id_plan_evaluacion = A.id_plan_evaluacion) as revision3,
+				(SELECT notas.file4 FROM notas WHERE notas.id_estudiante = actividades_estudiante.id_estudiante AND notas.id_plan_evaluacion = A.id_plan_evaluacion) as revision4,
+				B.p_nombres as nombres,
+				B.p_apellido as apellidos,
+				B.cedula
+			
+			FROM uepjmc_aula.actividades A
+			INNER JOIN plan_evaluacion ON A.id_plan_evaluacion = plan_evaluacion.id_plan_evaluacion
 			INNER JOIN tipo_evaluacion ON plan_evaluacion.tipo_evaluacion = tipo_evaluacion.id_tipo_evaluacion
 			INNER JOIN valor ON plan_evaluacion.valor = valor.id_valor
-			INNER JOIN actividades_estudiante ON actividades_estudiante.id_actividades = actividades.id_actividades
-			LEFT JOIN notas ON notas.id_actividades_estudiante = actividades_estudiante.id_actividades_estudiante
+			INNER JOIN actividades_estudiante ON actividades_estudiante.id_actividades = A.id_actividades
+			INNER JOIN uepjmc_jmc.estudiante B ON actividades_estudiante.id_estudiante = B.id_estudia
 			WHERE
-			actividades.id_actividades = :evaluacion AND
-			actividades_estudiante.id_estudiante = :alumno
-
+				A.id_actividades = :evaluacion AND  
+				actividades_estudiante.id_estudiante = :alumno
 		");
 		$query->bindParam(':evaluacion', $evaluacion);
 		$query->bindParam(':alumno', $alumno);
 		$query->execute();
-		$respuesta = $query->fetch();
+		$respuesta = $query->fetchAll(PDO::FETCH_OBJ);
 
 		return  $respuesta;
 	}
@@ -187,92 +190,57 @@ class EvaluacionModel extends Model
 	{
 		$query = $this->db->connect2()->prepare("
 			SELECT
-			actividades.id_actividades,
-			actividades.id_profesorcursogrupo,
-			actividades.id_plan_evaluacion,
-			actividades_estudiante.id_estudiante,
-			actividades_estudiante.fecha,
-			actividades_estudiante.file1,
-			actividades_estudiante.file2,
-			actividades_estudiante.file3,
-			actividades_estudiante.file4,
-			actividades_estudiante.corregido,
-			actividades_estudiante.id_actividades_estudiante,
-			actividades.nlink1,
-			actividades.nlink2,
-			actividades.nlink3,
-			actividades.nlink4,
-			actividades.link1,
-			actividades.link2,
-			actividades.link3,
-			actividades.link4,
-			actividades_estudiante.nlink1,
-			actividades_estudiante.nlink2,
-			actividades_estudiante.nlink3,
-			actividades_estudiante.nlink4,
-			actividades_estudiante.link1,
-			actividades_estudiante.link2,
-			actividades_estudiante.link3,
-			actividades_estudiante.link4,
-			actividades_estudiante.descripcion
+				A.id_actividades,
+				A.id_profesorcursogrupo,
+				A.id_plan_evaluacion,
+				actividades_estudiante.id_estudiante,
+				actividades_estudiante.fecha,
+				actividades_estudiante.file1,
+				actividades_estudiante.file2,
+				actividades_estudiante.file3,
+				actividades_estudiante.file4,
+				actividades_estudiante.corregido,
+				(SELECT notas.nota FROM notas WHERE notas.id_estudiante = actividades_estudiante.id_estudiante AND notas.id_plan_evaluacion = A.id_plan_evaluacion) as nota,
+				(SELECT notas.observacion FROM notas WHERE notas.id_estudiante = actividades_estudiante.id_estudiante AND notas.id_plan_evaluacion = A.id_plan_evaluacion) as observacion,
+				actividades_estudiante.id_actividades_estudiante,
+				A.nlink1,
+				A.nlink2,
+				A.nlink3,
+				A.nlink4,
+				A.link1,
+				A.link2,
+				A.link3,
+				A.link4,
+				actividades_estudiante.nlink1,
+				actividades_estudiante.nlink2,
+				actividades_estudiante.nlink3,
+				actividades_estudiante.nlink4,
+				actividades_estudiante.link1,
+				actividades_estudiante.link2,
+				actividades_estudiante.link3,
+				actividades_estudiante.link4,
+				actividades_estudiante.descripcion,
+				(SELECT notas.file1 FROM notas WHERE notas.id_estudiante = actividades_estudiante.id_estudiante AND notas.id_plan_evaluacion = A.id_plan_evaluacion) as revision1,
+				(SELECT notas.file2 FROM notas WHERE notas.id_estudiante = actividades_estudiante.id_estudiante AND notas.id_plan_evaluacion = A.id_plan_evaluacion) as revision2,
+				(SELECT notas.file3 FROM notas WHERE notas.id_estudiante = actividades_estudiante.id_estudiante AND notas.id_plan_evaluacion = A.id_plan_evaluacion) as revision3,
+				(SELECT notas.file4 FROM notas WHERE notas.id_estudiante = actividades_estudiante.id_estudiante AND notas.id_plan_evaluacion = A.id_plan_evaluacion) as revision4,
+				B.p_nombres as nombres,
+				B.p_apellido as apellidos,
+				B.cedula
 			
-			FROM actividades
-			INNER JOIN plan_evaluacion ON actividades.id_plan_evaluacion = plan_evaluacion.id_plan_evaluacion
+			FROM uepjmc_aula.actividades A
+			INNER JOIN plan_evaluacion ON A.id_plan_evaluacion = plan_evaluacion.id_plan_evaluacion
 			INNER JOIN tipo_evaluacion ON plan_evaluacion.tipo_evaluacion = tipo_evaluacion.id_tipo_evaluacion
 			INNER JOIN valor ON plan_evaluacion.valor = valor.id_valor
-			INNER JOIN actividades_estudiante ON actividades_estudiante.id_actividades = actividades.id_actividades
-
+			INNER JOIN actividades_estudiante ON actividades_estudiante.id_actividades = A.id_actividades
+			INNER JOIN uepjmc_jmc.estudiante B ON actividades_estudiante.id_estudiante = B.id_estudia
 			WHERE
-			actividades.id_actividades = :evaluacion
+				A.id_actividades = :evaluacion
 		");
 		$query->bindParam(':evaluacion', $evaluacion);
 		$query->execute();
-		$resp1 = $query->fetchAll();
-		$respuesta = [];
-		//34 en adelante  NUEVO 28 - 30
-		foreach ($resp1 as $alumno) {
-			/// ALUMNO
-			$query2 = $this->db->connect1()->prepare("
-				SELECT
-				cedula,
-				p_nombres,
-				p_apellido
-				FROM estudiante
-				WHERE
-				id_estudia = :alumno 
-			");
-			$query2->bindParam(':alumno',$alumno[3]);
-			$query2->execute();
-			$resp2 = $query2->fetch();
-
-			/// NOTAS SI FUE CORREGIDO 31 - 36
-			$query3 = $this->db->connect2()->prepare("
-				SELECT
-					nota,
-					observacion,
-					file1,
-					file2,
-					file3,
-					file4
-				FROM notas
-				WHERE
-					id_estudiante = :alumno AND
-					id_plan_evaluacion = :plan
-			");
-			$query3->bindParam(':alumno',$alumno[3]);
-			$query3->bindParam(':plan',$alumno[2]);
-			$query3->execute();
-			$resp3 = $query3->fetch();
-
-			if($resp3){
-				$resp = array_merge($alumno,$resp2,$resp3);
-			}else{
-				$resp = array_merge($alumno,$resp2);
-			}
-
-			
-			array_push($respuesta,$resp);
-		}
+		$respuesta = $query->fetchAll(PDO::FETCH_OBJ);
+		
 
 		return  $respuesta;
 	}

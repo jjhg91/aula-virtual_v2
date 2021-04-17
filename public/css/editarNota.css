@@ -50,7 +50,7 @@ div.enlaces {
   display: block;
 }
 
-div.enlaces a {
+div.enlaces a, div.enlaces button {
   background: rgba(0, 0, 0, 0.2);
   padding: 10px;
   display: inline-block;
@@ -61,8 +61,12 @@ div.enlaces a {
   color: black;
 }
 
-div.enlaces a:hover {
+div.enlaces a:hover, div.enlaces button:hover {
   background: rgba(0, 0, 0, 0.4);
+}
+
+div.enlaces button {
+  border: none;
 }
 
 @media (max-width: 700px) {
@@ -443,4 +447,3 @@ body main form section div.contenido button {
   -webkit-box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3);
           box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3);
 }
-/*# sourceMappingURL=editarNota.css.map */

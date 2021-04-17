@@ -26,7 +26,10 @@ class ValidarFormulario {
 			semana: /^\d{1,3}$/,
 			
 			plan: /^\d{1,10}$/, // 7 a 14 numeros.
-			fecha: /^(\d{4})\-(\d{2})\-(\d{2})$/
+			fecha: /^(\d{4})\-(\d{2})\-(\d{2})$/,
+
+			nota: /^[\w ]{1,10}$/, // 7 a 14 numeros.
+			observacion: /^[\s\S]{1,100000}$/ // cualquier caracter de tamaño 1 a 20
 		}
 		this.campos = campos;
 		// this.campos = {
@@ -159,7 +162,10 @@ class ValidarFormulario {
 	}
 
 
-	setiarFormulario(formulario,inputs){
+	setiarFormulario(){
+		var formulario = this.formulario; 
+		var inputs = this.inputs; 
+		
 		let mensajeError = formulario.querySelector('.mensaje__error');
 		let mensajeExito = formulario.querySelector('.mensaje__exito');
 		mensajeError.classList.remove('mensaje__error-activo');
@@ -207,7 +213,10 @@ class ValidarFormulario {
 
 				let editarDescripcion = formulario.querySelector('#editor .ql-editor');
 				let descripcion = formulario.querySelector('#descripcion');
-				descripcion.innerHTML = editarDescripcion.innerHTML;
+				console.log(descripcion);
+				if(descripcion != null ){
+					descripcion.innerHTML = editarDescripcion.innerHTML;
+				}
 
 				const formData = new FormData(e.currentTarget);
 				// let direccion = URL+'contenido/add/'+formData.get('materia');

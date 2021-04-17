@@ -107,7 +107,6 @@ class Nota extends Controller
 		$this->view->navbarMaterias = $navbarMaterias;
 		$respuesta = ['status' => false, 'respuesta' => "", 'json' => ''];
 
-
 		if ( ctype_digit($materia) && ctype_digit($plan) ) {
 
 			$barMateria = $navbar->barMateria($usuario,$materia);
@@ -127,7 +126,6 @@ class Nota extends Controller
 					'observacion' => $observacion,
 					'evaluacion' => $evaluacion
 				];
-				
 				
 				$agregarNota = $this->model->addNota($datos);
 				

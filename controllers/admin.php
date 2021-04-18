@@ -52,15 +52,14 @@ class Admin extends Controller
 		$sesion = new Sesion();
 		$sesion->validateSesion();
 		$usuario = $sesion->getSesion();
-		
 		$navbar = new Navbar($usuario);
 		$navbarMaterias = $navbar->navbarMaterias($usuario);
-		
 		$this->view->usuario = $usuario;
 		$this->view->navbarMaterias = $navbarMaterias;
+		$periodo = $navbar->periodoActivo();
 
+		$this->view->periodo = $periodo;
 		$this->view->render('admin/inicio');
-
 		
 	}
 
@@ -73,6 +72,9 @@ class Admin extends Controller
 		
 		$navbar = new Navbar($usuario);
 		$navbarMaterias = $navbar->navbarMaterias($usuario);
+		$periodo = $navbar->periodoActivo();
+
+		$this->view->periodo = $periodo;
 		$this->view->usuario = $usuario;
 		$this->view->navbarMaterias = $navbarMaterias;
 		$respuesta = ['status' => false, 'respuesta' => "", 'json' => ""];
@@ -208,6 +210,9 @@ class Admin extends Controller
 		
 		$navbar = new Navbar($usuario);
 		$navbarMaterias = $navbar->navbarMaterias($usuario);
+		$periodo = $navbar->periodoActivo();
+
+		$this->view->periodo = $periodo;
 		$this->view->usuario = $usuario;
 		$this->view->navbarMaterias = $navbarMaterias;
 		$respuesta = ['status' => false, 'respuesta' => "", 'json' => ""];
@@ -354,6 +359,9 @@ class Admin extends Controller
 		
 		$navbar = new Navbar($usuario);
 		$navbarMaterias = $navbar->navbarMaterias($usuario);
+		$periodo = $navbar->periodoActivo();
+
+		$this->view->periodo = $periodo;
 		$this->view->usuario = $usuario;
 		$this->view->navbarMaterias = $navbarMaterias;
 		$respuesta = ['status' => false, 'respuesta' => "", 'json' => ""];
@@ -475,6 +483,9 @@ class Admin extends Controller
 		
 		$navbar = new Navbar($usuario);
 		$navbarMaterias = $navbar->navbarMaterias($usuario);
+		$periodo = $navbar->periodoActivo();
+
+		$this->view->periodo = $periodo;
 		$this->view->usuario = $usuario;
 		$this->view->navbarMaterias = $navbarMaterias;
 		$respuesta = ['status' => false, 'respuesta' => "", 'json' => ""];
@@ -562,6 +573,9 @@ class Admin extends Controller
 		
 		$navbar = new Navbar($usuario);
 		$navbarMaterias = $navbar->navbarMaterias($usuario);
+		$periodo = $navbar->periodoActivo();
+
+		$this->view->periodo = $periodo;
 		$this->view->usuario = $usuario;
 		$this->view->navbarMaterias = $navbarMaterias;
 		$respuesta = ['status' => false, 'respuesta' => "", 'json' => ""];

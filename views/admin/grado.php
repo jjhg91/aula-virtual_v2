@@ -229,9 +229,9 @@
 
 
 	<!-- JS -->
-	<script src="<?= constant('URL') ?>public/js/config.js"></script>
-	<script src="<?= constant('URL') ?>public/js/menu.js"></script>
-	<script src="<?= constant('URL') ?>public/js/grado.js"></script>
+	<script src="<?= constant('URL') ?>public/js/config.js?v=1.1"></script>
+	<script src="<?= constant('URL') ?>public/js/menu.js?v=1.1"></script>
+	<script src="<?= constant('URL') ?>public/js/grado.js?v=1.1"></script>
 	<!-- /JS -->
 
 </body>

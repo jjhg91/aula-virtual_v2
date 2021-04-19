@@ -157,9 +157,9 @@
 
 
 	<!-- JS -->
-	<script src="<?= constant('URL') ?>public/js/config.js"></script>
-	<script src="<?= constant('URL') ?>public/js/menu.js"></script>
-	<script src="<?= constant('URL') ?>public/js/profesor.js"></script>
+	<script src="<?= constant('URL') ?>public/js/config.js?v=1.1"></script>
+	<script src="<?= constant('URL') ?>public/js/menu.js?v=1.1"></script>
+	<script src="<?= constant('URL') ?>public/js/profesor.js?v=1.1"></script>
 	<!-- /JS -->
 
 </body>

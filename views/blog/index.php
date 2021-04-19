@@ -278,9 +278,9 @@ require_once('layout/posts.php');
 	<script src="<?= constant('URL') ?>public/quill/quill.min.js"></script>
 
 	<!-- JS -->
-	<script src="<?= constant('URL') ?>public/js/config.js"></script>
-	<script src="<?= constant('URL') ?>public/js/menu.js"></script>
-	<script type="module" src="<?= constant('URL') ?>public/js/blog.js"></script>
+	<script src="<?= constant('URL') ?>public/js/config.js?v=1.1"></script>
+	<script src="<?= constant('URL') ?>public/js/menu.js?v=1.1"></script>
+	<script type="module" src="<?= constant('URL') ?>public/js/blog.js?v=1.1"></script>
 
 	<script>
 		const acordion = document.querySelectorAll('.box-label');

@@ -38,29 +38,30 @@ class EvaluacionModel extends Model
 	{
 		$query = $this->db->connect2()->prepare("
 			SELECT
-			actividades.id_actividades,
-			valor.descripcion as valor,
-			tipo_evaluacion.descripcion as tipo_evaluacion,
-			actividades.publicacion,
-			actividades.fecha,
-			actividades.descripcion,
-			tipo_evaluacion.id_tipo_evaluacion,
-			plan_evaluacion.otros,
-			COUNT(actividades_estudiante.id_actividades) AS entregados,
-			actividades.file1,
-			actividades.file2,
-			actividades.file3,
-			actividades.file4,
-			actividades.id_plan_evaluacion,
-			LEFT(plan_evaluacion.descripcion,200) AS plan,
-			actividades.lapso
+				actividades.id_actividades,
+				valor.descripcion as valor,
+				tipo_evaluacion.descripcion as tipo_evaluacion,
+				actividades.publicacion,
+				actividades.fecha,
+				actividades.descripcion,
+				tipo_evaluacion.id_tipo_evaluacion,
+				plan_evaluacion.otros,
+				COUNT(actividades_estudiante.id_actividades) AS entregados,
+				actividades.file1,
+				actividades.file2,
+				actividades.file3,
+				actividades.file4,
+				actividades.id_plan_evaluacion,
+				LEFT(plan_evaluacion.descripcion,200) AS plan,
+				actividades.lapso
+				actividades.id_profesorcursogrupo
 			FROM actividades
 			INNER JOIN plan_evaluacion ON actividades.id_plan_evaluacion = plan_evaluacion.id_plan_evaluacion
 			INNER JOIN tipo_evaluacion  ON plan_evaluacion.tipo_evaluacion = tipo_evaluacion.id_tipo_evaluacion
 			INNER JOIN valor ON plan_evaluacion.valor = valor.id_valor
 			LEFT JOIN actividades_estudiante ON actividades_estudiante.id_actividades = actividades.id_actividades
 			WHERE
-			actividades.id_profesorcursogrupo = :materia
+				actividades.id_profesorcursogrupo = :materia
 			GROUP BY actividades.id_actividades
 			ORDER BY STR_TO_DATE(actividades.fecha,'%d-%m-%Y') ASC
 		");

@@ -53,7 +53,7 @@ class EvaluacionModel extends Model
 				actividades.file4,
 				actividades.id_plan_evaluacion,
 				LEFT(plan_evaluacion.descripcion,200) AS plan,
-				actividades.lapso
+				actividades.lapso,
 				actividades.id_profesorcursogrupo
 			FROM actividades
 			INNER JOIN plan_evaluacion ON actividades.id_plan_evaluacion = plan_evaluacion.id_plan_evaluacion

@@ -381,7 +381,7 @@ class UI {
 						`;
 					}else if(datos.user === 'alumno'){
 
-						if(datos.fecha_limite > datos.fecha){
+						if(datos.fecha_limite >= datos.fecha){
 							botones = `
 								<div class="enlaces">
 									<button title="Editar" class="btnEditarAlumno icon-pencil" type="button"></button>
@@ -580,7 +580,7 @@ class UI {
 					trabajos__cargados.innerHTML += html;
 
 				});
-				if ( datos.user === 'alumno' && (datos.data.length === 0 || datos.data.length === null) ) {
+				if ( datos.user === 'alumno' && (datos.data.length === 0 || datos.data.length === null) && datos.fecha_limite >= datos.fecha ) {
 					
 					let html = `
 					<!-- FORMULARIO PARA QUE EL ALUMNO CARGUE LA EVALUACION -->

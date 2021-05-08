@@ -333,7 +333,7 @@
 	<!-- JS -->
 	<script src="<?= constant('URL') ?>public/js/config.js?v=1.1"></script>
 	<script src="<?= constant('URL') ?>public/js/menu.js?v=1.1"></script>
-	<script type="module" src="<?= constant('URL')?>public/js/evaluaciones__detail.js?v=1.2"></script>
+	<script type="module" src="<?= constant('URL')?>public/js/evaluaciones__detail.js?v=1.22"></script>
 	<!-- /JS -->
 
 </body>

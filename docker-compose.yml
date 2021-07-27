@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+
+    uepjmc-aula:
+        container_name: uepjmc-aula
+        build: .
+        ports:
+            - 80:80
+        # expose:
+        #    - 80
+        # links:
+        #     - mariadb
+        networks:
+            - mariadb_default
+        volumes:
+            - ./src/:/var/www/html/
+        #environment:
+        #    - VIRTUAL_HOST=aula.uepjmc.com.ve
+        #    - LETSENCRYPT_HOST=aula.uepjmc.com.ve
+        #    - LETSENCRYPT_EMAIL=admin@aula.uepjmc.com.ve
+
+networks:
+    mariadb_default:
+        external: true

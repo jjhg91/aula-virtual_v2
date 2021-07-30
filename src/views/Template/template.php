@@ -52,7 +52,17 @@
 		<!-- DATOS PERSONALES DEL USUARIO
 		FOTO, NOMBRE, PERIODO CURSANDO -->
 		<div class="datos_personales">
-
+			<span>
+				<small>
+					<small>
+						<a href="<?= constant('URL') ?>perfil">
+							<span class="icon-user"></span>
+							<span>Perfil</span>
+						</a>
+					</small>
+				</small>
+			</span>
+			<br>
 			<!-- prueba -->
 			<?php if($usuario['genero'] == 1): ?>
 				<img src="<?= constant('URL') ?>public/media/h.jpg" alt="..." >

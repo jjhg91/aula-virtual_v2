@@ -51,11 +51,15 @@
 					<span><small><strong>C.I: </strong><?= $alumno->cedula ?></small></span>
 					<br>
 
-					<?php if ($alumno->fecha): ?>
-					<span><small><strong>Fecha de ultimoi inicio: </strong><?= $alumno->fecha ?></small></span>
-					<?php else: ?>
-					<span><small><strong>Fecha de ultimoi inicio: </strong>No se ah conectado</small></span>
-					<?php endif; ?>
+					<a href="<?= constant('URL')."perfil/".$alumno->id_estudia ?>">Perfil</a>
+					<a href="#">Mensajes</a>
+					<a href="#">Historial de conexion</a>
+
+					<!-- <?#php if ($alumno->fecha): ?> -->
+					<!-- <span><small><strong>Fecha de ultimo inicio: </strong><?#= $alumno->fecha ?></small></span> -->
+					<!-- <?#php else: ?> -->
+					<!-- <span><small><strong>Fecha de ultimo inicio: </strong>No se ah conectado</small></span> -->
+					<!-- <?#php endif; ?> -->
 				</div>
 			</section>
 			<?php endforeach; ?>
